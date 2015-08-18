@@ -1,0 +1,78 @@
+pkgname="pritunl-client-gtk"
+pkgver="1.0.601.4"
+pkgrel="1"
+pkgdesc="Pritunl OpenVPN Client (GUI Release)"
+pkgdesclong=(
+    "Free and open source cross platform OpenVPN client"
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="all"
+license=("custom")
+section="utils"
+priority="optional"
+url="https://github.com/pritunl/pritunl-client"
+depends=(
+    "python"
+    "python-requests"
+    "python-gtk2"
+    "python-appindicator"
+    "policykit-1"
+    "net-tools"
+    "iptables"
+    "openvpn"
+)
+makedepends=(
+    "python-setuptools"
+    "python-virtualenv"
+)
+provides=("${pkgname}")
+conflicts=(
+    "pritunl-client"
+    "pritunl-client-gtk"
+)
+sources=(
+    "${url}/archive/${pkgver}.tar.gz"
+)
+hashsums=(
+    "SKIP"
+)
+backup=(
+    "var/log/pritunl-client.log"
+    "var/log/pritunl-client.log.1"
+)
+
+build() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    python2 setup.py build
+}
+
+package() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    mkdir -p "${pkgdir}/etc/pritunl_client"
+    python2 setup.py install --root="${pkgdir}" --prefix=/usr --no-upstart
+}
+
+postinst() {
+    gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor || true
+    gtk-update-icon-cache -q -t -f /usr/share/icons/ubuntu-mono-dark || true
+    gtk-update-icon-cache -q -t -f /usr/share/icons/ubuntu-mono-light || true
+    xdg-icon-resource forceupdate --theme hicolor &> /dev/null || true
+    xdg-icon-resource forceupdate --theme ubuntu-mono-dark &> /dev/null || true
+    xdg-icon-resource forceupdate --theme ubuntu-mono-light &> /dev/null || true
+    update-desktop-database -q || true
+}
+
+prerm() {
+    killall pritunl-client-gtk || true
+}
+
+postrm() {
+    rm -rf /etc/pritunl_client
+    gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor || true
+    gtk-update-icon-cache -q -t -f /usr/share/icons/ubuntu-mono-dark || true
+    gtk-update-icon-cache -q -t -f /usr/share/icons/ubuntu-mono-light || true
+    xdg-icon-resource forceupdate --theme hicolor &> /dev/null || true
+    xdg-icon-resource forceupdate --theme ubuntu-mono-dark &> /dev/null || true
+    xdg-icon-resource forceupdate --theme ubuntu-mono-light &> /dev/null || true
+    update-desktop-database -q || true
+}

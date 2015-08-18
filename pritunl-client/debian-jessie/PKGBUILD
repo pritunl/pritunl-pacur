@@ -1,0 +1,70 @@
+pkgname="pritunl-client"
+pkgver="1.0.601.4"
+pkgrel="1"
+pkgdesc="Pritunl OpenVPN Client"
+pkgdesclong=(
+    "Free and open source cross platform OpenVPN client"
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="all"
+license=("custom")
+section="utils"
+priority="optional"
+url="https://github.com/pritunl/pritunl-client"
+depends=(
+    "python"
+    "net-tools"
+    "iptables"
+    "openvpn"
+)
+makedepends=(
+    "python-setuptools"
+    "python-virtualenv"
+)
+provides=("${pkgname}")
+conflicts=(
+    "pritunl-client"
+    "pritunl-client-gtk"
+)
+sources=(
+    "${url}/archive/${pkgver}.tar.gz"
+)
+hashsums=(
+    "SKIP"
+)
+backup=(
+    "var/log/pritunl-client.log"
+    "var/log/pritunl-client.log.1"
+)
+
+build() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    python2 setup.py build
+    virtualenv /usr/lib/pritunl-client
+    /usr/lib/pritunl-client/bin/pip install -r requirements.txt
+}
+
+package() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    mkdir -p "${pkgdir}/usr/lib/pritunl-client"
+    /usr/lib/pritunl-client/bin/python2 setup.py install --root="${pkgdir}" --prefix=/usr --no-upstart --no-gtk
+    cp -r ${pkgdir}/usr/lib/python2.7/site-packages /usr/lib/pritunl-client/lib/python2.7
+    rm -r ${pkgdir}/usr/lib/python2.7
+    cp -r /usr/lib/pritunl-client/* ${pkgdir}/usr/lib/pritunl-client/
+}
+
+postinst() {
+    systemctl daemon-reload || true
+    systemctl start pritunl-client || true
+    systemctl enable pritunl-client || true
+}
+
+prerm() {
+    systemctl daemon-reload || true
+    systemctl stop pritunl-client || true
+    systemctl disable pritunl-client || true
+}
+
+postrm() {
+    rm -rf /etc/pritunl_client
+}

@@ -1,0 +1,65 @@
+pkgname="pritunl-client"
+pkgver="1.0.601.4"
+pkgrel="1"
+pkgdesc="Pritunl OpenVPN Client"
+pkgdesclong=(
+    "Free and open source cross platform OpenVPN client"
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="all"
+license=("custom")
+section="utils"
+priority="optional"
+url="https://github.com/pritunl/pritunl-client"
+depends=(
+    "python2"
+    "python2-requests"
+    "net-tools"
+    "iproute2"
+    "openvpn"
+)
+makedepends=(
+    "python2-distribute"
+)
+provides=("${pkgname}")
+conflicts=(
+    "pritunl-client"
+    "pritunl-client-gtk"
+)
+sources=(
+    "${url}/archive/${pkgver}.tar.gz"
+)
+hashsums=(
+    "SKIP"
+)
+backup=(
+    "var/log/pritunl-client.log"
+    "var/log/pritunl-client.log.1"
+)
+
+build() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    python2 setup.py build
+}
+
+package() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    mkdir -p "${pkgdir}/etc/pritunl_client"
+    python2 setup.py install --root="${pkgdir}" --prefix=/usr --no-upstart --no-gtk
+}
+
+postinst() {
+    systemctl daemon-reload || true
+    systemctl start pritunl-client || true
+    systemctl enable pritunl-client || true
+}
+
+prerm() {
+    systemctl daemon-reload || true
+    systemctl stop pritunl-client || true
+    systemctl disable pritunl-client || true
+}
+
+postrm() {
+    rm -rf /etc/pritunl_client
+}
