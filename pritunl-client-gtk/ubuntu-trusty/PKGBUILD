@@ -13,6 +13,7 @@ priority="optional"
 url="https://github.com/pritunl/pritunl-client"
 depends=(
     "python"
+    "python-setuptools"
     "python-requests"
     "python-gtk2"
     "python-appindicator"

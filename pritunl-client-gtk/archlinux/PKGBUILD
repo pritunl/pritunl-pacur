@@ -13,6 +13,7 @@ priority="optional"
 url="https://github.com/pritunl/pritunl-client"
 depends=(
     "python2"
+    "python2-setuptools"
     "python2-requests"
     "pygtk"
     "polkit"
