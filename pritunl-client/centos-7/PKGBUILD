@@ -29,7 +29,7 @@ sources=(
     "${url}/archive/${pkgver}.tar.gz"
 )
 hashsums=(
-    "SKIP"
+    "8e54a959c92fe9aae75d776327589c9bb8fa8701af1473e4abaeac743898f8bc"
 )
 backup=(
     "var/log/pritunl-client.log"
