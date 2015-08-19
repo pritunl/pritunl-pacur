@@ -1,5 +1,5 @@
 pkgname="pritunl-client-gtk"
-pkgver="1.0.601.4"
+pkgver="1.0.705.52"
 pkgrel="1"
 pkgdesc="Pritunl OpenVPN Client (GUI Release)"
 pkgdesclong=(
@@ -33,7 +33,7 @@ sources=(
     "${url}/archive/${pkgver}.tar.gz"
 )
 hashsums=(
-    "8e54a959c92fe9aae75d776327589c9bb8fa8701af1473e4abaeac743898f8bc"
+    "1345473a6aa49fc59e4fa6cbd4ab02577e2cd560c665a8f8c9d3fb78598e8c90"
 )
 backup=(
     "var/log/pritunl-client.log"
