@@ -24,7 +24,6 @@ depends=(
 )
 makedepends=(
     "python-setuptools"
-    "python-virtualenv"
 )
 provides=("${pkgname}")
 conflicts=(
