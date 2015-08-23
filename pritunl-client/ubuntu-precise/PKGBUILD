@@ -47,9 +47,9 @@ build() {
 package() {
     cd "${srcdir}/pritunl-client-${pkgver}"
     mkdir -p "${pkgdir}/usr/lib/pritunl-client"
-    /usr/lib/pritunl-client/bin/python setup.py install --root="${pkgdir}" --prefix=/usr --no-systemd --no-gtk
-    cp -r ${pkgdir}/usr/lib/python2.7/site-packages /usr/lib/pritunl-client/lib/python2.7
-    rm -r ${pkgdir}/usr/lib/python2.7
+    /usr/lib/pritunl-client/bin/python setup.py install --root="${pkgdir}" --no-systemd --no-gtk
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/pritunl-client/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
     cp -r /usr/lib/pritunl-client/* ${pkgdir}/usr/lib/pritunl-client/
 }
 
