@@ -52,7 +52,7 @@ build() {
 package() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
-    python2 setup.py install --root="${pkgdir}" --prefix=/usr --no-upstart
+    python2 setup.py install --root="${pkgdir}" --no-upstart
 }
 
 postrm() {
