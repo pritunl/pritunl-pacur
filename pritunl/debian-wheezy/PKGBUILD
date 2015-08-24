@@ -22,6 +22,7 @@ optdepends=(
 )
 makedepends=(
     "gcc"
+    "python-dev"
     "python-setuptools"
     "python-virtualenv"
 )

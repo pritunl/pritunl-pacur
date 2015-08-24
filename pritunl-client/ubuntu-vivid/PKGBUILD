@@ -18,6 +18,7 @@ depends=(
     "openvpn"
 )
 makedepends=(
+    "python-dev"
     "python-setuptools"
     "python-virtualenv"
 )
