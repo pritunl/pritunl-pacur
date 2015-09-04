@@ -16,6 +16,7 @@ depends=(
     "python"
     "net-tools"
     "openvpn"
+    "bridge-utils"
 )
 optdepends=(
     "mongodb-org"
