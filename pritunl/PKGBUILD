@@ -1,0 +1,141 @@
+pkgname="pritunl"
+pkgver="1.4.733.12"
+pkgrel="1"
+pkgdesc="Enterprise VPN Server"
+pkgdesclong=(
+    "Enterprise distributed vpn server. Documentation and more information"
+    "can be found at pritunl.com"
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="all"
+license=("custom")
+section="utils"
+priority="optional"
+url="https://github.com/${pkgname}/${pkgname}"
+depends:pacman=(
+    "python2"
+    "python2-flask"
+    "python2-pyopenssl"
+    "python2-pymongo"
+    "net-tools"
+    "iproute2"
+    "openvpn"
+    "bridge-utils"
+)
+depends:yum=(
+    "python2"
+    "net-tools"
+    "openvpn"
+    "bridge-utils"
+)
+depends:apt=(
+    "python"
+    "net-tools"
+    "openvpn"
+    "bridge-utils"
+)
+makedepends:pacman=(
+    "python2-distribute"
+    "python2-flask"
+    "python2-pyopenssl"
+    "python2-pymongo"
+)
+makedepends:yum=(
+    "gcc"
+    "python-setuptools"
+    "python-virtualenv"
+)
+makedepends:apt=(
+    "gcc"
+    "python-dev"
+    "python-setuptools"
+    "python-virtualenv"
+)
+provides=("${pkgname}")
+conflicts=("${pkgname}")
+sources=(
+    "${url}/archive/${pkgver}.tar.gz"
+)
+hashsums=(
+    "4bdf8c1439c3aa9ed939e8053429aa12cdb1c208e024ecac90a479f418b9d27c"
+)
+backup=(
+    "etc/${pkgname}.conf"
+    "var/log/${pkgname}.log"
+    "var/log/${pkgname}.log.1"
+)
+
+build:pacman() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    python2 setup.py build
+}
+build:yum() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    python2 setup.py build
+    virtualenv /usr/lib/${pkgname}
+    /usr/lib/${pkgname}/bin/pip install -r requirements.txt
+}
+build:apt() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    python setup.py build
+    virtualenv /usr/lib/${pkgname}
+    /usr/lib/${pkgname}/bin/pip install -r requirements.txt
+}
+
+package:pacman() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/var/lib/${pkgname}"
+    python2 setup.py install --root="${pkgdir}" --no-upstart
+}
+package:yum() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/var/lib/${pkgname}"
+    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
+    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}"
+    rm -r ${pkgdir}/etc/init.d
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
+}
+package:yum() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/var/lib/${pkgname}"
+    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
+    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}"
+    rm -r ${pkgdir}/etc/init.d
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
+}
+package:debian() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/var/lib/${pkgname}"
+    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
+    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}" --no-upstart
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
+}
+package:ubuntu() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/var/lib/${pkgname}"
+    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
+    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}" --no-systemd
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
+}
+
+postinst:pacman() {
+    systemctl daemon-reload || true
+}
+postinst:yum() {
+    systemctl daemon-reload || true
+}
+postinst:debian() {
+    systemctl daemon-reload || true
+}
+
+postrm() {
+    rm -rf /var/lib/pritunl
+}
