@@ -135,7 +135,3 @@ postinst:yum() {
 postinst:debian() {
     systemctl daemon-reload || true
 }
-
-postrm() {
-    rm -rf /var/lib/pritunl
-}
