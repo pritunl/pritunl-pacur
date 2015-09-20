@@ -1,0 +1,159 @@
+pkgname="pritunl-client"
+pkgver="1.0.705.52"
+pkgrel="1"
+pkgdesc="Pritunl OpenVPN Client"
+pkgdesclong=(
+    "Free and open source cross platform OpenVPN client"
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="all"
+license=("custom")
+section="utils"
+priority="optional"
+url="https://github.com/pritunl/pritunl-client"
+depends:pacman=(
+    "python2"
+    "python2-setuptools"
+    "python2-requests"
+    "net-tools"
+    "iproute2"
+    "openvpn"
+)
+depends:yum=(
+    "python2"
+    "python-setuptools"
+    "net-tools"
+    "openvpn"
+)
+depends:apt=(
+    "python"
+    "net-tools"
+    "iptables"
+    "openvpn"
+)
+depends:fedora=(
+    "python2"
+    "python-setuptools"
+    "net-tools"
+    "openvpn"
+)
+makedepends:pacman=(
+    "python2-distribute"
+)
+makedepends:yum=(
+    "python-setuptools"
+    "python-virtualenv"
+)
+makedepends:apt=(
+    "python-dev"
+    "python-setuptools"
+    "python-virtualenv"
+)
+makedepends:fedora=(
+    "python-setuptools"
+    "python-virtualenv"
+)
+provides=("${pkgname}")
+conflicts=(
+    "pritunl-client"
+    "pritunl-client-gtk"
+)
+sources=(
+    "${url}/archive/${pkgver}.tar.gz"
+)
+hashsums=(
+    "1345473a6aa49fc59e4fa6cbd4ab02577e2cd560c665a8f8c9d3fb78598e8c90"
+)
+backup=(
+    "var/log/pritunl-client.log"
+    "var/log/pritunl-client.log.1"
+)
+
+build:pacman() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    python2 setup.py build
+}
+build:yum() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    python setup.py build
+    virtualenv /usr/lib/pritunl-client
+    /usr/lib/pritunl-client/bin/pip install -r requirements.txt
+}
+build:apt() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    python setup.py build
+    virtualenv /usr/lib/pritunl-client
+    /usr/lib/pritunl-client/bin/pip install -r requirements.txt
+}
+
+package:pacman() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    mkdir -p "${pkgdir}/etc/pritunl_client"
+    python2 setup.py install --root="${pkgdir}" --prefix=/usr --no-upstart --no-gtk
+}
+package:yum() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    mkdir -p "${pkgdir}/usr/lib/pritunl-client"
+    /usr/lib/pritunl-client/bin/python2 setup.py install --root="${pkgdir}" --no-upstart --no-gtk
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/pritunl-client/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
+    cp -r /usr/lib/pritunl-client/* ${pkgdir}/usr/lib/pritunl-client/
+}
+package:debian() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    mkdir -p "${pkgdir}/usr/lib/pritunl-client"
+    /usr/lib/pritunl-client/bin/python setup.py install --root="${pkgdir}" --no-upstart --no-gtk
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/pritunl-client/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
+    cp -r /usr/lib/pritunl-client/* ${pkgdir}/usr/lib/pritunl-client/
+}
+package:ubuntu() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    mkdir -p "${pkgdir}/usr/lib/pritunl-client"
+    /usr/lib/pritunl-client/bin/python setup.py install --root="${pkgdir}" --no-systemd --no-gtk
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/pritunl-client/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
+    cp -r /usr/lib/pritunl-client/* ${pkgdir}/usr/lib/pritunl-client/
+}
+
+postinst:pacman() {
+    systemctl daemon-reload || true
+    systemctl start pritunl-client || true
+    systemctl enable pritunl-client || true
+}
+postinst:yum() {
+    systemctl daemon-reload || true
+    systemctl start pritunl-client || true
+    systemctl enable pritunl-client || true
+}
+postinst:debian() {
+    systemctl daemon-reload || true
+    systemctl start pritunl-client || true
+    systemctl enable pritunl-client || true
+}
+postinst:ubuntu() {
+    service pritunl-client start || true
+}
+
+prerm:pacman() {
+    systemctl daemon-reload || true
+    systemctl stop pritunl-client || true
+    systemctl disable pritunl-client || true
+}
+prerm:yum() {
+    systemctl daemon-reload || true
+    systemctl stop pritunl-client || true
+    systemctl disable pritunl-client || true
+}
+prerm:debian() {
+    systemctl daemon-reload || true
+    systemctl stop pritunl-client || true
+    systemctl disable pritunl-client || true
+}
+prerm:ubuntu() {
+    service pritunl-client stop || true
+}
+
+postrm() {
+    rm -rf /etc/pritunl_client
+}
