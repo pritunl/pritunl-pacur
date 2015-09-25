@@ -130,6 +130,7 @@ postinst:debian() {
     systemctl daemon-reload || true
     systemctl start pritunl-client || true
     systemctl enable pritunl-client || true
+    service pritunl-client start || true
 }
 postinst:ubuntu() {
     service pritunl-client start || true
