@@ -1,5 +1,5 @@
 pkgname="pritunl"
-pkgver="1.4.733.12"
+pkgver="1.5.743.11"
 pkgrel="1"
 pkgdesc="Enterprise VPN Server"
 pkgdesclong=(
@@ -57,7 +57,7 @@ sources=(
     "${url}/archive/${pkgver}.tar.gz"
 )
 hashsums=(
-    "4bdf8c1439c3aa9ed939e8053429aa12cdb1c208e024ecac90a479f418b9d27c"
+    "aea33437218baa9d973385d13a9c4adfe3d3fb7a036a2b716bb8c8ebdffbc854"
 )
 backup=(
     "etc/${pkgname}.conf"
