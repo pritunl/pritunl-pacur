@@ -66,7 +66,7 @@ build:apt() {
 package:pacman() {
     cd "${srcdir}/pritunl-client-${pkgver}"
     mkdir -p "${pkgdir}/etc/pritunl_client"
-    python2 setup.py install --root="${pkgdir}" --prefix=/usr --no-upstart --no-gtk
+    python2 setup.py install --root="${pkgdir}" --prefix=/usr --no-upstart
 }
 package:debian() {
     cd "${srcdir}/pritunl-client-${pkgver}"
