@@ -1,5 +1,5 @@
 pkgname="pritunl"
-pkgver="1.6.752.82"
+pkgver="1.7.774.46"
 pkgrel="1"
 pkgdesc="Enterprise VPN Server"
 pkgdesclong=(
@@ -57,7 +57,7 @@ sources=(
     "${url}/archive/${pkgver}.tar.gz"
 )
 hashsums=(
-    "de407d2ed529505000236df5246659974acbe9b02e4d81b5b8c6c7c557547668"
+    "78a467c40a7de5129efb50285320627d44bf8c0477b1bb15d27305c6e3812918"
 )
 backup=(
     "etc/${pkgname}.conf"
@@ -110,18 +110,30 @@ package:ubuntu() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
+    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}"
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
+}
+package:ubuntu-precise() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/var/lib/${pkgname}"
+    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
+    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}" --no-systemd
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
+}
+package:ubuntu-trusty() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/var/lib/${pkgname}"
+    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
     /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}" --no-systemd
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
 }
 
-postinst:pacman() {
-    systemctl daemon-reload || true
-}
-postinst:yum() {
-    systemctl daemon-reload || true
-}
-postinst:debian() {
-    systemctl daemon-reload || true
+postinst() {
+    systemctl daemon-reload &> /dev/null || true
 }
