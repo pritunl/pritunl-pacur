@@ -110,49 +110,40 @@ package:debian() {
 package:ubuntu() {
     cd "${srcdir}/pritunl-client-${pkgver}"
     mkdir -p "${pkgdir}/usr/lib/pritunl-client"
+    /usr/lib/pritunl-client/bin/python setup.py install --root="${pkgdir}" --no-gtk
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/pritunl-client/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
+    cp -r /usr/lib/pritunl-client/* ${pkgdir}/usr/lib/pritunl-client/
+}
+package:ubuntu-precise() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    mkdir -p "${pkgdir}/usr/lib/pritunl-client"
+    /usr/lib/pritunl-client/bin/python setup.py install --root="${pkgdir}" --no-systemd --no-gtk
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/pritunl-client/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
+    cp -r /usr/lib/pritunl-client/* ${pkgdir}/usr/lib/pritunl-client/
+}
+package:ubuntu-trusty() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    mkdir -p "${pkgdir}/usr/lib/pritunl-client"
     /usr/lib/pritunl-client/bin/python setup.py install --root="${pkgdir}" --no-systemd --no-gtk
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/pritunl-client/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
     cp -r /usr/lib/pritunl-client/* ${pkgdir}/usr/lib/pritunl-client/
 }
 
-postinst:pacman() {
-    systemctl daemon-reload || true
-    systemctl start pritunl-client || true
-    systemctl enable pritunl-client || true
-}
-postinst:yum() {
-    systemctl daemon-reload || true
-    systemctl start pritunl-client || true
-    systemctl enable pritunl-client || true
-}
-postinst:debian() {
-    systemctl daemon-reload || true
-    systemctl start pritunl-client || true
-    systemctl enable pritunl-client || true
-    service pritunl-client start || true
-}
-postinst:ubuntu() {
-    service pritunl-client start || true
+postinst() {
+    systemctl daemon-reload &> /dev/null || true
+    systemctl start pritunl-client &> /dev/null || true
+    systemctl enable pritunl-client &> /dev/null || true
+    service pritunl-client start &> /dev/null || true
 }
 
-prerm:pacman() {
-    systemctl daemon-reload || true
-    systemctl stop pritunl-client || true
-    systemctl disable pritunl-client || true
-}
-prerm:yum() {
-    systemctl daemon-reload || true
-    systemctl stop pritunl-client || true
-    systemctl disable pritunl-client || true
-}
-prerm:debian() {
-    systemctl daemon-reload || true
-    systemctl stop pritunl-client || true
-    systemctl disable pritunl-client || true
-}
-prerm:ubuntu() {
-    service pritunl-client stop || true
+prerm() {
+    systemctl daemon-reload &> /dev/null || true
+    systemctl stop pritunl-client &> /dev/null || true
+    systemctl disable pritunl-client &> /dev/null || true
+    service pritunl-client stop &> /dev/null || true
 }
 
 postrm() {
