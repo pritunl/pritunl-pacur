@@ -68,6 +68,7 @@ backup=(
 build:pacman() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     python2 setup.py build
+    go get github.com/pritunl/pritunl-dns
 }
 build:yum() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -86,6 +87,7 @@ package:pacman() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     python2 setup.py install --root="${pkgdir}" --no-upstart
+    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
 }
 package:yum() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -96,6 +98,7 @@ package:yum() {
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
+    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
 }
 package:debian() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -105,6 +108,7 @@ package:debian() {
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
+    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
 }
 package:ubuntu() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -114,6 +118,7 @@ package:ubuntu() {
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
+    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
 }
 package:ubuntu-precise() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -123,6 +128,7 @@ package:ubuntu-precise() {
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
+    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
 }
 package:ubuntu-trusty() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -132,6 +138,7 @@ package:ubuntu-trusty() {
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
+    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
 }
 
 postinst() {
