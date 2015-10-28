@@ -75,12 +75,14 @@ build:yum() {
     python2 setup.py build
     virtualenv /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -r requirements.txt
+    go get github.com/pritunl/pritunl-dns
 }
 build:apt() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     python setup.py build
     virtualenv /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -r requirements.txt
+    go get github.com/pritunl/pritunl-dns
 }
 
 package:pacman() {
