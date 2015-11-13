@@ -1,5 +1,5 @@
 pkgname="pritunl"
-pkgver="1.8.783.8"
+pkgver="1.9.792.17"
 pkgrel="1"
 pkgdesc="Enterprise VPN Server"
 pkgdesclong=(
@@ -57,7 +57,7 @@ sources=(
     "${url}/archive/${pkgver}.tar.gz"
 )
 hashsums=(
-    "123d90e647d99cbe9fe1abb3d0dd9b4b7020e28555ee45ae6a4821cbf4e08fb6"
+    "011d1803c71b6dd17a6bcb18414a2b5d3e6530f6ef70322cdeb3c12c08e4bb16"
 )
 backup=(
     "etc/${pkgname}.conf"
@@ -160,4 +160,5 @@ package:ubuntu-trusty() {
 
 postinst() {
     systemctl daemon-reload &> /dev/null || true
+    initctl reload-configuration &> /dev/null || true
 }
