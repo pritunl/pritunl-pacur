@@ -159,6 +159,10 @@ package:ubuntu-trusty() {
 }
 
 postinst() {
-    systemctl daemon-reload &> /dev/null || true
-    initctl reload-configuration &> /dev/null || true
+    if hash systemctl 2> /dev/null; then
+        systemctl daemon-reload 2> /dev/null || true
+    fi
+    if hash initctl 2> /dev/null; then
+        initctl reload-configuration 2> /dev/null || true
+    fi
 }
