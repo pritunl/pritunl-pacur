@@ -69,6 +69,7 @@ build:pacman() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     python2 setup.py build
     go get github.com/pritunl/pritunl-dns
+    go get github.com/pritunl/pritunl-monitor
 }
 build:yum() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -76,6 +77,7 @@ build:yum() {
     virtualenv /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -r requirements.txt
     go get github.com/pritunl/pritunl-dns
+    go get github.com/pritunl/pritunl-monitor
 }
 build:apt() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -83,6 +85,7 @@ build:apt() {
     virtualenv /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -r requirements.txt
     go get github.com/pritunl/pritunl-dns
+    go get github.com/pritunl/pritunl-monitor
 }
 
 package:pacman() {
@@ -90,6 +93,7 @@ package:pacman() {
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     python2 setup.py install --root="${pkgdir}" --no-upstart
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
+    cp /go/bin/${pkgname}-monitor ${pkgdir}/usr/bin/${pkgname}-monitor
 }
 package:yum() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -101,6 +105,7 @@ package:yum() {
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
+    cp /go/bin/${pkgname}-monitor ${pkgdir}/usr/bin/${pkgname}-monitor
 }
 package:debian() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -112,6 +117,7 @@ package:debian() {
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
+    cp /go/bin/${pkgname}-monitor ${pkgdir}/usr/bin/${pkgname}-monitor
 }
 package:debian-wheezy() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -123,6 +129,7 @@ package:debian-wheezy() {
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
+    cp /go/bin/${pkgname}-monitor ${pkgdir}/usr/bin/${pkgname}-monitor
 }
 package:ubuntu() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -134,6 +141,7 @@ package:ubuntu() {
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
+    cp /go/bin/${pkgname}-monitor ${pkgdir}/usr/bin/${pkgname}-monitor
 }
 package:ubuntu-precise() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -145,6 +153,7 @@ package:ubuntu-precise() {
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
+    cp /go/bin/${pkgname}-monitor ${pkgdir}/usr/bin/${pkgname}-monitor
 }
 package:ubuntu-trusty() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -156,6 +165,7 @@ package:ubuntu-trusty() {
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
+    cp /go/bin/${pkgname}-monitor ${pkgdir}/usr/bin/${pkgname}-monitor
 }
 
 postinst() {
