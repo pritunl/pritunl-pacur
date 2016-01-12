@@ -1,3 +1,12 @@
+targets=(
+    "!centos-6"
+    "!fedora-21"
+    "archlinux"
+    "centos"
+    "debian"
+    "fedora"
+    "ubuntu"
+)
 pkgname="pritunl"
 pkgver="1.14.845.99"
 pkgrel="1"
