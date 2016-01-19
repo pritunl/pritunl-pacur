@@ -82,6 +82,8 @@ package:debian() {
     mkdir -p "${pkgdir}/etc/pritunl_client"
     python2 setup.py install --root="${pkgdir}" --no-upstart
     mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/local/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
+    ln -s /usr/local/bin/pritunl-client-gtk ${pkgdir}/usr/bin/pritunl-client-gtk
     ln -s /usr/local/bin/pritunl-client-pk-autostart ${pkgdir}/usr/bin/pritunl-client-pk-autostart
     ln -s /usr/local/bin/pritunl-client-pk-clear-autostart ${pkgdir}/usr/bin/pritunl-client-pk-clear-autostart
     ln -s /usr/local/bin/pritunl-client-pk-set-autostart ${pkgdir}/usr/bin/pritunl-client-pk-set-autostart
@@ -93,6 +95,8 @@ package:ubuntu() {
     mkdir -p "${pkgdir}/etc/pritunl_client"
     python2 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/local/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
+    ln -s /usr/local/bin/pritunl-client-gtk ${pkgdir}/usr/bin/pritunl-client-gtk
     ln -s /usr/local/bin/pritunl-client-pk-autostart ${pkgdir}/usr/bin/pritunl-client-pk-autostart
     ln -s /usr/local/bin/pritunl-client-pk-clear-autostart ${pkgdir}/usr/bin/pritunl-client-pk-clear-autostart
     ln -s /usr/local/bin/pritunl-client-pk-set-autostart ${pkgdir}/usr/bin/pritunl-client-pk-set-autostart
@@ -104,6 +108,8 @@ package:ubuntu-precise() {
     mkdir -p "${pkgdir}/etc/pritunl_client"
     python2 setup.py install --root="${pkgdir}" --no-systemd
     mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/local/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
+    ln -s /usr/local/bin/pritunl-client-gtk ${pkgdir}/usr/bin/pritunl-client-gtk
     ln -s /usr/local/bin/pritunl-client-pk-autostart ${pkgdir}/usr/bin/pritunl-client-pk-autostart
     ln -s /usr/local/bin/pritunl-client-pk-clear-autostart ${pkgdir}/usr/bin/pritunl-client-pk-clear-autostart
     ln -s /usr/local/bin/pritunl-client-pk-set-autostart ${pkgdir}/usr/bin/pritunl-client-pk-set-autostart
@@ -115,6 +121,8 @@ package:ubuntu-trusty() {
     mkdir -p "${pkgdir}/etc/pritunl_client"
     python2 setup.py install --root="${pkgdir}" --no-systemd
     mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/local/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
+    ln -s /usr/local/bin/pritunl-client-gtk ${pkgdir}/usr/bin/pritunl-client-gtk
     ln -s /usr/local/bin/pritunl-client-pk-autostart ${pkgdir}/usr/bin/pritunl-client-pk-autostart
     ln -s /usr/local/bin/pritunl-client-pk-clear-autostart ${pkgdir}/usr/bin/pritunl-client-pk-clear-autostart
     ln -s /usr/local/bin/pritunl-client-pk-set-autostart ${pkgdir}/usr/bin/pritunl-client-pk-set-autostart
