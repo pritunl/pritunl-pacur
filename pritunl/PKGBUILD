@@ -26,6 +26,7 @@ depends:pacman=(
     "python2-flask"
     "python2-pyopenssl"
     "python2-pymongo"
+    "python2-netifaces"
     "net-tools"
     "iproute2"
     "openvpn"
