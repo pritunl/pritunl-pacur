@@ -30,18 +30,21 @@ depends:pacman=(
     "net-tools"
     "iproute2"
     "openvpn"
+    "openssl"
     "bridge-utils"
 )
 depends:yum=(
     "python2"
     "net-tools"
     "openvpn"
+    "openssl"
     "bridge-utils"
 )
 depends:apt=(
     "python"
     "net-tools"
     "openvpn"
+    "openssl"
     "bridge-utils"
 )
 makedepends:pacman=(
