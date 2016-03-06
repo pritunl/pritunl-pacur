@@ -57,12 +57,16 @@ makedepends:yum=(
     "gcc"
     "python-setuptools"
     "python-virtualenv"
+    "openssl-devel"
+    "libffi-devel"
 )
 makedepends:apt=(
     "gcc"
     "python-dev"
     "python-setuptools"
     "python-virtualenv"
+    "libssl-dev"
+    "libffi-dev"
 )
 provides=("${pkgname}")
 conflicts=("${pkgname}")
