@@ -27,6 +27,7 @@ depends:pacman=(
     "python2-pyopenssl"
     "python2-pymongo"
     "python2-netifaces"
+    "python2-requests"
     "net-tools"
     "iproute2"
     "openvpn"
@@ -52,6 +53,8 @@ makedepends:pacman=(
     "python2-flask"
     "python2-pyopenssl"
     "python2-pymongo"
+    "python2-netifaces"
+    "python2-requests"
 )
 makedepends:yum=(
     "gcc"
