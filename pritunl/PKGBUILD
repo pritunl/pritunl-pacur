@@ -30,6 +30,7 @@ depends:pacman=(
     "python2-netifaces"
     "python2-requests"
     "python2-redis"
+    "python2-dateutil"
     "net-tools"
     "iproute2"
     "openvpn"
@@ -58,6 +59,7 @@ makedepends:pacman=(
     "python2-netifaces"
     "python2-requests"
     "python2-redis"
+    "python2-dateutil"
 )
 makedepends:yum=(
     "gcc"
