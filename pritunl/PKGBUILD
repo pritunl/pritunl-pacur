@@ -24,13 +24,6 @@ priority="optional"
 url="https://github.com/${pkgname}/${pkgname}"
 depends:pacman=(
     "python2"
-    "python2-flask"
-    "python2-pyopenssl"
-    "python2-pymongo"
-    "python2-netifaces"
-    "python2-requests"
-    "python2-redis"
-    "python2-dateutil"
     "net-tools"
     "iproute2"
     "openvpn"
@@ -52,14 +45,12 @@ depends:apt=(
     "bridge-utils"
 )
 makedepends:pacman=(
-    "python2-distribute"
-    "python2-flask"
-    "python2-pyopenssl"
-    "python2-pymongo"
-    "python2-netifaces"
-    "python2-requests"
-    "python2-redis"
-    "python2-dateutil"
+    "gcc"
+    "python2-setuptools"
+    "python2-virtualenv"
+    "python2-cryptography"
+    "openssl"
+    "libffi"
 )
 makedepends:yum=(
     "gcc"
@@ -93,6 +84,8 @@ backup=(
 build:pacman() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     python2 setup.py build
+    virtualenv /usr/lib/${pkgname}
+    /usr/lib/${pkgname}/bin/pip install -r requirements.txt
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-monitor
     go get github.com/pritunl/pritunl-web
@@ -119,7 +112,11 @@ build:apt() {
 package:pacman() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
-    python2 setup.py install --root="${pkgdir}" --no-upstart
+    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
+    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}"
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-monitor ${pkgdir}/usr/bin/${pkgname}-monitor
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
