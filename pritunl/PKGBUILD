@@ -84,7 +84,7 @@ backup=(
 build:pacman() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     python2 setup.py build
-    virtualenv /usr/lib/${pkgname}
+    virtualenv2 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -r requirements.txt
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-monitor
