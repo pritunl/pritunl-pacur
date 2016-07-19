@@ -29,6 +29,7 @@ depends:pacman=(
     "openvpn"
     "openssl"
     "bridge-utils"
+    "ca-certificates"
 )
 depends:yum=(
     "python2"
@@ -36,6 +37,7 @@ depends:yum=(
     "openvpn"
     "openssl"
     "bridge-utils"
+    "ca-certificates"
 )
 depends:apt=(
     "python"
@@ -43,6 +45,7 @@ depends:apt=(
     "openvpn"
     "openssl"
     "bridge-utils"
+    "ca-certificates"
 )
 makedepends:pacman=(
     "gcc"
@@ -139,7 +142,8 @@ package:debian() {
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
     /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}"
-    chmod +x ${pkgdir}/etc/init.d/pritunl
+    rm -r ${pkgdir}/etc/init
+    rm -r ${pkgdir}/etc/init.d
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
