@@ -194,30 +194,6 @@ package:ubuntu-trusty() {
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
 }
-package:ubuntu-vivid() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    mkdir -p "${pkgdir}/var/lib/${pkgname}"
-    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}"
-    chmod +x ${pkgdir}/etc/init.d/pritunl
-    mkdir -p ${pkgdir}/usr/bin
-    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
-    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
-    cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
-}
-package:ubuntu-wily() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    mkdir -p "${pkgdir}/var/lib/${pkgname}"
-    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}"
-    chmod +x ${pkgdir}/etc/init.d/pritunl
-    mkdir -p ${pkgdir}/usr/bin
-    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
-    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
-    cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
-}
 
 postinst() {
     if hash systemctl 2> /dev/null; then
