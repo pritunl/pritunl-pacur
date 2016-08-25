@@ -124,7 +124,7 @@ package:yum() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}"
+    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}" --upstart
     rm -r ${pkgdir}/etc/init.d
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
@@ -137,8 +137,6 @@ package:fedora() {
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
     /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}"
-    rm -r ${pkgdir}/etc/init
-    rm -r ${pkgdir}/etc/init.d
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
@@ -150,8 +148,6 @@ package:debian() {
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
     /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}"
-    rm -r ${pkgdir}/etc/init
-    rm -r ${pkgdir}/etc/init.d
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
@@ -175,8 +171,6 @@ package:ubuntu() {
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
     /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}"
-    rm -r ${pkgdir}/etc/init
-    rm -r ${pkgdir}/etc/init.d
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
@@ -187,7 +181,7 @@ package:ubuntu-precise() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}" --no-systemd
+    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}" --upstart --no-systemd
     chmod +x ${pkgdir}/etc/init.d/pritunl
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
@@ -199,7 +193,7 @@ package:ubuntu-trusty() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}" --no-systemd
+    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}" --upstart --no-systemd
     chmod +x ${pkgdir}/etc/init.d/pritunl
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
