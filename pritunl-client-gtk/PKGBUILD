@@ -88,7 +88,11 @@ package:debian() {
     ln -s /usr/local/bin/pritunl-client-gtk ${pkgdir}/usr/bin/pritunl-client-gtk
     ln -s /usr/local/bin/pritunl-client-pk-autostart ${pkgdir}/usr/bin/pritunl-client-pk-autostart
     ln -s /usr/local/bin/pritunl-client-pk-clear-autostart ${pkgdir}/usr/bin/pritunl-client-pk-clear-autostart
+    ln -s /usr/local/bin/pritunl-client-pk-format-device ${pkgdir}/usr/bin/pritunl-client-pk-format-device
+    ln -s /usr/local/bin/pritunl-client-pk-get-devices ${pkgdir}/usr/bin/pritunl-client-pk-get-devices
+    ln -s /usr/local/bin/pritunl-client-pk-get-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-get-disk-profile
     ln -s /usr/local/bin/pritunl-client-pk-set-autostart ${pkgdir}/usr/bin/pritunl-client-pk-set-autostart
+    ln -s /usr/local/bin/pritunl-client-pk-set-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-set-disk-profile
     ln -s /usr/local/bin/pritunl-client-pk-start ${pkgdir}/usr/bin/pritunl-client-pk-start
     ln -s /usr/local/bin/pritunl-client-pk-stop ${pkgdir}/usr/bin/pritunl-client-pk-stop
 }
@@ -101,7 +105,11 @@ package:ubuntu() {
     ln -s /usr/local/bin/pritunl-client-gtk ${pkgdir}/usr/bin/pritunl-client-gtk
     ln -s /usr/local/bin/pritunl-client-pk-autostart ${pkgdir}/usr/bin/pritunl-client-pk-autostart
     ln -s /usr/local/bin/pritunl-client-pk-clear-autostart ${pkgdir}/usr/bin/pritunl-client-pk-clear-autostart
+    ln -s /usr/local/bin/pritunl-client-pk-format-device ${pkgdir}/usr/bin/pritunl-client-pk-format-device
+    ln -s /usr/local/bin/pritunl-client-pk-get-devices ${pkgdir}/usr/bin/pritunl-client-pk-get-devices
+    ln -s /usr/local/bin/pritunl-client-pk-get-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-get-disk-profile
     ln -s /usr/local/bin/pritunl-client-pk-set-autostart ${pkgdir}/usr/bin/pritunl-client-pk-set-autostart
+    ln -s /usr/local/bin/pritunl-client-pk-set-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-set-disk-profile
     ln -s /usr/local/bin/pritunl-client-pk-start ${pkgdir}/usr/bin/pritunl-client-pk-start
     ln -s /usr/local/bin/pritunl-client-pk-stop ${pkgdir}/usr/bin/pritunl-client-pk-stop
 }
@@ -114,7 +122,11 @@ package:ubuntu-precise() {
     ln -s /usr/local/bin/pritunl-client-gtk ${pkgdir}/usr/bin/pritunl-client-gtk
     ln -s /usr/local/bin/pritunl-client-pk-autostart ${pkgdir}/usr/bin/pritunl-client-pk-autostart
     ln -s /usr/local/bin/pritunl-client-pk-clear-autostart ${pkgdir}/usr/bin/pritunl-client-pk-clear-autostart
+    ln -s /usr/local/bin/pritunl-client-pk-format-device ${pkgdir}/usr/bin/pritunl-client-pk-format-device
+    ln -s /usr/local/bin/pritunl-client-pk-get-devices ${pkgdir}/usr/bin/pritunl-client-pk-get-devices
+    ln -s /usr/local/bin/pritunl-client-pk-get-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-get-disk-profile
     ln -s /usr/local/bin/pritunl-client-pk-set-autostart ${pkgdir}/usr/bin/pritunl-client-pk-set-autostart
+    ln -s /usr/local/bin/pritunl-client-pk-set-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-set-disk-profile
     ln -s /usr/local/bin/pritunl-client-pk-start ${pkgdir}/usr/bin/pritunl-client-pk-start
     ln -s /usr/local/bin/pritunl-client-pk-stop ${pkgdir}/usr/bin/pritunl-client-pk-stop
 }
@@ -127,7 +139,11 @@ package:ubuntu-trusty() {
     ln -s /usr/local/bin/pritunl-client-gtk ${pkgdir}/usr/bin/pritunl-client-gtk
     ln -s /usr/local/bin/pritunl-client-pk-autostart ${pkgdir}/usr/bin/pritunl-client-pk-autostart
     ln -s /usr/local/bin/pritunl-client-pk-clear-autostart ${pkgdir}/usr/bin/pritunl-client-pk-clear-autostart
+    ln -s /usr/local/bin/pritunl-client-pk-format-device ${pkgdir}/usr/bin/pritunl-client-pk-format-device
+    ln -s /usr/local/bin/pritunl-client-pk-get-devices ${pkgdir}/usr/bin/pritunl-client-pk-get-devices
+    ln -s /usr/local/bin/pritunl-client-pk-get-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-get-disk-profile
     ln -s /usr/local/bin/pritunl-client-pk-set-autostart ${pkgdir}/usr/bin/pritunl-client-pk-set-autostart
+    ln -s /usr/local/bin/pritunl-client-pk-set-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-set-disk-profile
     ln -s /usr/local/bin/pritunl-client-pk-start ${pkgdir}/usr/bin/pritunl-client-pk-start
     ln -s /usr/local/bin/pritunl-client-pk-stop ${pkgdir}/usr/bin/pritunl-client-pk-stop
 }
