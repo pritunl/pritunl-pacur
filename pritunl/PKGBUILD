@@ -2,6 +2,8 @@ targets=(
     "!centos-6"
     "!fedora-21"
     "!fedora-22"
+    "!fedora-23"
+    "!fedora-24"
     "archlinux"
     "centos"
     "debian"
@@ -88,6 +90,7 @@ build:pacman() {
     python2 setup.py build
     virtualenv2 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -r requirements.txt
+    git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
 }
@@ -96,6 +99,7 @@ build:yum() {
     python2 setup.py build
     virtualenv /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -r requirements.txt
+    git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
 }
@@ -104,6 +108,7 @@ build:apt() {
     python setup.py build
     virtualenv /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -r requirements.txt
+    git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
 }
