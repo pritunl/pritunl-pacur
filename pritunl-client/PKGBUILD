@@ -2,9 +2,12 @@ targets=(
     "!centos-6"
     "!fedora-21"
     "!fedora-22"
+    "!fedora-23"
+    "!fedora-24"
     "archlinux"
     "centos"
     "debian"
+    "fedora"
     "ubuntu"
 )
 pkgname="pritunl-client"
