@@ -34,6 +34,17 @@ depends:pacman=(
     "iproute2"
     "openvpn"
 )
+depends:yum=(
+    "python"
+    "python-setuptools"
+    "python-requests"
+    "python-crypto"
+    "python-appindicator"
+    "pygtk2"
+    "net-tools"
+    "iptables"
+    "openvpn"
+)
 depends:apt=(
     "python"
     "python-setuptools"
@@ -48,6 +59,9 @@ depends:apt=(
 )
 makedepends:pacman=(
     "python2-distribute"
+)
+makedepends:yum=(
+    "python-setuptools"
 )
 makedepends:apt=(
     "python-setuptools"
@@ -72,6 +86,10 @@ build:pacman() {
     cd "${srcdir}/pritunl-client-${pkgver}"
     python2 setup.py build
 }
+build:yum() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    python2 setup.py build
+}
 build:apt() {
     cd "${srcdir}/pritunl-client-${pkgver}"
     python2 setup.py build
@@ -81,6 +99,11 @@ package:pacman() {
     cd "${srcdir}/pritunl-client-${pkgver}"
     mkdir -p "${pkgdir}/etc/pritunl_client"
     python2 setup.py install --root="${pkgdir}" --prefix=/usr --no-upstart
+}
+package:yum() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    mkdir -p "${pkgdir}/etc/pritunl_client"
+    python2 setup.py install --root="${pkgdir}" --no-upstart
 }
 package:debian() {
     cd "${srcdir}/pritunl-client-${pkgver}"

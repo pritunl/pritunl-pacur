@@ -35,6 +35,7 @@ depends:pacman=(
 depends:yum=(
     "python2"
     "python-setuptools"
+    "python-crypto"
     "net-tools"
     "openvpn"
 )
@@ -42,13 +43,6 @@ depends:apt=(
     "python"
     "net-tools"
     "iptables"
-    "openvpn"
-)
-depends:fedora=(
-    "python2"
-    "python-setuptools"
-    "python-crypto"
-    "net-tools"
     "openvpn"
 )
 makedepends:pacman=(
@@ -60,10 +54,6 @@ makedepends:yum=(
 )
 makedepends:apt=(
     "python-dev"
-    "python-setuptools"
-    "python-virtualenv"
-)
-makedepends:fedora=(
     "python-setuptools"
     "python-virtualenv"
 )
