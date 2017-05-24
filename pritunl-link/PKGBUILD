@@ -1,0 +1,72 @@
+targets=(
+    "!centos-6"
+    "!fedora-21"
+    "!fedora-22"
+    "!fedora-23"
+    "!fedora-24"
+    "archlinux"
+    "amazonlinux"
+    "centos"
+    "debian"
+    "fedora"
+    "ubuntu"
+)
+pkgname="pritunl-link"
+pkgver="1.0.0"
+pkgrel="1"
+pkgdesc="Enterprise VPN Link Server"
+pkgdesclong=(
+    "Enterprise distributed vpn server. Documentation and more information"
+    "can be found at pritunl.com"
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="all"
+license=("custom")
+section="utils"
+priority="optional"
+url="https://github.com/pritunl/${pkgname}"
+depends:pacman=(
+    "strongswan"
+)
+depends:yum=(
+    "strongswan"
+)
+depends:apt=(
+    "strongswan"
+)
+
+makedepends:pacman=(
+    "git"
+)
+makedepends:yum=(
+    "git"
+)
+makedepends:apt=(
+    "git"
+)
+provides=("${pkgname}")
+conflicts=(
+    "${pkgname}"
+)
+
+build() {
+    go get github.com/pritunl/${pkgname}
+}
+build:pacman() {
+    tee -a /etc/pacman.conf << EOF
+        [pritunl]
+        Server = https://repo.pritunl.com/dev/pacman
+    EOF
+
+    pacman-key --keyserver hkp://keyserver.ubuntu.com -r 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+    pacman-key --lsign-key 7568D9BB55FF9E5287D586017AE645C0CF8E292A
+    pacman -Sy
+    pacman -S --noconfirm strongswan
+
+    go get github.com/pritunl/${pkgname}
+}
+
+package() {
+    mkdir -p ${pkgdir}/usr/bin
+    cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+}
