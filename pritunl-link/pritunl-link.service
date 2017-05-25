@@ -1,0 +1,9 @@
+[Unit]
+Description=Pritunl Link Daemon
+
+[Service]
+LimitNOFILE=50000
+ExecStart=/usr/bin/pritunl-link start
+
+[Install]
+WantedBy=multi-user.target

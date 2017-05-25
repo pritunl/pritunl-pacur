@@ -1,5 +1,6 @@
 targets=(
     "!centos-6"
+    "!debian-wheezy"
     "!fedora-21"
     "!fedora-22"
     "!fedora-23"
@@ -48,6 +49,16 @@ provides=("${pkgname}")
 conflicts=(
     "${pkgname}"
 )
+sources=(
+    "pritunl-link"
+    "pritunl-link.conf"
+    "pritunl-link.service"
+)
+hashsums=(
+    "c40950a1c2ad80a8ff45b2af59a7948e8b542474a8caa3584160ae77b67b4b39"
+    "3b7a86bc48ad1b1ec3987875163fab6b379ff9a16d6243a6ee78768a9b2038ca"
+    "3e044da4b8f4f0aa14bab3b3537e9e351179a9ac3885a4d2b9891b5e19e10758"
+)
 
 build() {
     go get github.com/pritunl/${pkgname}
@@ -69,4 +80,43 @@ build:pacman() {
 package() {
     mkdir -p ${pkgdir}/usr/bin
     cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+
+    mkdir -p ${pkgdir}/etc/systemd/system
+    cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
+}
+package:yum() {
+    mkdir -p ${pkgdir}/usr/bin
+    cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+
+    mkdir -p ${pkgdir}/etc/systemd/system
+    cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
+
+    mkdir -p ${pkgdir}/etc/init
+    cp ${srcdir}/${pkgname}.conf ${pkgdir}/etc/init/${pkgname}.conf
+
+    mkdir -p ${pkgdir}/etc/init.d
+    cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
+    chmod +x ${pkgdir}/etc/init.d/${pkgname}
+}
+package:ubuntu-precise() {
+    mkdir -p ${pkgdir}/usr/bin
+    cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+
+    mkdir -p ${pkgdir}/etc/init
+    cp ${srcdir}/${pkgname}.conf ${pkgdir}/etc/init/${pkgname}.conf
+
+    mkdir -p ${pkgdir}/etc/init.d
+    cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
+    chmod +x ${pkgdir}/etc/init.d/${pkgname}
+}
+package:ubuntu-trusty() {
+    mkdir -p ${pkgdir}/usr/bin
+    cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+
+    mkdir -p ${pkgdir}/etc/init
+    cp ${srcdir}/${pkgname}.conf ${pkgdir}/etc/init/${pkgname}.conf
+
+    mkdir -p ${pkgdir}/etc/init.d
+    cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
+    chmod +x ${pkgdir}/etc/init.d/${pkgname}
 }
