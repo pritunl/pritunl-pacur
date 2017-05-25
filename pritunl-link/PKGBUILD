@@ -120,3 +120,11 @@ package:ubuntu-trusty() {
     cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
     chmod +x ${pkgdir}/etc/init.d/${pkgname}
 }
+
+postinst() {
+    systemctl daemon-reload &> /dev/null || true
+    systemctl start pritunl-link &> /dev/null || true
+    systemctl enable pritunl-link &> /dev/null || true
+    service pritunl-link start &> /dev/null || true
+    start pritunl-link &> /dev/null || true
+}
