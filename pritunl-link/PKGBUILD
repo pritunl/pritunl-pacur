@@ -6,7 +6,6 @@ targets=(
     "!fedora-23"
     "!fedora-24"
     "archlinux"
-    "amazonlinux"
     "centos"
     "debian"
     "fedora"
