@@ -130,7 +130,7 @@ postinst() {
 
 prerm() {
     systemctl daemon-reload &> /dev/null || true
-    systemctl stop pritunl-client &> /dev/null || true
-    systemctl disable pritunl-client &> /dev/null || true
-    service pritunl-client stop &> /dev/null || true
+    systemctl stop pritunl-link &> /dev/null || true
+    systemctl disable pritunl-link &> /dev/null || true
+    service pritunl-link stop &> /dev/null || true
 }
