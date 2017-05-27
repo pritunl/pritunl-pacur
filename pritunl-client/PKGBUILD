@@ -146,10 +146,10 @@ package:ubuntu-trusty() {
 
 postinst() {
     systemctl daemon-reload &> /dev/null || true
-    systemctl start pritunl-client &> /dev/null || true
+    systemctl restart pritunl-client &> /dev/null || true
     systemctl enable pritunl-client &> /dev/null || true
-    service pritunl-client start &> /dev/null || true
-    start pritunl-client &> /dev/null || true
+    service pritunl-client restart &> /dev/null || true
+    restart pritunl-client &> /dev/null || true
 }
 
 prerm() {

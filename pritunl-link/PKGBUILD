@@ -122,8 +122,15 @@ package:ubuntu-trusty() {
 
 postinst() {
     systemctl daemon-reload &> /dev/null || true
-    systemctl start pritunl-link &> /dev/null || true
+    systemctl restart pritunl-link &> /dev/null || true
     systemctl enable pritunl-link &> /dev/null || true
-    service pritunl-link start &> /dev/null || true
-    start pritunl-link &> /dev/null || true
+    service pritunl-link restart &> /dev/null || true
+    restart pritunl-link &> /dev/null || true
+}
+
+prerm() {
+    systemctl daemon-reload &> /dev/null || true
+    systemctl stop pritunl-client &> /dev/null || true
+    systemctl disable pritunl-client &> /dev/null || true
+    service pritunl-client stop &> /dev/null || true
 }
