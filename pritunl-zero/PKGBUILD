@@ -1,0 +1,121 @@
+targets=(
+    "!centos-6"
+    "!debian-wheezy"
+    "!fedora-21"
+    "!fedora-22"
+    "!fedora-23"
+    "!fedora-24"
+    "archlinux"
+    "centos"
+    "debian"
+    "fedora"
+    "ubuntu"
+)
+pkgname="pritunl-zero"
+pkgver="1.0.0"
+pkgrel="1"
+pkgdesc="Pritunl Zero"
+pkgdesclong=(
+    "Pritunl Zero"
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="all"
+license=("custom")
+section="utils"
+priority="optional"
+url="https://github.com/pritunl/${pkgname}"
+depends:pacman=(
+    "openssl"
+)
+depends:yum=(
+    "openssl"
+)
+depends:apt=(
+    "openssl"
+)
+
+makedepends:pacman=(
+    "git"
+)
+makedepends:yum=(
+    "git"
+)
+makedepends:apt=(
+    "git"
+)
+provides=("${pkgname}")
+conflicts=(
+    "${pkgname}"
+)
+sources=(
+    "pritunl-zero"
+    "pritunl-zero.conf"
+    "pritunl-zero.json"
+    "pritunl-zero.service"
+)
+hashsums=(
+    "c40950a1c2ad80a8ff45b2af59a7948e8b542474a8caa3584160ae77b67b4b39"
+    "6cb1b284ab49018a5b9afab6b5653f95447a376dcf578ba8277455dacdaaeeae"
+    "a002d62b3cf2135b8115ce7ee775e814cac0b17ca73b25362998d7b494c824a3"
+    "86f8a0cf590523f71193a740d25ce64dad9ab3a3e94ee1d73223eef220fa3bc9"
+)
+
+build() {
+    go get github.com/pritunl/${pkgname}
+}
+
+package() {
+    mkdir -p ${pkgdir}/usr/bin
+    cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+
+    mkdir -p ${pkgdir}/etc
+    cp ${srcdir}/${pkgname}.json ${pkgdir}/etc/${pkgname}.json
+
+    mkdir -p ${pkgdir}/etc/systemd/system
+    cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
+}
+package:yum() {
+    mkdir -p ${pkgdir}/usr/bin
+    cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+
+    mkdir -p ${pkgdir}/etc
+    cp ${srcdir}/${pkgname}.json ${pkgdir}/etc/${pkgname}.json
+
+    mkdir -p ${pkgdir}/etc/systemd/system
+    cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
+
+    mkdir -p ${pkgdir}/etc/init
+    cp ${srcdir}/${pkgname}.conf ${pkgdir}/etc/init/${pkgname}.conf
+
+    mkdir -p ${pkgdir}/etc/init.d
+    cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
+    chmod +x ${pkgdir}/etc/init.d/${pkgname}
+}
+package:ubuntu-precise() {
+    mkdir -p ${pkgdir}/usr/bin
+    cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+
+    mkdir -p ${pkgdir}/etc
+    cp ${srcdir}/${pkgname}.json ${pkgdir}/etc/${pkgname}.json
+
+    mkdir -p ${pkgdir}/etc/init
+    cp ${srcdir}/${pkgname}.conf ${pkgdir}/etc/init/${pkgname}.conf
+
+    mkdir -p ${pkgdir}/etc/init.d
+    cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
+    chmod +x ${pkgdir}/etc/init.d/${pkgname}
+}
+package:ubuntu-trusty() {
+    mkdir -p ${pkgdir}/usr/bin
+    cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+
+    mkdir -p ${pkgdir}/etc
+    cp ${srcdir}/${pkgname}.json ${pkgdir}/etc/${pkgname}.json
+
+    mkdir -p ${pkgdir}/etc/init
+    cp ${srcdir}/${pkgname}.conf ${pkgdir}/etc/init/${pkgname}.conf
+
+    mkdir -p ${pkgdir}/etc/init.d
+    cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
+    chmod +x ${pkgdir}/etc/init.d/${pkgname}
+}
