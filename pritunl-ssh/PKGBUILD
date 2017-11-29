@@ -1,0 +1,54 @@
+targets=(
+    "archlinux"
+    "centos"
+    "debian"
+    "fedora"
+    "ubuntu"
+)
+pkgname="pritunl-ssh"
+pkgver="1.0.733.33"
+pkgrel="1"
+pkgdesc="Pritunl Zero SSH Client"
+pkgdesclong=(
+    "Pritunl Zero SSH client for Linux"
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="all"
+license=("custom")
+section="utils"
+priority="optional"
+url="https://github.com/pritunl/pritunl-zero-client"
+depends:pacman=(
+    "python2"
+)
+depends:yum=(
+    "python"
+)
+depends:apt=(
+    "python"
+)
+provides=("${pkgname}")
+conflicts=("${pkgname}")
+sources=(
+    "${url}/archive/${pkgver}.tar.gz"
+)
+hashsums=(
+    "30fe3ca00243e3e6b1f70d3df2a1ccf1fa2aa56e90301a471ed8cd809ed56eac"
+)
+
+package:pacman() {
+    cd "${srcdir}/pritunl-zero-client-${pkgver}"
+    mkdir -p ${pkgdir}/usr/bin
+    sed -i -e 's|#!/usr/bin/env python|#!/usr/bin/env python2|g' ./ssh_client.py
+    cp ./ssh_client.py ${pkgdir}/usr/bin/pritunl-ssh
+}
+package:yum() {
+    cd "${srcdir}/pritunl-zero-client-${pkgver}"
+    mkdir -p ${pkgdir}/usr/bin
+    cp ./ssh_client.py ${pkgdir}/usr/bin/pritunl-ssh
+}
+package:apt() {
+    cd "${srcdir}/pritunl-zero-client-${pkgver}"
+    mkdir -p ${pkgdir}/usr/bin
+    cp ./ssh_client.py ${pkgdir}/usr/bin/pritunl-ssh
+}
