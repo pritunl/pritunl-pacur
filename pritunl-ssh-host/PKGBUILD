@@ -1,0 +1,68 @@
+targets=(
+    "archlinux"
+    "centos"
+    "debian"
+    "fedora"
+    "ubuntu"
+)
+pkgname="pritunl-ssh-host"
+pkgver="1.0.733.33"
+pkgrel="1"
+pkgdesc="Pritunl Zero SSH Host Client"
+pkgdesclong=(
+    "Pritunl Zero SSH host client for Linux"
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="all"
+license=("custom")
+section="utils"
+priority="optional"
+url="https://github.com/pritunl/pritunl-zero-client"
+depends:pacman=(
+    "python2"
+)
+depends:yum=(
+    "python"
+)
+depends:apt=(
+    "python"
+)
+provides=("${pkgname}")
+conflicts=("${pkgname}")
+sources=(
+    "${url}/archive/${pkgver}.tar.gz"
+    "${pkgname}"
+)
+hashsums=(
+    "30fe3ca00243e3e6b1f70d3df2a1ccf1fa2aa56e90301a471ed8cd809ed56eac"
+    "e3013a687a20303a3dae118a526f26b3e3aecd0f054f5256e22d150c0418ca27"
+)
+
+package:pacman() {
+    cd "${srcdir}/pritunl-zero-client-${pkgver}"
+
+    mkdir -p ${pkgdir}/etc/cron.d
+    cp ${srcdir}/${pkgname} ${pkgdir}/etc/cron.d/${pkgname}
+
+    mkdir -p ${pkgdir}/usr/bin
+    sed -i -e 's|#!/usr/bin/env python|#!/usr/bin/env python2|g' ./ssh_host_client.py
+    cp ./ssh_host_client.py ${pkgdir}/usr/bin/${pkgname}
+}
+package:yum() {
+    cd "${srcdir}/pritunl-zero-client-${pkgver}"
+
+    mkdir -p ${pkgdir}/etc/cron.d
+    cp ${srcdir}/${pkgname} ${pkgdir}/etc/cron.d/${pkgname}
+
+    mkdir -p ${pkgdir}/usr/bin
+    cp ./ssh_host_client.py ${pkgdir}/usr/bin/${pkgname}
+}
+package:apt() {
+    cd "${srcdir}/pritunl-zero-client-${pkgver}"
+
+    mkdir -p ${pkgdir}/etc/cron.d
+    cp ${srcdir}/${pkgname} ${pkgdir}/etc/cron.d/${pkgname}
+
+    mkdir -p ${pkgdir}/usr/bin
+    cp ./ssh_host_client.py ${pkgdir}/usr/bin/${pkgname}
+}
