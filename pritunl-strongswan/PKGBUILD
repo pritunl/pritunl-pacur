@@ -1,0 +1,146 @@
+targets=(
+    "!centos-6"
+    "!debian-wheezy"
+    "!fedora-24"
+    "archlinux"
+    "centos"
+    "debian"
+    "fedora"
+    "ubuntu"
+)
+pkgname="pritunl-strongswan"
+pkgver="5.5.2"
+pkgrel="1"
+pkgdesc="Open Source IPsec Implementation"
+pkgdesclong=(
+    "StrongSwan is an open source IPsec-based VPN solution"
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="all"
+license=("GPL")
+section="utils"
+priority="optional"
+url="https://download.strongswan.org"
+depends:pacman=(
+    "curl"
+    "gmp"
+    "iproute2"
+    "net-tools"
+    "python"
+    "openssl"
+    "sqlite"
+    "libcap"
+    "pam"
+)
+depends:yum=(
+    "curl"
+    "libcurl"
+    "gmp"
+    "net-tools"
+    "python"
+    "openssl"
+    "sqlite"
+    "libcap"
+    "pam"
+)
+depends:apt=(
+    "curl"
+    "libcurl3"
+    "libgmp-dev"
+    "libgmp3-dev"
+    "net-tools"
+    "python"
+    "openssl"
+    "sqlite"
+)
+
+makedepends:pacman=(
+    "curl"
+    "gmp"
+    "iproute2"
+    "net-tools"
+    "python"
+    "openssl"
+    "sqlite"
+    "libcap"
+    "pam"
+)
+makedepends:yum=(
+    "curl"
+    "libcurl"
+    "libcurl-devel"
+    "gmp"
+    "gmp-devel"
+    "net-tools"
+    "python"
+    "openssl"
+    "openssl-devel"
+    "sqlite"
+    "sqlite-devel"
+    "libcap"
+    "libcap-devel"
+    "pam"
+    "pam-devel"
+    "iptables-devel"
+)
+makedepends:apt=(
+    "curl"
+    "libcurl4-openssl-dev"
+    "libgmp-dev"
+    "libgmp3-dev"
+    "net-tools"
+    "python"
+    "openssl"
+    "libssl-dev"
+    "sqlite"
+    "libsqlite3-dev"
+    "libcap-dev"
+    "libpam0g-dev"
+    "iptables-dev"
+    "pkg-config"
+)
+provides=(
+    "${pkgname}"
+    "strongswan"
+)
+conflicts=(
+    "${pkgname}"
+    "strongswan"
+    "openswan"
+)
+sources=(
+    "${url}/strongswan-${pkgver}.tar.gz"
+)
+hashsums=(
+    "39699022ac7f475f558d5ee81665bbda2e916c498d4c482a3df74f7174fdcfc3"
+)
+
+build() {
+    cd "${srcdir}/strongswan-${pkgver}"
+    ./configure --prefix=/usr \
+        --sbindir=/usr/bin \
+        --sysconfdir=/etc \
+        --libexecdir=/usr/lib \
+        --with-ipsecdir=/usr/lib/strongswan \
+        --with-nm-ca-dir=/etc/ssl/certs \
+        --enable-sqlite \
+        --enable-openssl --enable-curl \
+        --enable-sql --enable-attr-sql \
+        --enable-farp --enable-dhcp \
+        --enable-eap-sim --enable-eap-sim-file --enable-eap-simaka-pseudonym \
+        --enable-eap-simaka-reauth --enable-eap-identity --enable-eap-md5 \
+        --enable-eap-gtc --enable-eap-aka --enable-eap-aka-3gpp2 \
+        --enable-eap-mschapv2 --enable-eap-radius --enable-xauth-eap \
+        --enable-ha --enable-vici --enable-swanctl --enable-ext-auth \
+        --disable-mysql --disable-ldap --enable-cmd --enable-forecast --enable-connmark \
+        --enable-aesni --enable-eap-ttls --enable-radattr --enable-xauth-pam --enable-xauth-noauth \
+        --enable-eap-dynamic --enable-eap-peap --enable-eap-tls --enable-chapoly --enable-unity \
+        --with-capabilities=libcap --enable-newhope --enable-ntru --enable-mgf1 --enable-sha3 \
+        --enable-bliss --enable-dnscert
+    make
+}
+
+package() {
+    cd "${srcdir}/strongswan-${pkgver}"
+    make DESTDIR=${pkgdir} install
+}
