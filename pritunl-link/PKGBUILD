@@ -23,13 +23,13 @@ section="utils"
 priority="optional"
 url="https://github.com/pritunl/${pkgname}"
 depends:pacman=(
-    "strongswan"
+    "pritunl-strongswan"
 )
 depends:yum=(
-    "strongswan"
+    "pritunl-strongswan"
 )
 depends:apt=(
-    "strongswan"
+    "pritunl-strongswan"
 )
 
 makedepends:pacman=(
