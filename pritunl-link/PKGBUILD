@@ -2,6 +2,8 @@ targets=(
     "!centos-6"
     "!debian-wheezy"
     "!fedora-24"
+    "!fedora-25"
+    "!fedora-26"
     "archlinux"
     "centos"
     "debian"
