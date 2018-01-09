@@ -56,6 +56,11 @@ hashsums=(
     "a002d62b3cf2135b8115ce7ee775e814cac0b17ca73b25362998d7b494c824a3"
     "86f8a0cf590523f71193a740d25ce64dad9ab3a3e94ee1d73223eef220fa3bc9"
 )
+backup=(
+    "etc/${pkgname}.conf"
+    "var/log/${pkgname}.log"
+    "var/log/${pkgname}.log.1"
+)
 
 build() {
     go get github.com/pritunl/${pkgname}
