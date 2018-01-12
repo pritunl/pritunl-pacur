@@ -94,6 +94,21 @@ backup=(
     "var/log/${pkgname}.log.1"
 )
 
+build:centos-7() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    virtualenv /usr/lib/${pkgname}
+    /usr/lib/${pkgname}/bin/pip install -U pip
+    /usr/lib/${pkgname}/bin/pip install -U packaging
+    /usr/lib/${pkgname}/bin/pip install -U six
+    /usr/lib/${pkgname}/bin/pip install -U setuptools
+    /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
+    /usr/lib/${pkgname}/bin/python setup.py build
+    sed -i 's/jinja2.*/jinja2==2.8.1/g' requirements.txt
+    /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
+    git config --global http.https://gopkg.in.followRedirects true
+    go get github.com/pritunl/pritunl-dns
+    go get github.com/pritunl/pritunl-web
+}
 build:pacman() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     virtualenv2 /usr/lib/${pkgname}
