@@ -87,6 +87,11 @@ package() {
 
     mkdir -p ${pkgdir}/etc/systemd/system
     cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
+
+    touch ${pkgdir}/etc/${pkgname}.conf
+    chmod 600 ${pkgdir}/etc/${pkgname}.conf
+    touch ${pkgdir}/var/log/${pkgname}.log
+    touch ${pkgdir}/var/log/${pkgname}.log.1
 }
 package:yum() {
     mkdir -p ${pkgdir}/usr/bin
@@ -110,6 +115,11 @@ package:yum() {
     mkdir -p ${pkgdir}/etc/init.d
     cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
     chmod +x ${pkgdir}/etc/init.d/${pkgname}
+
+    touch ${pkgdir}/etc/${pkgname}.conf
+    chmod 600 ${pkgdir}/etc/${pkgname}.conf
+    touch ${pkgdir}/var/log/${pkgname}.log
+    touch ${pkgdir}/var/log/${pkgname}.log.1
 }
 package:ubuntu-precise() {
     mkdir -p ${pkgdir}/usr/bin
@@ -130,6 +140,11 @@ package:ubuntu-precise() {
     mkdir -p ${pkgdir}/etc/init.d
     cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
     chmod +x ${pkgdir}/etc/init.d/${pkgname}
+
+    touch ${pkgdir}/etc/${pkgname}.conf
+    chmod 600 ${pkgdir}/etc/${pkgname}.conf
+    touch ${pkgdir}/var/log/${pkgname}.log
+    touch ${pkgdir}/var/log/${pkgname}.log.1
 }
 package:ubuntu-trusty() {
     mkdir -p ${pkgdir}/usr/bin
@@ -150,4 +165,9 @@ package:ubuntu-trusty() {
     mkdir -p ${pkgdir}/etc/init.d
     cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
     chmod +x ${pkgdir}/etc/init.d/${pkgname}
+
+    touch ${pkgdir}/etc/${pkgname}.conf
+    chmod 600 ${pkgdir}/etc/${pkgname}.conf
+    touch ${pkgdir}/var/log/${pkgname}.log
+    touch ${pkgdir}/var/log/${pkgname}.log.1
 }
