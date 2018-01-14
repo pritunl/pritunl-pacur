@@ -19,7 +19,7 @@ targets=(
     "ubuntu-bionic"
 )
 pkgname="pritunl-ssh-host"
-pkgver="1.0.733.33"
+pkgver="1.0.769.95"
 pkgrel="1"
 pkgdesc="Pritunl Zero SSH Host Client"
 pkgdesclong=(
@@ -47,7 +47,7 @@ sources=(
     "${pkgname}"
 )
 hashsums=(
-    "30fe3ca00243e3e6b1f70d3df2a1ccf1fa2aa56e90301a471ed8cd809ed56eac"
+    "ac35870af947c37f1a3430056af89091ca39741e6de9ce30b5a6e231667c262d"
     "e3013a687a20303a3dae118a526f26b3e3aecd0f054f5256e22d150c0418ca27"
 )
 

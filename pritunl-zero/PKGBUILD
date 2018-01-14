@@ -13,7 +13,7 @@ targets=(
     "ubuntu-bionic"
 )
 pkgname="pritunl-zero"
-pkgver="1.0.0"
+pkgver="1.0.777.78"
 pkgrel="1"
 pkgdesc="Pritunl Zero"
 pkgdesclong=(

@@ -11,7 +11,7 @@ targets=(
     "ubuntu-bionic"
 )
 pkgname="pritunl-client-gtk"
-pkgver="1.0.810.68"
+pkgver="1.0.1568.9"
 pkgrel="1"
 pkgdesc="Pritunl OpenVPN Client"
 pkgdesclong=(
@@ -85,7 +85,7 @@ sources=(
     "${url}/archive/${pkgver}.tar.gz"
 )
 hashsums=(
-    "84b5d67c7976f4c70a1d0528a4e2bea3269e155aec9cee659262c3e17fe388d4"
+    "7b89add274314f9394fd75a484f90200b010fe1a0622d9e0483e57bf7a46d2d5"
 )
 backup=(
     "var/log/pritunl-client.log"

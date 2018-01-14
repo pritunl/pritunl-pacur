@@ -12,7 +12,7 @@ targets=(
     "ubuntu-bionic"
 )
 pkgname="pritunl"
-pkgver="1.14.845.99"
+pkgver="1.28.1583.74"
 pkgrel="1"
 pkgdesc="Enterprise VPN Server"
 pkgdesclong=(
@@ -86,7 +86,7 @@ sources=(
     "${url}/archive/${pkgver}.tar.gz"
 )
 hashsums=(
-    "a4a8e23c3f49289d498a4a4745df7ba34ce860b31d59686c35aa329629b6da3a"
+    "8dcc42a693de6224939aad9acfd6f7d05690f98affa7075b32155063f5ebdf77"
 )
 backup=(
     "etc/${pkgname}.conf"

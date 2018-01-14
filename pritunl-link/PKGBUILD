@@ -12,7 +12,7 @@ targets=(
     "ubuntu-bionic"
 )
 pkgname="pritunl-link"
-pkgver="1.0.0"
+pkgver="1.0.680.27"
 pkgrel="1"
 pkgdesc="Enterprise VPN Link Server"
 pkgdesclong=(
