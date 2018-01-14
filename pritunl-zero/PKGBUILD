@@ -90,6 +90,7 @@ package() {
 
     touch ${pkgdir}/etc/${pkgname}.conf
     chmod 600 ${pkgdir}/etc/${pkgname}.conf
+    mkdir -p ${pkgdir}/var/log
     touch ${pkgdir}/var/log/${pkgname}.log
     touch ${pkgdir}/var/log/${pkgname}.log.1
 }
@@ -118,6 +119,7 @@ package:yum() {
 
     touch ${pkgdir}/etc/${pkgname}.conf
     chmod 600 ${pkgdir}/etc/${pkgname}.conf
+    mkdir -p ${pkgdir}/var/log
     touch ${pkgdir}/var/log/${pkgname}.log
     touch ${pkgdir}/var/log/${pkgname}.log.1
 }
@@ -143,6 +145,7 @@ package:ubuntu-precise() {
 
     touch ${pkgdir}/etc/${pkgname}.conf
     chmod 600 ${pkgdir}/etc/${pkgname}.conf
+    mkdir -p ${pkgdir}/var/log
     touch ${pkgdir}/var/log/${pkgname}.log
     touch ${pkgdir}/var/log/${pkgname}.log.1
 }
@@ -168,6 +171,7 @@ package:ubuntu-trusty() {
 
     touch ${pkgdir}/etc/${pkgname}.conf
     chmod 600 ${pkgdir}/etc/${pkgname}.conf
+    mkdir -p ${pkgdir}/var/log
     touch ${pkgdir}/var/log/${pkgname}.log
     touch ${pkgdir}/var/log/${pkgname}.log.1
 }
