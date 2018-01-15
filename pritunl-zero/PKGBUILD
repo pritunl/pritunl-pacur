@@ -61,7 +61,7 @@ hashsums=(
     "86f8a0cf590523f71193a740d25ce64dad9ab3a3e94ee1d73223eef220fa3bc9"
 )
 backup=(
-    "etc/${pkgname}.conf"
+    "etc/${pkgname}.json"
     "var/log/${pkgname}.log"
     "var/log/${pkgname}.log.1"
 )
