@@ -10,11 +10,8 @@ targets=(
     "fedora-25"
     "fedora-26"
     "fedora-27"
-    "ubuntu-precise"
     "ubuntu-trusty"
     "ubuntu-xenial"
-    "ubuntu-yakkety"
-    "ubuntu-zesty"
     "ubuntu-artful"
     "ubuntu-bionic"
 )
