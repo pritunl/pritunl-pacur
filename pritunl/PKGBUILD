@@ -31,6 +31,7 @@ depends:pacman=(
     "openssl"
     "bridge-utils"
     "ca-certificates"
+    "psmisc"
 )
 depends:yum=(
     "python2"
@@ -39,6 +40,7 @@ depends:yum=(
     "openssl"
     "bridge-utils"
     "ca-certificates"
+    "psmisc"
 )
 depends:apt=(
     "python"
@@ -47,6 +49,7 @@ depends:apt=(
     "openssl"
     "bridge-utils"
     "ca-certificates"
+    "psmisc"
 )
 makedepends:pacman=(
     "python2"
