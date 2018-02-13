@@ -1,0 +1,50 @@
+targets=(
+    "archlinux"
+    "amazonlinux-2"
+    "centos-7"
+    "debian-jessie"
+    "debian-stretch"
+    "ubuntu-trusty"
+    "ubuntu-xenial"
+    "ubuntu-artful"
+    "ubuntu-bionic"
+)
+pkgname="pritunl-ndppd"
+pkgver="0.2.5"
+pkgrel="1"
+pkgdesc="NDP Proxy Daemon"
+pkgdesclong=(
+    "NDP Proxy Daemon, is a daemon that proxies NDP"
+    "(Neighbor Discovery Protocol) messages between interfaces"
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="all"
+license=("GPL")
+section="utils"
+priority="optional"
+url="https://github.com/DanielAdolfsson/ndppd"
+
+provides=(
+    "${pkgname}"
+    "ndppd"
+)
+conflicts=(
+    "${pkgname}"
+    "ndppd"
+)
+sources=(
+    "${url}/archive/${pkgver}.tar.gz"
+)
+hashsums=(
+    "ee934167f8357f0bd0015e201a77fbe4d028c59e89dc98113805c6855e1c3992"
+)
+
+build() {
+    cd "${srcdir}/ndppd-${pkgver}"
+    make
+}
+
+package() {
+    cd "${srcdir}/ndppd-${pkgver}"
+    make PREFIX=/usr SBINDIR=${pkgdir}/usr/bin DESTDIR=${pkgdir} install
+}
