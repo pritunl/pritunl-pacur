@@ -5,6 +5,7 @@ targets=(
     "centos-7"
     "debian-jessie"
     "debian-stretch"
+    "oraclelinux-7"
     "ubuntu-trusty"
     "ubuntu-xenial"
     "ubuntu-artful"
@@ -92,7 +93,7 @@ package() {
     touch ${pkgdir}/var/log/${pkgname}.log
     touch ${pkgdir}/var/log/${pkgname}.log.1
 }
-package:yum() {
+package:amazonlinux-1() {
     mkdir -p ${pkgdir}/usr/bin
     cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     chmod 755 ${pkgdir}/usr/bin/${pkgname}
@@ -110,62 +111,6 @@ package:yum() {
 
     mkdir -p ${pkgdir}/etc/init
     cp ${srcdir}/${pkgname}.conf ${pkgdir}/etc/init/${pkgname}.conf
-
-    mkdir -p ${pkgdir}/etc/init.d
-    cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
-    chmod +x ${pkgdir}/etc/init.d/${pkgname}
-
-    touch ${pkgdir}/etc/${pkgname}.conf
-    chmod 600 ${pkgdir}/etc/${pkgname}.conf
-    mkdir -p ${pkgdir}/var/log
-    touch ${pkgdir}/var/log/${pkgname}.log
-    touch ${pkgdir}/var/log/${pkgname}.log.1
-}
-package:ubuntu-precise() {
-    mkdir -p ${pkgdir}/usr/bin
-    cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    chmod 755 ${pkgdir}/usr/bin/${pkgname}
-    cp /go/bin/keybase ${pkgdir}/usr/bin/pritunl-keybase
-    chmod 755 ${pkgdir}/usr/bin/pritunl-keybase
-
-    mkdir -p ${pkgdir}/usr/share/${pkgname}/www
-    cp -r /go/src/github.com/pritunl/${pkgname}/www/dist/. ${pkgdir}/usr/share/${pkgname}/www/
-
-    mkdir -p ${pkgdir}/etc
-    cp ${srcdir}/${pkgname}.json ${pkgdir}/etc/${pkgname}.json
-
-    mkdir -p ${pkgdir}/etc/init
-    cp ${srcdir}/${pkgname}.conf ${pkgdir}/etc/init/${pkgname}.conf
-
-    mkdir -p ${pkgdir}/etc/init.d
-    cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
-    chmod +x ${pkgdir}/etc/init.d/${pkgname}
-
-    touch ${pkgdir}/etc/${pkgname}.conf
-    chmod 600 ${pkgdir}/etc/${pkgname}.conf
-    mkdir -p ${pkgdir}/var/log
-    touch ${pkgdir}/var/log/${pkgname}.log
-    touch ${pkgdir}/var/log/${pkgname}.log.1
-}
-package:ubuntu-trusty() {
-    mkdir -p ${pkgdir}/usr/bin
-    cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    chmod 755 ${pkgdir}/usr/bin/${pkgname}
-    cp /go/bin/keybase ${pkgdir}/usr/bin/pritunl-keybase
-    chmod 755 ${pkgdir}/usr/bin/pritunl-keybase
-
-    mkdir -p ${pkgdir}/usr/share/${pkgname}/www
-    cp -r /go/src/github.com/pritunl/${pkgname}/www/dist/. ${pkgdir}/usr/share/${pkgname}/www/
-
-    mkdir -p ${pkgdir}/etc
-    cp ${srcdir}/${pkgname}.json ${pkgdir}/etc/${pkgname}.json
-
-    mkdir -p ${pkgdir}/etc/init
-    cp ${srcdir}/${pkgname}.conf ${pkgdir}/etc/init/${pkgname}.conf
-
-    mkdir -p ${pkgdir}/etc/init.d
-    cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
-    chmod +x ${pkgdir}/etc/init.d/${pkgname}
 
     touch ${pkgdir}/etc/${pkgname}.conf
     chmod 600 ${pkgdir}/etc/${pkgname}.conf

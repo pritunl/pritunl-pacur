@@ -1,9 +1,11 @@
 targets=(
     "archlinux"
+    "amazonlinux-1"
     "amazonlinux-2"
     "centos-7"
     "debian-jessie"
     "debian-stretch"
+    "oraclelinux-7"
     "ubuntu-trusty"
     "ubuntu-xenial"
     "ubuntu-artful"
@@ -81,7 +83,7 @@ package() {
     mkdir -p ${pkgdir}/etc/systemd/system
     cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
 }
-package:yum() {
+package:amazonlinux-1() {
     mkdir -p ${pkgdir}/usr/bin
     cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
 
@@ -90,32 +92,6 @@ package:yum() {
 
     mkdir -p ${pkgdir}/etc/init
     cp ${srcdir}/${pkgname}.conf ${pkgdir}/etc/init/${pkgname}.conf
-
-    mkdir -p ${pkgdir}/etc/init.d
-    cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
-    chmod +x ${pkgdir}/etc/init.d/${pkgname}
-}
-package:ubuntu-precise() {
-    mkdir -p ${pkgdir}/usr/bin
-    cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-
-    mkdir -p ${pkgdir}/etc/init
-    cp ${srcdir}/${pkgname}.conf ${pkgdir}/etc/init/${pkgname}.conf
-
-    mkdir -p ${pkgdir}/etc/init.d
-    cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
-    chmod +x ${pkgdir}/etc/init.d/${pkgname}
-}
-package:ubuntu-trusty() {
-    mkdir -p ${pkgdir}/usr/bin
-    cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-
-    mkdir -p ${pkgdir}/etc/init
-    cp ${srcdir}/${pkgname}.conf ${pkgdir}/etc/init/${pkgname}.conf
-
-    mkdir -p ${pkgdir}/etc/init.d
-    cp ${srcdir}/${pkgname} ${pkgdir}/etc/init.d/${pkgname}
-    chmod +x ${pkgdir}/etc/init.d/${pkgname}
 }
 
 postinst() {

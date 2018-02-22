@@ -4,6 +4,7 @@ targets=(
     "centos-7"
     "debian-jessie"
     "debian-stretch"
+    "oraclelinux-7"
     "ubuntu-trusty"
     "ubuntu-xenial"
     "ubuntu-artful"
@@ -105,40 +106,15 @@ package:pacman() {
 package:yum() {
     cd "${srcdir}/pritunl-client-${pkgver}"
     mkdir -p "${pkgdir}/usr/lib/pritunl-client"
-    /usr/lib/pritunl-client/bin/python2 setup.py install --root="${pkgdir}" --no-gtk
-    rm -r ${pkgdir}/etc/init.d
+    /usr/lib/pritunl-client/bin/python2 setup.py install --root="${pkgdir}" --no-upstart --no-gtk
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/pritunl-client/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
     cp -r /usr/lib/pritunl-client/* ${pkgdir}/usr/lib/pritunl-client/
 }
-package:debian() {
+package:apt() {
     cd "${srcdir}/pritunl-client-${pkgver}"
     mkdir -p "${pkgdir}/usr/lib/pritunl-client"
     /usr/lib/pritunl-client/bin/python setup.py install --root="${pkgdir}" --no-upstart --no-gtk
-    mkdir -p ${pkgdir}/usr/bin
-    ln -s /usr/lib/pritunl-client/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
-    cp -r /usr/lib/pritunl-client/* ${pkgdir}/usr/lib/pritunl-client/
-}
-package:ubuntu() {
-    cd "${srcdir}/pritunl-client-${pkgver}"
-    mkdir -p "${pkgdir}/usr/lib/pritunl-client"
-    /usr/lib/pritunl-client/bin/python setup.py install --root="${pkgdir}" --no-upstart --no-gtk
-    mkdir -p ${pkgdir}/usr/bin
-    ln -s /usr/lib/pritunl-client/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
-    cp -r /usr/lib/pritunl-client/* ${pkgdir}/usr/lib/pritunl-client/
-}
-package:ubuntu-precise() {
-    cd "${srcdir}/pritunl-client-${pkgver}"
-    mkdir -p "${pkgdir}/usr/lib/pritunl-client"
-    /usr/lib/pritunl-client/bin/python setup.py install --root="${pkgdir}" --no-systemd --no-gtk
-    mkdir -p ${pkgdir}/usr/bin
-    ln -s /usr/lib/pritunl-client/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
-    cp -r /usr/lib/pritunl-client/* ${pkgdir}/usr/lib/pritunl-client/
-}
-package:ubuntu-trusty() {
-    cd "${srcdir}/pritunl-client-${pkgver}"
-    mkdir -p "${pkgdir}/usr/lib/pritunl-client"
-    /usr/lib/pritunl-client/bin/python setup.py install --root="${pkgdir}" --no-systemd --no-gtk
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/pritunl-client/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
     cp -r /usr/lib/pritunl-client/* ${pkgdir}/usr/lib/pritunl-client/

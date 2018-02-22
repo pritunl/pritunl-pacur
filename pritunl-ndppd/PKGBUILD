@@ -1,9 +1,11 @@
 targets=(
     "archlinux"
+    "amazonlinux-1"
     "amazonlinux-2"
     "centos-7"
     "debian-jessie"
     "debian-stretch"
+    "oraclelinux-7"
     "ubuntu-trusty"
     "ubuntu-xenial"
     "ubuntu-artful"

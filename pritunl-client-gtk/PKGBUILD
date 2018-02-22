@@ -3,6 +3,7 @@ targets=(
     "centos-7"
     "debian-jessie"
     "debian-stretch"
+    "oraclelinux-7"
     "ubuntu-trusty"
     "ubuntu-xenial"
     "ubuntu-artful"
@@ -111,75 +112,12 @@ package:pacman() {
 package:yum() {
     cd "${srcdir}/pritunl-client-${pkgver}"
     mkdir -p "${pkgdir}/etc/pritunl_client"
-    python2 setup.py install --root="${pkgdir}" --no-upstart
+    python2 setup.py install --root="${pkgdir}" --prefix=/usr --no-upstart
 }
-package:debian() {
+package:apt() {
     cd "${srcdir}/pritunl-client-${pkgver}"
     mkdir -p "${pkgdir}/etc/pritunl_client"
-    python2 setup.py install --root="${pkgdir}" --no-upstart
-    mkdir -p ${pkgdir}/usr/bin
-    ln -s /usr/local/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
-    ln -s /usr/local/bin/pritunl-client-gtk ${pkgdir}/usr/bin/pritunl-client-gtk
-    ln -s /usr/local/bin/pritunl-client-pk-autostart ${pkgdir}/usr/bin/pritunl-client-pk-autostart
-    ln -s /usr/local/bin/pritunl-client-pk-clear-autostart ${pkgdir}/usr/bin/pritunl-client-pk-clear-autostart
-    ln -s /usr/local/bin/pritunl-client-pk-format-device ${pkgdir}/usr/bin/pritunl-client-pk-format-device
-    ln -s /usr/local/bin/pritunl-client-pk-get-devices ${pkgdir}/usr/bin/pritunl-client-pk-get-devices
-    ln -s /usr/local/bin/pritunl-client-pk-get-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-get-disk-profile
-    ln -s /usr/local/bin/pritunl-client-pk-set-autostart ${pkgdir}/usr/bin/pritunl-client-pk-set-autostart
-    ln -s /usr/local/bin/pritunl-client-pk-set-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-set-disk-profile
-    ln -s /usr/local/bin/pritunl-client-pk-start ${pkgdir}/usr/bin/pritunl-client-pk-start
-    ln -s /usr/local/bin/pritunl-client-pk-stop ${pkgdir}/usr/bin/pritunl-client-pk-stop
-}
-package:ubuntu() {
-    cd "${srcdir}/pritunl-client-${pkgver}"
-    mkdir -p "${pkgdir}/etc/pritunl_client"
-    python2 setup.py install --root="${pkgdir}"
-    mkdir -p ${pkgdir}/usr/bin
-    ln -s /usr/local/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
-    ln -s /usr/local/bin/pritunl-client-gtk ${pkgdir}/usr/bin/pritunl-client-gtk
-    ln -s /usr/local/bin/pritunl-client-pk-autostart ${pkgdir}/usr/bin/pritunl-client-pk-autostart
-    ln -s /usr/local/bin/pritunl-client-pk-clear-autostart ${pkgdir}/usr/bin/pritunl-client-pk-clear-autostart
-    ln -s /usr/local/bin/pritunl-client-pk-format-device ${pkgdir}/usr/bin/pritunl-client-pk-format-device
-    ln -s /usr/local/bin/pritunl-client-pk-get-devices ${pkgdir}/usr/bin/pritunl-client-pk-get-devices
-    ln -s /usr/local/bin/pritunl-client-pk-get-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-get-disk-profile
-    ln -s /usr/local/bin/pritunl-client-pk-set-autostart ${pkgdir}/usr/bin/pritunl-client-pk-set-autostart
-    ln -s /usr/local/bin/pritunl-client-pk-set-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-set-disk-profile
-    ln -s /usr/local/bin/pritunl-client-pk-start ${pkgdir}/usr/bin/pritunl-client-pk-start
-    ln -s /usr/local/bin/pritunl-client-pk-stop ${pkgdir}/usr/bin/pritunl-client-pk-stop
-}
-package:ubuntu-precise() {
-    cd "${srcdir}/pritunl-client-${pkgver}"
-    mkdir -p "${pkgdir}/etc/pritunl_client"
-    python2 setup.py install --root="${pkgdir}" --no-systemd
-    mkdir -p ${pkgdir}/usr/bin
-    ln -s /usr/local/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
-    ln -s /usr/local/bin/pritunl-client-gtk ${pkgdir}/usr/bin/pritunl-client-gtk
-    ln -s /usr/local/bin/pritunl-client-pk-autostart ${pkgdir}/usr/bin/pritunl-client-pk-autostart
-    ln -s /usr/local/bin/pritunl-client-pk-clear-autostart ${pkgdir}/usr/bin/pritunl-client-pk-clear-autostart
-    ln -s /usr/local/bin/pritunl-client-pk-format-device ${pkgdir}/usr/bin/pritunl-client-pk-format-device
-    ln -s /usr/local/bin/pritunl-client-pk-get-devices ${pkgdir}/usr/bin/pritunl-client-pk-get-devices
-    ln -s /usr/local/bin/pritunl-client-pk-get-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-get-disk-profile
-    ln -s /usr/local/bin/pritunl-client-pk-set-autostart ${pkgdir}/usr/bin/pritunl-client-pk-set-autostart
-    ln -s /usr/local/bin/pritunl-client-pk-set-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-set-disk-profile
-    ln -s /usr/local/bin/pritunl-client-pk-start ${pkgdir}/usr/bin/pritunl-client-pk-start
-    ln -s /usr/local/bin/pritunl-client-pk-stop ${pkgdir}/usr/bin/pritunl-client-pk-stop
-}
-package:ubuntu-trusty() {
-    cd "${srcdir}/pritunl-client-${pkgver}"
-    mkdir -p "${pkgdir}/etc/pritunl_client"
-    python2 setup.py install --root="${pkgdir}" --no-systemd
-    mkdir -p ${pkgdir}/usr/bin
-    ln -s /usr/local/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
-    ln -s /usr/local/bin/pritunl-client-gtk ${pkgdir}/usr/bin/pritunl-client-gtk
-    ln -s /usr/local/bin/pritunl-client-pk-autostart ${pkgdir}/usr/bin/pritunl-client-pk-autostart
-    ln -s /usr/local/bin/pritunl-client-pk-clear-autostart ${pkgdir}/usr/bin/pritunl-client-pk-clear-autostart
-    ln -s /usr/local/bin/pritunl-client-pk-format-device ${pkgdir}/usr/bin/pritunl-client-pk-format-device
-    ln -s /usr/local/bin/pritunl-client-pk-get-devices ${pkgdir}/usr/bin/pritunl-client-pk-get-devices
-    ln -s /usr/local/bin/pritunl-client-pk-get-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-get-disk-profile
-    ln -s /usr/local/bin/pritunl-client-pk-set-autostart ${pkgdir}/usr/bin/pritunl-client-pk-set-autostart
-    ln -s /usr/local/bin/pritunl-client-pk-set-disk-profile ${pkgdir}/usr/bin/pritunl-client-pk-set-disk-profile
-    ln -s /usr/local/bin/pritunl-client-pk-start ${pkgdir}/usr/bin/pritunl-client-pk-start
-    ln -s /usr/local/bin/pritunl-client-pk-stop ${pkgdir}/usr/bin/pritunl-client-pk-stop
+    python2 setup.py install --root="${pkgdir}" --prefix=/usr --no-upstart
 }
 
 postinst() {

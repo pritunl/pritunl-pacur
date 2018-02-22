@@ -4,6 +4,7 @@ targets=(
     "centos-7"
     "debian-jessie"
     "debian-stretch"
+    "oraclelinux-7"
     "ubuntu-trusty"
     "ubuntu-xenial"
     "ubuntu-artful"
@@ -128,6 +129,21 @@ build:centos-7() {
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
 }
+build:oraclelinux-7() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    virtualenv /usr/lib/${pkgname}
+    /usr/lib/${pkgname}/bin/pip install -U pip
+    /usr/lib/${pkgname}/bin/pip install -U packaging
+    /usr/lib/${pkgname}/bin/pip install -U six
+    /usr/lib/${pkgname}/bin/pip install -U setuptools
+    /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
+    /usr/lib/${pkgname}/bin/python setup.py build
+    sed -i 's/jinja2.*/jinja2==2.8.1/g' requirements.txt
+    /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
+    git config --global http.https://gopkg.in.followRedirects true
+    go get github.com/pritunl/pritunl-dns
+    go get github.com/pritunl/pritunl-web
+}
 build:pacman() {
     tee -a /etc/pacman.conf << EOF
         [pritunl]
@@ -181,6 +197,18 @@ build:apt() {
     go get github.com/pritunl/pritunl-web
 }
 
+package:centos-7() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/var/lib/${pkgname}"
+    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
+    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}" --upstart
+    rm -r ${pkgdir}/etc/init.d
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
+    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
+    cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
+}
 package:pacman() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
@@ -196,7 +224,7 @@ package:yum() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}" --upstart
+    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}"
     rm -r ${pkgdir}/etc/init.d
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
@@ -204,58 +232,11 @@ package:yum() {
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
 }
-package:debian() {
+package:apt() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
     /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}"
-    mkdir -p ${pkgdir}/usr/bin
-    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
-    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
-    cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
-}
-package:debian-wheezy() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    mkdir -p "${pkgdir}/var/lib/${pkgname}"
-    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}" --sysvinit
-    chmod +x ${pkgdir}/etc/init.d/pritunl
-    mkdir -p ${pkgdir}/usr/bin
-    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
-    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
-    cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
-}
-package:ubuntu() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    mkdir -p "${pkgdir}/var/lib/${pkgname}"
-    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}"
-    mkdir -p ${pkgdir}/usr/bin
-    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
-    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
-    cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
-}
-package:ubuntu-precise() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    mkdir -p "${pkgdir}/var/lib/${pkgname}"
-    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}" --upstart --no-systemd
-    chmod +x ${pkgdir}/etc/init.d/pritunl
-    mkdir -p ${pkgdir}/usr/bin
-    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
-    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
-    cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
-}
-package:ubuntu-trusty() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    mkdir -p "${pkgdir}/var/lib/${pkgname}"
-    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}" --upstart --no-systemd
-    chmod +x ${pkgdir}/etc/init.d/pritunl
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
