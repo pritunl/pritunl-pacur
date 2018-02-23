@@ -21,7 +21,7 @@ pkgdesclong=(
     "Pritunl Zero SSH client for Linux"
 )
 maintainer="Pritunl <contact@pritunl.com>"
-arch="all"
+arch="amd64"
 license=("custom")
 section="utils"
 priority="optional"

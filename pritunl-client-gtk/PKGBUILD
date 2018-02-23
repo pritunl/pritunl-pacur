@@ -17,7 +17,7 @@ pkgdesclong=(
     "Free and open source cross platform OpenVPN client"
 )
 maintainer="Pritunl <contact@pritunl.com>"
-arch="all"
+arch="amd64"
 license=("custom")
 section="utils"
 priority="optional"

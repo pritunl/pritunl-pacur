@@ -1,6 +1,5 @@
 targets=(
     "archlinux"
-    "amazonlinux-1"
     "amazonlinux-2"
     "centos-7"
     "debian-jessie"
@@ -20,7 +19,7 @@ pkgdesclong=(
     "(Neighbor Discovery Protocol) messages between interfaces"
 )
 maintainer="Pritunl <contact@pritunl.com>"
-arch="all"
+arch="amd64"
 license=("GPL")
 section="utils"
 priority="optional"

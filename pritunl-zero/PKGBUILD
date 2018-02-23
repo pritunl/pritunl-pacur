@@ -19,7 +19,7 @@ pkgdesclong=(
     "Pritunl Zero"
 )
 maintainer="Pritunl <contact@pritunl.com>"
-arch="all"
+arch="amd64"
 license=("custom")
 section="utils"
 priority="optional"

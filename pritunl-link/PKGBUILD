@@ -1,6 +1,5 @@
 targets=(
     "archlinux"
-    "amazonlinux-1"
     "amazonlinux-2"
     "centos-7"
     "debian-jessie"
@@ -20,7 +19,7 @@ pkgdesclong=(
     "can be found at pritunl.com"
 )
 maintainer="Pritunl <contact@pritunl.com>"
-arch="all"
+arch="amd64"
 license=("custom")
 section="utils"
 priority="optional"
@@ -82,16 +81,6 @@ package() {
 
     mkdir -p ${pkgdir}/etc/systemd/system
     cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
-}
-package:amazonlinux-1() {
-    mkdir -p ${pkgdir}/usr/bin
-    cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-
-    mkdir -p ${pkgdir}/etc/systemd/system
-    cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
-
-    mkdir -p ${pkgdir}/etc/init
-    cp ${srcdir}/${pkgname}.conf ${pkgdir}/etc/init/${pkgname}.conf
 }
 
 postinst() {
