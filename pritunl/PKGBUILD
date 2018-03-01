@@ -316,18 +316,18 @@ postinst:yum() {
         initctl reload-configuration 2> /dev/null || true
     fi
     semodule -i /usr/share/selinux/packages/pritunl.pp /usr/share/selinux/packages/pritunl_dns.pp /usr/share/selinux/packages/pritunl_web.pp || true
-    restorecon -v -R /tmp/pritunl* || true
-    restorecon -v -R /run/pritunl* || true
-    restorecon -v /etc/systemd/system/pritunl.service || true
-    restorecon -v /usr/lib/systemd/system/pritunl.service || true
+    restorecon -v -R /tmp/pritunl* &> /dev/null || true
+    restorecon -v -R /run/pritunl* &> /dev/null || true
+    restorecon -v /etc/systemd/system/pritunl.service &> /dev/null || true
+    restorecon -v /usr/lib/systemd/system/pritunl.service &> /dev/null || true
     restorecon -v /usr/lib/pritunl/bin/pritunl || true
     restorecon -v /usr/lib/pritunl/bin/python || true
-    restorecon -v /usr/lib/pritunl/bin/python2 || true
-    restorecon -v /usr/lib/pritunl/bin/python2.7 || true
+    restorecon -v /usr/lib/pritunl/bin/python2 &> /dev/null || true
+    restorecon -v /usr/lib/pritunl/bin/python2.7 &> /dev/null || true
     restorecon -v /usr/bin/pritunl-web || true
     restorecon -v /usr/bin/pritunl-dns || true
-    restorecon -v -R /var/lib/pritunl || true
-    restorecon -v /var/log/pritunl* || true
+    restorecon -v -R /var/lib/pritunl &> /dev/null || true
+    restorecon -v /var/log/pritunl* &> /dev/null || true
 }
 
 postrm:yum() {
