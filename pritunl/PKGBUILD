@@ -337,5 +337,4 @@ postrm:yum() {
     if hash initctl 2> /dev/null; then
         initctl reload-configuration 2> /dev/null || true
     fi
-    semodule -r pritunl pritunl_dns pritunl_web || true
 }
