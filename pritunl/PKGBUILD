@@ -76,6 +76,9 @@ makedepends:yum=(
     "python-virtualenv"
     "openssl-devel"
     "libffi-devel"
+    "selinux-policy"
+    "selinux-policy-devel"
+    "policycoreutils-python"
 )
 makedepends:apt=(
     "gcc"
@@ -113,6 +116,29 @@ build:amazonlinux-2() {
     git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
+
+    cd "selinux"
+    ln -s /usr/share/selinux/devel/Makefile
+    make
+}
+build:fedora-27() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    virtualenv /usr/lib/${pkgname}
+    /usr/lib/${pkgname}/bin/pip install -U pip
+    /usr/lib/${pkgname}/bin/pip install -U packaging
+    /usr/lib/${pkgname}/bin/pip install -U six
+    /usr/lib/${pkgname}/bin/pip install -U setuptools
+    /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
+    /usr/lib/${pkgname}/bin/python setup.py build
+    sed -i 's/jinja2.*/jinja2==2.8.1/g' requirements.txt
+    /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
+    git config --global http.https://gopkg.in.followRedirects true
+    go get github.com/pritunl/pritunl-dns
+    go get github.com/pritunl/pritunl-web
+
+    cd "selinux"
+    ln -s /usr/share/selinux/devel/Makefile
+    make
 }
 build:centos-7() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -128,6 +154,13 @@ build:centos-7() {
     git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
+
+    cd "selinux"
+    ln -s /usr/share/selinux/devel/Makefile
+    sed -i "s/1.0.0/${pkgver}/" pritunl.te
+    sed -i "s/1.0.0/${pkgver}/" pritunl_dns.te
+    sed -i "s/1.0.0/${pkgver}/" pritunl_web.te
+    make
 }
 build:oraclelinux-7() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -143,6 +176,13 @@ build:oraclelinux-7() {
     git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
+
+    cd "selinux"
+    ln -s /usr/share/selinux/devel/Makefile
+    sed -i "s/1.0.0/${pkgver}/" pritunl.te
+    sed -i "s/1.0.0/${pkgver}/" pritunl_dns.te
+    sed -i "s/1.0.0/${pkgver}/" pritunl_web.te
+    make
 }
 build:pacman() {
     tee -a /etc/pacman.conf << EOF
@@ -181,6 +221,10 @@ build:yum() {
     git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
+
+    cd "selinux"
+    ln -s /usr/share/selinux/devel/Makefile
+    make
 }
 build:apt() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -208,6 +252,12 @@ package:centos-7() {
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
+
+    mkdir -p "${pkgdir}/usr/share/selinux/packages"
+    cd "selinux"
+    cp pritunl.pp ${pkgdir}/usr/share/selinux/packages/pritunl.pp
+    cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
+    cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
 }
 package:pacman() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -230,6 +280,12 @@ package:yum() {
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
+
+    mkdir -p "${pkgdir}/usr/share/selinux/packages"
+    cd "selinux"
+    cp pritunl.pp ${pkgdir}/usr/share/selinux/packages/pritunl.pp
+    cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
+    cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
 }
 package:apt() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -250,4 +306,36 @@ postinst() {
     if hash initctl 2> /dev/null; then
         initctl reload-configuration 2> /dev/null || true
     fi
+}
+
+postinst:yum() {
+    if hash systemctl 2> /dev/null; then
+        systemctl daemon-reload 2> /dev/null || true
+    fi
+    if hash initctl 2> /dev/null; then
+        initctl reload-configuration 2> /dev/null || true
+    fi
+    semodule -i /usr/share/selinux/packages/pritunl.pp /usr/share/selinux/packages/pritunl_dns.pp /usr/share/selinux/packages/pritunl_web.pp || true
+    restorecon -v -R /tmp/pritunl* || true
+    restorecon -v -R /run/pritunl* || true
+    restorecon -v /etc/systemd/system/pritunl.service || true
+    restorecon -v /usr/lib/systemd/system/pritunl.service || true
+    restorecon -v /usr/lib/pritunl/bin/pritunl || true
+    restorecon -v /usr/lib/pritunl/bin/python || true
+    restorecon -v /usr/lib/pritunl/bin/python2 || true
+    restorecon -v /usr/lib/pritunl/bin/python2.7 || true
+    restorecon -v /usr/bin/pritunl-web || true
+    restorecon -v /usr/bin/pritunl-dns || true
+    restorecon -v -R /var/lib/pritunl || true
+    restorecon -v /var/log/pritunl* || true
+}
+
+postrm:yum() {
+    if hash systemctl 2> /dev/null; then
+        systemctl daemon-reload 2> /dev/null || true
+    fi
+    if hash initctl 2> /dev/null; then
+        initctl reload-configuration 2> /dev/null || true
+    fi
+    semodule -r pritunl pritunl_dns pritunl_web || true
 }
