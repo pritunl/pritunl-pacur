@@ -87,7 +87,7 @@ package() {
     mkdir -p ${pkgdir}/etc/systemd/system
     cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
 
-    touch ${pkgdir}/etc/${pkgname}.conf
+    touch ${pkgdir}/etc/${pkgname}.json
     chmod 600 ${pkgdir}/etc/${pkgname}.conf
     mkdir -p ${pkgdir}/var/log
     touch ${pkgdir}/var/log/${pkgname}.log
@@ -112,7 +112,7 @@ package:amazonlinux-1() {
     mkdir -p ${pkgdir}/etc/init
     cp ${srcdir}/${pkgname}.conf ${pkgdir}/etc/init/${pkgname}.conf
 
-    touch ${pkgdir}/etc/${pkgname}.conf
+    touch ${pkgdir}/etc/${pkgname}.json
     chmod 600 ${pkgdir}/etc/${pkgname}.conf
     mkdir -p ${pkgdir}/var/log
     touch ${pkgdir}/var/log/${pkgname}.log
