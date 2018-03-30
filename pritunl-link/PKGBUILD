@@ -91,9 +91,6 @@ postinst() {
     restart pritunl-link &> /dev/null || true
 }
 
-prerm() {
+postrm() {
     systemctl daemon-reload &> /dev/null || true
-    systemctl stop pritunl-link &> /dev/null || true
-    systemctl disable pritunl-link &> /dev/null || true
-    service pritunl-link stop &> /dev/null || true
 }
