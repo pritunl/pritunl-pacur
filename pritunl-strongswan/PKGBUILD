@@ -11,7 +11,7 @@ targets=(
     "ubuntu-bionic"
 )
 pkgname="pritunl-strongswan"
-pkgver="5.6.1"
+pkgver="5.6.2"
 pkgrel="1"
 pkgdesc="Open Source IPsec Implementation"
 pkgdesclong=(
@@ -109,6 +109,7 @@ conflicts=(
     "${pkgname}"
     "strongswan"
     "openswan"
+    "ipsec-tools"
 )
 sources=(
     "${url}/strongswan-${pkgver}.tar.gz"
@@ -125,6 +126,7 @@ build() {
         --libexecdir=/usr/lib \
         --with-ipsecdir=/usr/lib/strongswan \
         --with-nm-ca-dir=/etc/ssl/certs \
+        --with-piddir=/etc/ipsec.d/run \
         --enable-sqlite \
         --enable-openssl --enable-curl \
         --enable-sql --enable-attr-sql \
