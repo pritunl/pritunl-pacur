@@ -115,7 +115,7 @@ sources=(
     "${url}/strongswan-${pkgver}.tar.gz"
 )
 hashsums=(
-    "b33addcaa05d850e13908968aa25281b6f9c5f48090760466397a455619a1095"
+    "5400f1a6c6c3658d7a804e831444c51b820247dd64c5f9094054997fb4b9effa"
 )
 
 build() {
