@@ -86,7 +86,7 @@ makedepends:yum=(
 )
 makedepends:apt=(
     "curl"
-    "libcurl4-openssl-dev"
+    "libcurl-dev"
     "libgmp-dev"
     "libgmp3-dev"
     "net-tools"
