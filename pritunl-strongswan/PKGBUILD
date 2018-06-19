@@ -47,7 +47,6 @@ depends:yum=(
 )
 depends:apt=(
     "curl"
-    "libcurl3"
     "libgmp-dev"
     "libgmp3-dev"
     "net-tools"
