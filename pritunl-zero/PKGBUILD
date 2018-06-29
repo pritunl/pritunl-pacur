@@ -67,16 +67,12 @@ backup=(
 
 build() {
     go get github.com/pritunl/${pkgname}
-    go get github.com/keybase/client/go/keybase
-    go install -tags production github.com/keybase/client/go/keybase
 }
 
 package() {
     mkdir -p ${pkgdir}/usr/bin
     cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     chmod 755 ${pkgdir}/usr/bin/${pkgname}
-    cp /go/bin/keybase ${pkgdir}/usr/bin/pritunl-keybase
-    chmod 755 ${pkgdir}/usr/bin/pritunl-keybase
 
     mkdir -p ${pkgdir}/usr/share/${pkgname}/www
     cp -r /go/src/github.com/pritunl/${pkgname}/www/dist/. ${pkgdir}/usr/share/${pkgname}/www/
@@ -97,8 +93,6 @@ package:amazonlinux-1() {
     mkdir -p ${pkgdir}/usr/bin
     cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     chmod 755 ${pkgdir}/usr/bin/${pkgname}
-    cp /go/bin/keybase ${pkgdir}/usr/bin/pritunl-keybase
-    chmod 755 ${pkgdir}/usr/bin/pritunl-keybase
 
     mkdir -p ${pkgdir}/usr/share/${pkgname}/www
     cp -r /go/src/github.com/pritunl/${pkgname}/www/dist/. ${pkgdir}/usr/share/${pkgname}/www/
