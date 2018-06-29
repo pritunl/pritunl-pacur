@@ -1,0 +1,222 @@
+targets=(
+    "archlinux"
+    "amazonlinux-2"
+    "centos-7"
+    "debian-jessie"
+    "debian-stretch"
+    "fedora-27"
+    "fedora-28"
+    "oraclelinux-7"
+    "ubuntu-xenial"
+    "ubuntu-artful"
+    "ubuntu-bionic"
+)
+pkgname="pritunl-client-electron"
+pkgver="1.0.1749.25"
+pkgrel="1"
+pkgdesc="Pritunl OpenVPN Electron Client"
+pkgdesclong=(
+    "Free and open source cross platform OpenVPN client"
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="amd64"
+license=("custom")
+section="utils"
+priority="optional"
+url="https://github.com/pritunl/pritunl-client-electron"
+depends:pacman=(
+    "gconf"
+    "libxss"
+    "net-tools"
+    "iproute2"
+    "openvpn"
+)
+depends:yum=(
+    "GConf2"
+    "libXScrnSaver"
+    "net-tools"
+    "iptables"
+    "openvpn"
+)
+depends:apt=(
+    "libgconf-2-4"
+    "libxss1"
+    "net-tools"
+    "iptables"
+    "openvpn"
+)
+makedepends:pacman=(
+    "gconf"
+    "libxss"
+    "net-tools"
+    "iproute2"
+    "openvpn"
+    "npm"
+)
+makedepends:yum=(
+    "GConf2"
+)
+makedepends:apt=(
+    "libgconf-2-4"
+)
+provides=("${pkgname}")
+conflicts=("${pkgname}")
+sources=(
+    "${url}/archive/${pkgver}.tar.gz"
+)
+hashsums=(
+    "e00ca17f6c4e61fc968e8ab85c595edb21d59e27ead88ce4173015ed577664e6"
+)
+backup=(
+    "var/log/pritunl.log"
+    "var/log/pritunl.log.1"
+)
+
+build:pacman() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    cd service
+    go get github.com/pritunl/pritunl-client-electron/service
+
+    cd ../client
+    npm install
+    ./node_modules/.bin/electron-rebuild
+    ./node_modules/.bin/electron-packager ./ Pritunl --platform=linux --arch=x64 --out=../build/linux
+    chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
+}
+build:yum() {
+    wget https://rpm.nodesource.com/setup_10.x
+    sh setup_10.x
+    yum -y install nodejs
+
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    cd service
+    go get github.com/pritunl/pritunl-client-electron/service
+
+    cd ../client
+    npm install
+    ./node_modules/.bin/electron-rebuild
+    ./node_modules/.bin/electron-packager ./ Pritunl --platform=linux --arch=x64 --out=../build/linux
+    chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/info
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/travis-gh-pages
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/prepare-tests
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/delayed-call.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/delayed-require.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/difference.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/initial-value.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-verify
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-sign
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-conv
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mustache/bin/mustache
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/uuid/bin/uuid
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mkdirp/bin/cmd.js
+}
+build:apt() {
+    wget https://deb.nodesource.com/setup_10.x
+    sh setup_10.x
+    apt --assume-yes install nodejs
+
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    cd service
+    go get github.com/pritunl/pritunl-client-electron/service
+
+    cd ../client
+    npm install
+    ./node_modules/.bin/electron-rebuild
+    ./node_modules/.bin/electron-packager ./ Pritunl --platform=linux --arch=x64 --out=../build/linux
+    chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
+}
+
+package:pacman() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+
+    mkdir -p ${pkgdir}/usr/share/applications
+    cp resources_linux/pritunl-client-electron.desktop ${pkgdir}/usr/share/applications/pritunl-client-electron.desktop
+
+    mkdir -p ${pkgdir}/etc/systemd/system
+    cp resources_linux/pritunl-client-electron.service ${pkgdir}/etc/systemd/system/pritunl-client-electron.service
+
+    mkdir -p ${pkgdir}/usr/lib
+    mv build/linux/Pritunl-linux-x64 ${pkgdir}/usr/lib/pritunl_client_electron
+
+    mkdir -p ${pkgdir}/usr/bin
+    cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-electron-service
+
+    mkdir -p ${pkgdir}/usr/share/icons
+    mv resources_linux/icons ${pkgdir}/usr/share/icons/hicolor
+    find ${pkgdir}/usr/share/icons -type d -exec chmod 755 {} \;
+    find ${pkgdir}/usr/share/icons -type f -exec chmod 644 {} \;
+
+    mkdir -p ${pkgdir}/var/log
+    touch ${pkgdir}/var/log/pritunl.log
+    touch ${pkgdir}/var/log/pritunl.log.1
+}
+package:yum() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+
+    mkdir -p ${pkgdir}/usr/share/applications
+    cp resources_linux/pritunl-client-electron.desktop ${pkgdir}/usr/share/applications/pritunl-client-electron.desktop
+
+    mkdir -p ${pkgdir}/etc/systemd/system
+    cp resources_linux/pritunl-client-electron.service ${pkgdir}/etc/systemd/system/pritunl-client-electron.service
+
+    mkdir -p ${pkgdir}/usr/lib
+    mv build/linux/Pritunl-linux-x64 ${pkgdir}/usr/lib/pritunl_client_electron
+
+    mkdir -p ${pkgdir}/usr/bin
+    cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-electron-service
+
+    mkdir -p ${pkgdir}/usr/share/icons
+    mv resources_linux/icons ${pkgdir}/usr/share/icons/hicolor
+    find ${pkgdir}/usr/share/icons -type d -exec chmod 755 {} \;
+    find ${pkgdir}/usr/share/icons -type f -exec chmod 644 {} \;
+
+    mkdir -p ${pkgdir}/var/log
+    touch ${pkgdir}/var/log/pritunl.log
+    touch ${pkgdir}/var/log/pritunl.log.1
+}
+package:apt() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+
+    mkdir -p ${pkgdir}/usr/share/applications
+    cp resources_linux/pritunl-client-electron.desktop ${pkgdir}/usr/share/applications/pritunl-client-electron.desktop
+
+    mkdir -p ${pkgdir}/etc/systemd/system
+    cp resources_linux/pritunl-client-electron.service ${pkgdir}/etc/systemd/system/pritunl-client-electron.service
+
+    mkdir -p ${pkgdir}/usr/lib
+    mv build/linux/Pritunl-linux-x64 ${pkgdir}/usr/lib/pritunl_client_electron
+
+    mkdir -p ${pkgdir}/usr/bin
+    cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-electron-service
+
+    mkdir -p ${pkgdir}/usr/share/icons
+    mv resources_linux/icons ${pkgdir}/usr/share/icons/hicolor
+    find ${pkgdir}/usr/share/icons -type d -exec chmod 755 {} \;
+    find ${pkgdir}/usr/share/icons -type f -exec chmod 644 {} \;
+
+    mkdir -p ${pkgdir}/var/log
+    touch ${pkgdir}/var/log/pritunl.log
+    touch ${pkgdir}/var/log/pritunl.log.1
+}
+
+postinst() {
+    systemctl daemon-reload &> /dev/null || true
+    systemctl restart pritunl-client-electron &> /dev/null || true
+    systemctl enable pritunl-client-electron &> /dev/null || true
+    gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor || true
+    xdg-icon-resource forceupdate --theme hicolor &> /dev/null || true
+    update-desktop-database -q || true
+}
+
+prerm() {
+    systemctl stop pritunl-client-electron &> /dev/null || true
+    systemctl disable pritunl-client-electron &> /dev/null || true
+}
+
+postrm() {
+    systemctl daemon-reload &> /dev/null || true
+    gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor || true
+    xdg-icon-resource forceupdate --theme hicolor &> /dev/null || true
+    update-desktop-database -q || true
+}
