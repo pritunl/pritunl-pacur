@@ -1,0 +1,75 @@
+targets=(
+    "archlinux"
+    "amazonlinux-2"
+    "centos-7"
+    "debian-jessie"
+    "debian-stretch"
+    "fedora-27"
+    "fedora-28"
+    "oraclelinux-7"
+    "ubuntu-xenial"
+    "ubuntu-artful"
+    "ubuntu-bionic"
+)
+pkgname="pritunl-client-electron-numix-theme"
+pkgver="1.0.1749.25"
+pkgrel="1"
+pkgdesc="Pritunl OpenVPN Electron Client Numix Theme"
+pkgdesclong=(
+    "Numix icons for Pritunl Electron Client"
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="amd64"
+license=("custom")
+section="utils"
+priority="optional"
+url="https://github.com/pritunl/pritunl-client-electron"
+provides=("${pkgname}")
+conflicts=("${pkgname}")
+sources=(
+    "${url}/archive/${pkgver}.tar.gz"
+)
+hashsums=(
+    "e00ca17f6c4e61fc968e8ab85c595edb21d59e27ead88ce4173015ed577664e6"
+)
+
+package:pacman() {
+    cd "${srcdir}/pritunl-client-electron-${pkgver}"
+
+    mkdir -p ${pkgdir}/usr/share
+    mv resources_linux/numix_icons ${pkgdir}/usr/share/icons
+    find ${pkgdir}/usr/share/icons -type d -exec chmod 755 {} \;
+    find ${pkgdir}/usr/share/icons -type f -exec chmod 644 {} \;
+}
+package:yum() {
+    cd "${srcdir}/pritunl-client-electron-${pkgver}"
+
+    mkdir -p ${pkgdir}/usr/share
+    mv resources_linux/numix_icons ${pkgdir}/usr/share/icons
+    find ${pkgdir}/usr/share/icons -type d -exec chmod 755 {} \;
+    find ${pkgdir}/usr/share/icons -type f -exec chmod 644 {} \;
+}
+package:apt() {
+    cd "${srcdir}/pritunl-client-electron-${pkgver}"
+
+    mkdir -p ${pkgdir}/usr/share
+    mv resources_linux/numix_icons ${pkgdir}/usr/share/icons
+    find ${pkgdir}/usr/share/icons -type d -exec chmod 755 {} \;
+    find ${pkgdir}/usr/share/icons -type f -exec chmod 644 {} \;
+}
+
+postinst() {
+    gtk-update-icon-cache -q -t -f /usr/share/icons/Numix-Square &> /dev/null || true
+    gtk-update-icon-cache -q -t -f /usr/share/icons/Numix-Square-Light &> /dev/null || true
+    xdg-icon-resource forceupdate --theme Numix-Square &> /dev/null || true
+    xdg-icon-resource forceupdate --theme Numix-Square-Light &> /dev/null || true
+    update-desktop-database -q || true
+}
+
+postrm() {
+    gtk-update-icon-cache -q -t -f /usr/share/icons/Numix-Square &> /dev/null || true
+    gtk-update-icon-cache -q -t -f /usr/share/icons/Numix-Square-Light &> /dev/null || true
+    xdg-icon-resource forceupdate --theme Numix-Square &> /dev/null || true
+    xdg-icon-resource forceupdate --theme Numix-Square-Light &> /dev/null || true
+    update-desktop-database -q || true
+}
