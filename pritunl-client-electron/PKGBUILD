@@ -136,10 +136,11 @@ package:pacman() {
     mkdir -p ${pkgdir}/etc/systemd/system
     cp resources_linux/pritunl-client-electron.service ${pkgdir}/etc/systemd/system/pritunl-client-electron.service
 
+    mkdir -p ${pkgdir}/usr/bin
     mkdir -p ${pkgdir}/usr/lib
     mv build/linux/Pritunl-linux-x64 ${pkgdir}/usr/lib/pritunl_client_electron
+    ln -s /usr/lib/pritunl_client_electron/Pritunl ${pkgdir}/usr/bin/pritunl-client-electron
 
-    mkdir -p ${pkgdir}/usr/bin
     cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-electron-service
 
     mkdir -p ${pkgdir}/usr/share/icons
@@ -160,10 +161,11 @@ package:yum() {
     mkdir -p ${pkgdir}/etc/systemd/system
     cp resources_linux/pritunl-client-electron.service ${pkgdir}/etc/systemd/system/pritunl-client-electron.service
 
+    mkdir -p ${pkgdir}/usr/bin
     mkdir -p ${pkgdir}/usr/lib
     mv build/linux/Pritunl-linux-x64 ${pkgdir}/usr/lib/pritunl_client_electron
+    ln -s /usr/lib/pritunl_client_electron/Pritunl ${pkgdir}/usr/bin/pritunl-client-electron
 
-    mkdir -p ${pkgdir}/usr/bin
     cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-electron-service
 
     mkdir -p ${pkgdir}/usr/share/icons
@@ -184,10 +186,11 @@ package:apt() {
     mkdir -p ${pkgdir}/etc/systemd/system
     cp resources_linux/pritunl-client-electron.service ${pkgdir}/etc/systemd/system/pritunl-client-electron.service
 
+    mkdir -p ${pkgdir}/usr/bin
     mkdir -p ${pkgdir}/usr/lib
     mv build/linux/Pritunl-linux-x64 ${pkgdir}/usr/lib/pritunl_client_electron
+    ln -s /usr/lib/pritunl_client_electron/Pritunl ${pkgdir}/usr/bin/pritunl-client-electron
 
-    mkdir -p ${pkgdir}/usr/bin
     cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-electron-service
 
     mkdir -p ${pkgdir}/usr/share/icons
