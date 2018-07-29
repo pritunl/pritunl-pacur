@@ -4,6 +4,7 @@ targets=(
     "centos-7"
     "debian-jessie"
     "debian-stretch"
+    "fedora-28"
     "oraclelinux-7"
     "ubuntu-trusty"
     "ubuntu-xenial"
