@@ -10,6 +10,7 @@ targets=(
     "ubuntu-xenial"
     "ubuntu-artful"
     "ubuntu-bionic"
+    "ubuntu-cosmic"
 )
 pkgname="pritunl-client-electron-numix-theme"
 pkgver="1.0.1749.25"

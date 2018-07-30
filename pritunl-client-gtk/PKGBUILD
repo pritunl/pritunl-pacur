@@ -9,6 +9,7 @@ targets=(
     "ubuntu-xenial"
     "ubuntu-artful"
     "ubuntu-bionic"
+    "ubuntu-cosmic"
 )
 pkgname="pritunl-client-gtk"
 pkgver="1.0.1568.9"

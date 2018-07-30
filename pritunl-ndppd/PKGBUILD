@@ -10,6 +10,7 @@ targets=(
     "ubuntu-xenial"
     "ubuntu-artful"
     "ubuntu-bionic"
+    "ubuntu-cosmic"
 )
 pkgname="pritunl-ndppd"
 pkgver="0.2.5"

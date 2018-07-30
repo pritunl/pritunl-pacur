@@ -12,6 +12,7 @@ targets=(
     "ubuntu-xenial"
     "ubuntu-artful"
     "ubuntu-bionic"
+    "ubuntu-cosmic"
 )
 pkgname="pritunl-ssh-host"
 pkgver="1.0.769.95"

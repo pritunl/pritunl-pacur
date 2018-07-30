@@ -11,6 +11,7 @@ targets=(
     "ubuntu-xenial"
     "ubuntu-artful"
     "ubuntu-bionic"
+    "ubuntu-cosmic"
 )
 pkgname="pritunl-zero"
 pkgver="1.0.777.78"
