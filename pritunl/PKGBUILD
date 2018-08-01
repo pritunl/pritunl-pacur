@@ -123,7 +123,7 @@ build:amazonlinux-2() {
     ln -s /usr/share/selinux/devel/Makefile
     make
 }
-build:fedora-27() {
+build:fedora() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     virtualenv /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
