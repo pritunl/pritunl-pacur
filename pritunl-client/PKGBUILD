@@ -32,6 +32,12 @@ depends:pacman=(
     "iproute2"
     "openvpn"
 )
+depends:fedora=(
+    "python2"
+    "python2-setuptools"
+    "net-tools"
+    "openvpn"
+)
 depends:yum=(
     "python2"
     "python-setuptools"
@@ -53,6 +59,10 @@ makedepends:pacman=(
     "iproute2"
     "openvpn"
     "python2-distribute"
+)
+makedepends:fedora=(
+    "python2-setuptools"
+    "python2-virtualenv"
 )
 makedepends:yum=(
     "python-setuptools"
@@ -82,6 +92,12 @@ backup=(
 build:pacman() {
     cd "${srcdir}/pritunl-client-${pkgver}"
     python2 setup.py build
+}
+build:fedora() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    python2 setup.py build
+    virtualenv-2 /usr/lib/pritunl-client
+    /usr/lib/pritunl-client/bin/pip install -r requirements.txt
 }
 build:yum() {
     cd "${srcdir}/pritunl-client-${pkgver}"

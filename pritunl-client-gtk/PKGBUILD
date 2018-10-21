@@ -36,6 +36,19 @@ depends:pacman=(
     "iproute2"
     "openvpn"
 )
+depends:fedora=(
+    "python2"
+    "python2-setuptools"
+    "python2-requests"
+    "python2-crypto"
+    "python2-appindicator"
+    "python2-gobject"
+    "libappindicator-gtk3-devel"
+    "pygtk2"
+    "net-tools"
+    "iptables"
+    "openvpn"
+)
 depends:yum=(
     "python"
     "python-setuptools"
@@ -75,6 +88,9 @@ makedepends:pacman=(
     "iproute2"
     "openvpn"
     "python2-distribute"
+)
+makedepends:fedora=(
+    "python2-setuptools"
 )
 makedepends:yum=(
     "python-setuptools"

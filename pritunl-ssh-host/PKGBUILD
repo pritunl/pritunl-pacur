@@ -27,6 +27,9 @@ url="https://github.com/pritunl/pritunl-zero-client"
 depends:pacman=(
     "python2"
 )
+depends:fedora=(
+    "python2"
+)
 depends:yum=(
     "python"
 )
@@ -45,6 +48,16 @@ hashsums=(
 )
 
 package:pacman() {
+    cd "${srcdir}/pritunl-zero-client-${pkgver}"
+
+    mkdir -p ${pkgdir}/etc/cron.d
+    cp ${srcdir}/${pkgname} ${pkgdir}/etc/cron.d/${pkgname}
+
+    mkdir -p ${pkgdir}/usr/bin
+    sed -i -e 's|#!/usr/bin/env python|#!/usr/bin/env python2|g' ./ssh_host_client.py
+    cp ./ssh_host_client.py ${pkgdir}/usr/bin/${pkgname}
+}
+package:fedora() {
     cd "${srcdir}/pritunl-zero-client-${pkgver}"
 
     mkdir -p ${pkgdir}/etc/cron.d
