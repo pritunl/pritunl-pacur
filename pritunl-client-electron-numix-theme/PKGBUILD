@@ -12,7 +12,7 @@ targets=(
     "ubuntu-cosmic"
 )
 pkgname="pritunl-client-electron-numix-theme"
-pkgver="1.0.1749.25"
+pkgver="1.0.1804.90"
 pkgrel="1"
 pkgdesc="Pritunl OpenVPN Electron Client Numix Theme"
 pkgdesclong=(
@@ -30,7 +30,7 @@ sources=(
     "${url}/archive/${pkgver}.tar.gz"
 )
 hashsums=(
-    "e00ca17f6c4e61fc968e8ab85c595edb21d59e27ead88ce4173015ed577664e6"
+    "4204aecc4d574dff0e93504813341177e734036d0f2f069c4b94b23c255d6a4f"
 )
 
 package:pacman() {
