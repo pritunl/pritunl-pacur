@@ -93,6 +93,12 @@ build:pacman() {
     cd "${srcdir}/pritunl-client-${pkgver}"
     python2 setup.py build
 }
+build:fedora-29() {
+    cd "${srcdir}/pritunl-client-${pkgver}"
+    python2 setup.py build
+    python2 /usr/lib/python2.7/site-packages/virtualenv.py /usr/lib/pritunl-client
+    /usr/lib/pritunl-client/bin/pip install -r requirements.txt
+}
 build:fedora() {
     cd "${srcdir}/pritunl-client-${pkgver}"
     python2 setup.py build
