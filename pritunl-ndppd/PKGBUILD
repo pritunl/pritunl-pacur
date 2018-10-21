@@ -25,7 +25,9 @@ license=("GPL")
 section="utils"
 priority="optional"
 url="https://github.com/DanielAdolfsson/ndppd"
-
+makedepends:yum=(
+    "gcc-c++"
+)
 provides=(
     "${pkgname}"
     "ndppd"
