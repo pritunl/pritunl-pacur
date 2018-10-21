@@ -12,7 +12,7 @@ targets=(
     "ubuntu-cosmic"
 )
 pkgname="pritunl-client"
-pkgver="1.0.1632.81"
+pkgver="1.0.1865.25"
 pkgrel="1"
 pkgdesc="Pritunl OpenVPN Client"
 pkgdesclong=(
@@ -82,7 +82,7 @@ sources=(
     "${url}/archive/${pkgver}.tar.gz"
 )
 hashsums=(
-    "cb6f669fa112ea2bf8aff02cb118282ae8bfc94f8e957c8b80e2700d1f9ee8e9"
+    "a777ac4c92e8faf8f3782c0628be791f5827d3422275a6c2e79287a63783d955"
 )
 backup=(
     "var/log/pritunl-client.log"
