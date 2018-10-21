@@ -1,17 +1,18 @@
 targets=(
     "archlinux"
+    "amazonlinux-2"
     "centos-7"
     "debian-jessie"
     "debian-stretch"
     "fedora-28"
+    "fedora-29"
     "oraclelinux-7"
     "ubuntu-xenial"
-    "ubuntu-artful"
     "ubuntu-bionic"
     "ubuntu-cosmic"
 )
 pkgname="pritunl-client-gtk"
-pkgver="1.0.1568.9"
+pkgver="1.0.1632.81"
 pkgrel="1"
 pkgdesc="Pritunl OpenVPN Client"
 pkgdesclong=(
@@ -90,7 +91,7 @@ sources=(
     "${url}/archive/${pkgver}.tar.gz"
 )
 hashsums=(
-    "7b89add274314f9394fd75a484f90200b010fe1a0622d9e0483e57bf7a46d2d5"
+    "cb6f669fa112ea2bf8aff02cb118282ae8bfc94f8e957c8b80e2700d1f9ee8e9"
 )
 backup=(
     "var/log/pritunl-client.log"

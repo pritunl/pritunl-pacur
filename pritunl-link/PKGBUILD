@@ -5,15 +5,14 @@ targets=(
     "debian-jessie"
     "debian-stretch"
     "fedora-28"
+    "fedora-29"
     "oraclelinux-7"
-    "ubuntu-trusty"
     "ubuntu-xenial"
-    "ubuntu-artful"
     "ubuntu-bionic"
     "ubuntu-cosmic"
 )
 pkgname="pritunl-link"
-pkgver="1.0.680.27"
+pkgver="1.0.942.75"
 pkgrel="1"
 pkgdesc="Enterprise VPN Link Server"
 pkgdesclong=(

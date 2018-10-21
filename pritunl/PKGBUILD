@@ -5,15 +5,14 @@ targets=(
     "debian-jessie"
     "debian-stretch"
     "fedora-28"
+    "fedora-29"
     "oraclelinux-7"
-    "ubuntu-trusty"
     "ubuntu-xenial"
-    "ubuntu-artful"
     "ubuntu-bionic"
     "ubuntu-cosmic"
 )
 pkgname="pritunl"
-pkgver="1.28.1583.74"
+pkgver="1.29.1827.6"
 pkgrel="1"
 pkgdesc="Enterprise VPN Server"
 pkgdesclong=(
@@ -97,7 +96,7 @@ sources=(
     "${url}/archive/${pkgver}.tar.gz"
 )
 hashsums=(
-    "8dcc42a693de6224939aad9acfd6f7d05690f98affa7075b32155063f5ebdf77"
+    "6cefe827ab99a9f89f15777fd75140782d60fccd8728f64a40796bab58dd61fe"
 )
 backup=(
     "etc/${pkgname}.conf"

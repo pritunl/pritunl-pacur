@@ -1,20 +1,18 @@
 targets=(
     "archlinux"
-    "amazonlinux-1"
     "amazonlinux-2"
     "centos-7"
     "debian-jessie"
     "debian-stretch"
     "fedora-28"
+    "fedora-29"
     "oraclelinux-7"
-    "ubuntu-trusty"
     "ubuntu-xenial"
-    "ubuntu-artful"
     "ubuntu-bionic"
     "ubuntu-cosmic"
 )
 pkgname="pritunl-zero"
-pkgver="1.0.777.78"
+pkgver="1.0.1015.21"
 pkgrel="1"
 pkgdesc="Pritunl Zero"
 pkgdesclong=(
