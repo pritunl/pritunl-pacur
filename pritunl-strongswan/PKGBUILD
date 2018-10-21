@@ -12,7 +12,7 @@ targets=(
     "ubuntu-cosmic"
 )
 pkgname="pritunl-strongswan"
-pkgver="5.6.3"
+pkgver="5.7.1"
 pkgrel="1"
 pkgdesc="Open Source IPsec Implementation"
 pkgdesclong=(
@@ -115,7 +115,7 @@ sources=(
     "${url}/strongswan-${pkgver}.tar.gz"
 )
 hashsums=(
-    "6691af8f15b172f466342a182d47e3f3c3c5188baf63cae104992938c3d37351"
+    "cdf58426e025514e8a90c377d603e755ee05d73a5c3ec54ae751e5f939aef30e"
 )
 
 build() {
