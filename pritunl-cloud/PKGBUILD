@@ -50,6 +50,9 @@ package() {
     cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     chmod 755 ${pkgdir}/usr/bin/${pkgname}
 
+    mkdir -p ${pkgdir}/usr/share/${pkgname}/www
+    cp -r /go/src/github.com/pritunl/${pkgname}/www/dist/. ${pkgdir}/usr/share/${pkgname}/www/
+
     mkdir -p ${pkgdir}/etc/systemd/system
     cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
 }
