@@ -1,0 +1,55 @@
+targets=(
+    "centos-7"
+    "oraclelinux-7"
+)
+pkgname="pritunl-cloud"
+pkgver="1.0.1090.34"
+pkgrel="1"
+pkgdesc="Pritunl Cloud"
+pkgdesclong=(
+    "Pritunl Cloud"
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="amd64"
+license=("custom")
+section="utils"
+priority="optional"
+url="https://github.com/pritunl/${pkgname}"
+depends:yum=(
+    "bridge-utils"
+    "net-tools"
+    "psmisc"
+    "openssl"
+    "qemu"
+    "qemu-kvm"
+    "qemu-system-x86"
+    "libguestfs-tools"
+    "genisoimage"
+)
+
+makedepends:yum=(
+    "git"
+)
+provides=("${pkgname}")
+conflicts=(
+    "${pkgname}"
+)
+sources=(
+    "pritunl-cloud.service"
+)
+hashsums=(
+    "0c343d92fe8d7eccfd16a0b0e59426f4db5979b43d85c97e42a25719090c0235"
+)
+
+build() {
+    go get github.com/pritunl/${pkgname}
+}
+
+package() {
+    mkdir -p ${pkgdir}/usr/bin
+    cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    chmod 755 ${pkgdir}/usr/bin/${pkgname}
+
+    mkdir -p ${pkgdir}/etc/systemd/system
+    cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
+}
