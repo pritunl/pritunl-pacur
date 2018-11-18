@@ -38,7 +38,7 @@ sources=(
     "pritunl-cloud.service"
 )
 hashsums=(
-    "0c343d92fe8d7eccfd16a0b0e59426f4db5979b43d85c97e42a25719090c0235"
+    "158dca955549ebdb7086f2b921b602a28f0335dd1c5a44de509d0b4710a20848"
 )
 
 build() {
