@@ -3,7 +3,7 @@ targets=(
     "oraclelinux-7"
 )
 pkgname="pritunl-cloud"
-pkgver="1.0.1090.34"
+pkgver="1.0.1091.33"
 pkgrel="1"
 pkgdesc="Pritunl Cloud"
 pkgdesclong=(
@@ -35,14 +35,20 @@ conflicts=(
     "${pkgname}"
 )
 sources=(
+    "${url}/archive/${pkgver}.tar.gz"
     "pritunl-cloud.service"
 )
 hashsums=(
+    "b50d5c036aa3c141e99af4eb67ce5628a5acf10c9b141dc94817765c010fdee9"
     "158dca955549ebdb7086f2b921b602a28f0335dd1c5a44de509d0b4710a20848"
 )
 
 build() {
-    go get github.com/pritunl/${pkgname}
+    mkdir -p /go/src/github.com/pritunl
+    mv "${srcdir}/${pkgname}-${pkgver}" /go/src/github.com/pritunl/${pkgname}
+    cd /go/src/github.com/pritunl/${pkgname}
+    go get
+    go install
 }
 
 package() {
