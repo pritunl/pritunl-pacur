@@ -12,7 +12,7 @@ targets=(
     "ubuntu-cosmic"
 )
 pkgname="pritunl-zero"
-pkgver="1.0.1015.21"
+pkgver="1.0.1091.35"
 pkgrel="1"
 pkgdesc="Pritunl Zero"
 pkgdesclong=(
@@ -48,12 +48,14 @@ conflicts=(
     "${pkgname}"
 )
 sources=(
+    "${url}/archive/${pkgver}.tar.gz"
     "pritunl-zero"
     "pritunl-zero.conf"
     "pritunl-zero.json"
     "pritunl-zero.service"
 )
 hashsums=(
+    "e2146a25df8f6f4bbff7d04e92fedacb70996020d12fabd29a4f15df4f44f746"
     "c40950a1c2ad80a8ff45b2af59a7948e8b542474a8caa3584160ae77b67b4b39"
     "6cb1b284ab49018a5b9afab6b5653f95447a376dcf578ba8277455dacdaaeeae"
     "a002d62b3cf2135b8115ce7ee775e814cac0b17ca73b25362998d7b494c824a3"
@@ -66,7 +68,11 @@ backup=(
 )
 
 build() {
-    go get github.com/pritunl/${pkgname}
+    mkdir -p /go/src/github.com/pritunl
+    mv "${srcdir}/${pkgname}-${pkgver}" /go/src/github.com/pritunl/${pkgname}
+    cd /go/src/github.com/pritunl/${pkgname}
+    go get
+    go install
 }
 
 package() {
