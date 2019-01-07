@@ -18,6 +18,7 @@ url="https://github.com/pritunl/${pkgname}"
 depends:yum=(
     "bridge-utils"
     "net-tools"
+    "ipset"
     "psmisc"
     "openssl"
     "qemu"
