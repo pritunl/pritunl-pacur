@@ -76,6 +76,7 @@ makedepends:pacman=(
     "openssl"
     "bridge-utils"
     "ca-certificates"
+    "psmisc"
     "gcc"
     "python2-setuptools"
     "python2-virtualenv"
@@ -232,6 +233,7 @@ build:pacman() {
         Server = https://repo.pritunl.com/stable/pacman
     EOF
 
+    pacman-key --init
     pacman-key --keyserver hkp://keyserver.ubuntu.com -r 7568D9BB55FF9E5287D586017AE645C0CF8E292A
     pacman-key --lsign-key 7568D9BB55FF9E5287D586017AE645C0CF8E292A
     pacman -Sy
