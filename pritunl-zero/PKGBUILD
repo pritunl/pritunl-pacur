@@ -118,3 +118,11 @@ package:amazonlinux-1() {
     touch ${pkgdir}/var/log/${pkgname}.log
     touch ${pkgdir}/var/log/${pkgname}.log.1
 }
+
+postinst() {
+    systemctl daemon-reload &> /dev/null || true
+}
+
+postrm() {
+    systemctl daemon-reload &> /dev/null || true
+}

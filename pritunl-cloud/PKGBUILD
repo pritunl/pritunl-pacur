@@ -63,3 +63,11 @@ package() {
     mkdir -p ${pkgdir}/etc/systemd/system
     cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
 }
+
+postinst() {
+    systemctl daemon-reload &> /dev/null || true
+}
+
+postrm() {
+    systemctl daemon-reload &> /dev/null || true
+}
