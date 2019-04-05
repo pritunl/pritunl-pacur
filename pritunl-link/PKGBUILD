@@ -9,7 +9,7 @@ targets=(
     "oraclelinux-7"
     "ubuntu-xenial"
     "ubuntu-bionic"
-    "ubuntu-cosmic"
+    "ubuntu-disco"
 )
 pkgname="pritunl-link"
 pkgver="1.0.942.75"
