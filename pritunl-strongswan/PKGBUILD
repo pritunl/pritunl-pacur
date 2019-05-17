@@ -9,7 +9,7 @@ targets=(
     "ubuntu-bionic"
 )
 pkgname="pritunl-strongswan"
-pkgver="5.7.1"
+pkgver="5.7.2"
 pkgrel="1"
 pkgdesc="Open Source IPsec Implementation"
 pkgdesclong=(
@@ -112,7 +112,7 @@ sources=(
     "${url}/strongswan-${pkgver}.tar.gz"
 )
 hashsums=(
-    "cdf58426e025514e8a90c377d603e755ee05d73a5c3ec54ae751e5f939aef30e"
+    "4cd2e4276023f0d9a88e29f6bd8323591d20a36da46d0bbb58faf8a300a62540"
 )
 
 build() {
