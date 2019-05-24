@@ -140,6 +140,7 @@ package:pacman() {
     mkdir -p ${pkgdir}/usr/bin
     mkdir -p ${pkgdir}/usr/lib
     mv build/linux/Pritunl-linux-x64 ${pkgdir}/usr/lib/pritunl_client_electron
+    chmod 4755 ${pkgdir}/usr/lib/pritunl_client_electron/chrome-sandbox
     ln -s /usr/lib/pritunl_client_electron/Pritunl ${pkgdir}/usr/bin/pritunl-client-electron
 
     cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-electron-service
@@ -165,6 +166,7 @@ package:yum() {
     mkdir -p ${pkgdir}/usr/bin
     mkdir -p ${pkgdir}/usr/lib
     mv build/linux/Pritunl-linux-x64 ${pkgdir}/usr/lib/pritunl_client_electron
+    chmod 4755 ${pkgdir}/usr/lib/pritunl_client_electron/chrome-sandbox
     ln -s /usr/lib/pritunl_client_electron/Pritunl ${pkgdir}/usr/bin/pritunl-client-electron
 
     cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-electron-service
@@ -190,6 +192,7 @@ package:apt() {
     mkdir -p ${pkgdir}/usr/bin
     mkdir -p ${pkgdir}/usr/lib
     mv build/linux/Pritunl-linux-x64 ${pkgdir}/usr/lib/pritunl_client_electron
+    chmod 4755 ${pkgdir}/usr/lib/pritunl_client_electron/chrome-sandbox
     ln -s /usr/lib/pritunl_client_electron/Pritunl ${pkgdir}/usr/bin/pritunl-client-electron
 
     cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-electron-service
