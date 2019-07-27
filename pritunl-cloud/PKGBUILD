@@ -66,6 +66,7 @@ package() {
 
 postinst() {
     systemctl daemon-reload &> /dev/null || true
+    systemctl restart pritunl-cloud &> /dev/null || true
 }
 
 postrm() {
