@@ -54,12 +54,15 @@ makedepends:pacman=(
     "iproute2"
     "openvpn"
     "npm"
+    "unzip"
 )
 makedepends:yum=(
     "GConf2"
+    "unzip"
 )
 makedepends:apt=(
     "libgconf-2-4"
+    "unzip"
 )
 provides=("${pkgname}")
 conflicts=("${pkgname}")
