@@ -4,6 +4,7 @@ targets=(
     "centos-7"
     "debian-jessie"
     "debian-stretch"
+    "debian-buster"
     "oraclelinux-7"
     "ubuntu-xenial"
     "ubuntu-bionic"
