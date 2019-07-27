@@ -119,6 +119,7 @@ package:amazonlinux-1() {
 
 postinst() {
     systemctl daemon-reload &> /dev/null || true
+    systemctl restart pritunl-zero &> /dev/null || true
 }
 
 postrm() {
