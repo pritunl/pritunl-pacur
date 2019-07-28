@@ -133,46 +133,9 @@ build:amazonlinux-2() {
     /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
     /usr/lib/${pkgname}/bin/python setup.py build
-    sed -i 's/jinja2.*/jinja2==2.8.1/g' requirements.txt
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
-    git config --global http.https://gopkg.in.followRedirects true
-    go get github.com/pritunl/pritunl-dns
-    go get github.com/pritunl/pritunl-web
-
-    cd "selinux"
-    ln -s /usr/share/selinux/devel/Makefile
-    make
-}
-build:fedora-29() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    python2 /usr/lib/python2.7/site-packages/virtualenv.py /usr/lib/${pkgname}
-    /usr/lib/${pkgname}/bin/pip install -U pip
-    /usr/lib/${pkgname}/bin/pip install -U packaging
-    /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools
-    /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
-    /usr/lib/${pkgname}/bin/python setup.py build
-    sed -i 's/jinja2.*/jinja2==2.8.1/g' requirements.txt
-    /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
-    git config --global http.https://gopkg.in.followRedirects true
-    go get github.com/pritunl/pritunl-dns
-    go get github.com/pritunl/pritunl-web
-
-    cd "selinux"
-    ln -s /usr/share/selinux/devel/Makefile
-    make
-}
-build:fedora() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv-2 /usr/lib/${pkgname}
-    /usr/lib/${pkgname}/bin/pip install -U pip
-    /usr/lib/${pkgname}/bin/pip install -U packaging
-    /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools
-    /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
-    /usr/lib/${pkgname}/bin/python setup.py build
-    sed -i 's/jinja2.*/jinja2==2.8.1/g' requirements.txt
-    /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncfilters.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncsupport.py
     git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
@@ -190,8 +153,9 @@ build:centos-7() {
     /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
     /usr/lib/${pkgname}/bin/python setup.py build
-    sed -i 's/jinja2.*/jinja2==2.8.1/g' requirements.txt
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncfilters.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncsupport.py
     git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
@@ -212,8 +176,9 @@ build:oraclelinux-7() {
     /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
     /usr/lib/${pkgname}/bin/python setup.py build
-    sed -i 's/jinja2.*/jinja2==2.8.1/g' requirements.txt
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncfilters.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncsupport.py
     git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
