@@ -1,6 +1,6 @@
 targets=(
-    "centos-7"
-    "oraclelinux-7"
+    "centos-8"
+    "oraclelinux-8"
 )
 pkgname="pritunl-cloud"
 pkgver="1.0.1213.83"

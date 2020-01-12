@@ -2,10 +2,12 @@ targets=(
     "archlinux"
     "amazonlinux-2"
     "centos-7"
+    "centos-8"
     "debian-jessie"
     "debian-stretch"
     "debian-buster"
     "oraclelinux-7"
+    "oraclelinux-8"
     "ubuntu-xenial"
     "ubuntu-bionic"
 )
