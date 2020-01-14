@@ -29,7 +29,6 @@ section="utils"
 priority="optional"
 url="https://github.com/pritunl/pritunl-client-electron"
 depends:pacman=(
-    "gconf"
     "libxss"
     "net-tools"
     "iproute2"
@@ -51,7 +50,6 @@ depends:apt=(
     "openvpn"
 )
 makedepends:pacman=(
-    "gconf"
     "libxss"
     "net-tools"
     "iproute2"
