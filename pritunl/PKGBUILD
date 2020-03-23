@@ -2,12 +2,10 @@ targets=(
     "archlinux"
     "amazonlinux-2"
     "centos-7"
-    "centos-8"
     "debian-jessie"
     "debian-stretch"
     "debian-buster"
     "oraclelinux-7"
-    "oraclelinux-8"
     "ubuntu-xenial"
     "ubuntu-bionic"
 )
@@ -127,7 +125,7 @@ build:amazonlinux-2() {
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U packaging
     /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools
+    /usr/lib/${pkgname}/bin/pip install -U setuptools==42.0.0
     /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
@@ -147,7 +145,7 @@ build:centos-7() {
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U packaging
     /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools
+    /usr/lib/${pkgname}/bin/pip install -U setuptools==42.0.0
     /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
@@ -170,7 +168,7 @@ build:oraclelinux-7() {
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U packaging
     /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools
+    /usr/lib/${pkgname}/bin/pip install -U setuptools==42.0.0
     /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
@@ -204,7 +202,7 @@ build:pacman() {
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U packaging
     /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools
+    /usr/lib/${pkgname}/bin/pip install -U setuptools==42.0.0
     /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
@@ -218,7 +216,7 @@ build:yum() {
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U packaging
     /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools
+    /usr/lib/${pkgname}/bin/pip install -U setuptools==42.0.0
     /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
@@ -236,7 +234,7 @@ build:apt() {
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U packaging
     /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools
+    /usr/lib/${pkgname}/bin/pip install -U setuptools==42.0.0
     /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
