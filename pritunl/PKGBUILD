@@ -137,6 +137,9 @@ build:amazonlinux-2() {
 
     cd "selinux"
     ln -s /usr/share/selinux/devel/Makefile
+    sed -i "s/1.0.0/${pkgver}/" pritunl.te
+    sed -i "s/1.0.0/${pkgver}/" pritunl_dns.te
+    sed -i "s/1.0.0/${pkgver}/" pritunl_web.te
     make
 }
 build:centos-7() {
@@ -226,6 +229,9 @@ build:yum() {
 
     cd "selinux"
     ln -s /usr/share/selinux/devel/Makefile
+    sed -i "s/1.0.0/${pkgver}/" pritunl.te
+    sed -i "s/1.0.0/${pkgver}/" pritunl_dns.te
+    sed -i "s/1.0.0/${pkgver}/" pritunl_web.te
     make
 }
 build:apt() {
