@@ -16,12 +16,12 @@ section="utils"
 priority="optional"
 url="https://github.com/pritunl/${pkgname}"
 depends:yum=(
+    "iptables"
     "net-tools"
     "usbutils"
     "ipset"
     "psmisc"
     "openssl"
-    "libguestfs-tools"
     "genisoimage"
 )
 
