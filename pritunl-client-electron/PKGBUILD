@@ -12,8 +12,8 @@ targets=(
     "oraclelinux-8"
     "ubuntu-xenial"
     "ubuntu-bionic"
-    "ubuntu-disco"
     "ubuntu-eoan"
+    "ubuntu-focal"
 )
 pkgname="pritunl-client-electron"
 pkgver="1.0.2079.9"
