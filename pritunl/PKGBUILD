@@ -8,6 +8,7 @@ targets=(
     "oraclelinux-7"
     "ubuntu-xenial"
     "ubuntu-bionic"
+    "ubuntu-focal"
 )
 pkgname="pritunl"
 pkgver="1.29.2051.18"
