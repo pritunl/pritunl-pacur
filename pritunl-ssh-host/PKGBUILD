@@ -40,6 +40,9 @@ depends:yum=(
 depends:apt=(
     "python3"
 )
+makedepends:pacman=(
+    "python"
+)
 provides=("${pkgname}")
 conflicts=("${pkgname}")
 sources=(
