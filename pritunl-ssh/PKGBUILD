@@ -29,16 +29,16 @@ section="utils"
 priority="optional"
 url="https://github.com/pritunl/pritunl-zero-client"
 depends:pacman=(
-    "python2"
+    "python3"
 )
 depends:fedora=(
-    "python2"
+    "python3"
 )
 depends:yum=(
-    "python"
+    "python3"
 )
 depends:apt=(
-    "python"
+    "python3"
 )
 provides=("${pkgname}")
 conflicts=("${pkgname}")
@@ -52,13 +52,11 @@ hashsums=(
 package:pacman() {
     cd "${srcdir}/pritunl-zero-client-${pkgver}"
     mkdir -p ${pkgdir}/usr/bin
-    sed -i -e 's|#!/usr/bin/env python|#!/usr/bin/env python2|g' ./ssh_client.py
     cp ./ssh_client.py ${pkgdir}/usr/bin/pritunl-ssh
 }
 package:fedora() {
     cd "${srcdir}/pritunl-zero-client-${pkgver}"
     mkdir -p ${pkgdir}/usr/bin
-    sed -i -e 's|#!/usr/bin/env python|#!/usr/bin/env python2|g' ./ssh_client.py
     cp ./ssh_client.py ${pkgdir}/usr/bin/pritunl-ssh
 }
 package:yum() {
