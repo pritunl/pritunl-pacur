@@ -29,7 +29,7 @@ section="utils"
 priority="optional"
 url="https://github.com/pritunl/pritunl-zero-client"
 depends:pacman=(
-    "python3"
+    "python"
 )
 depends:fedora=(
     "python3"
