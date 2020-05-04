@@ -35,10 +35,10 @@ depends:fedora=(
     "python3"
 )
 depends:yum=(
-    "python3"3
+    "python3"
 )
 depends:apt=(
-    "python"
+    "python3"
 )
 provides=("${pkgname}")
 conflicts=("${pkgname}")
