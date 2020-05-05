@@ -6,16 +6,18 @@ targets=(
     "debian-jessie"
     "debian-stretch"
     "debian-buster"
-    "fedora-30"
     "fedora-31"
+    "fedora-32"
     "oraclelinux-7"
     "oraclelinux-8"
     "ubuntu-xenial"
     "ubuntu-bionic"
     "ubuntu-disco"
+    "ubuntu-eoan"
+    "ubuntu-focal"
 )
 pkgname="pritunl-client-electron-numix-theme"
-pkgver="1.0.1804.90"
+pkgver="1.0.2418.61"
 pkgrel="1"
 pkgdesc="Pritunl OpenVPN Electron Client Numix Theme"
 pkgdesclong=(
@@ -33,7 +35,7 @@ sources=(
     "${url}/archive/${pkgver}.tar.gz"
 )
 hashsums=(
-    "4204aecc4d574dff0e93504813341177e734036d0f2f069c4b94b23c255d6a4f"
+    "f9d818d64694d5d9fbe8c273b804bf9d36ee95a44e973bc9767ce80049c0a2f5"
 )
 
 package:pacman() {
