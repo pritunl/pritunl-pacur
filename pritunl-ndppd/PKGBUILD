@@ -10,6 +10,7 @@ targets=(
     "oraclelinux-8"
     "ubuntu-xenial"
     "ubuntu-bionic"
+    "ubuntu-focal"
 )
 pkgname="pritunl-ndppd"
 pkgver="0.2.5"

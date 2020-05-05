@@ -10,6 +10,7 @@ targets=(
     "oraclelinux-8"
     "ubuntu-xenial"
     "ubuntu-bionic"
+    "ubuntu-focal"
 )
 pkgname="pritunl-link"
 pkgver="1.0.1270.7"
