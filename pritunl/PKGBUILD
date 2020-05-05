@@ -2,10 +2,12 @@ targets=(
     "archlinux"
     "amazonlinux-2"
     "centos-7"
+    "centos-8"
     "debian-jessie"
     "debian-stretch"
     "debian-buster"
     "oraclelinux-7"
+    "oraclelinux-8"
     "ubuntu-xenial"
     "ubuntu-bionic"
     "ubuntu-focal"
@@ -107,6 +109,26 @@ makedepends:yum=(
     "selinux-policy"
     "selinux-policy-devel"
     "policycoreutils-python"
+)
+makedepends:centos-8=(
+    "gcc"
+    "python2-setuptools"
+    "python2-virtualenv"
+    "openssl-devel"
+    "libffi-devel"
+    "selinux-policy"
+    "selinux-policy-devel"
+    "policycoreutils-python-utils"
+)
+makedepends:oraclelinux-8=(
+    "gcc"
+    "python2-setuptools"
+    "python2-virtualenv"
+    "openssl-devel"
+    "libffi-devel"
+    "selinux-policy"
+    "selinux-policy-devel"
+    "policycoreutils-python-utils"
 )
 makedepends:apt=(
     "gcc"
