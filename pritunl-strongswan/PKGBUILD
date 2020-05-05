@@ -56,6 +56,15 @@ depends:apt=(
     "openssl"
     "sqlite"
 )
+depends:ubuntu-focal=(
+    "curl"
+    "libgmp-dev"
+    "libgmp3-dev"
+    "net-tools"
+    "python2"
+    "openssl"
+    "sqlite"
+)
 
 makedepends:pacman=(
     "curl"
@@ -93,6 +102,22 @@ makedepends:apt=(
     "libgmp3-dev"
     "net-tools"
     "python"
+    "openssl"
+    "libssl-dev"
+    "sqlite"
+    "libsqlite3-dev"
+    "libcap-dev"
+    "libpam0g-dev"
+    "iptables-dev"
+    "pkg-config"
+)
+makedepends:ubuntu-focal=(
+    "curl"
+    "libcurl4-openssl-dev"
+    "libgmp-dev"
+    "libgmp3-dev"
+    "net-tools"
+    "python2"
     "openssl"
     "libssl-dev"
     "sqlite"
