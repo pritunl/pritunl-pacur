@@ -38,7 +38,6 @@ depends:pacman=(
 )
 depends:yum=(
     "curl"
-    "libcurl"
     "gmp"
     "net-tools"
     "python2"
@@ -79,7 +78,6 @@ makedepends:pacman=(
 )
 makedepends:yum=(
     "curl"
-    "libcurl"
     "libcurl-devel"
     "gmp"
     "gmp-devel"
@@ -124,7 +122,7 @@ makedepends:ubuntu-focal=(
     "libsqlite3-dev"
     "libcap-dev"
     "libpam0g-dev"
-    "iptables-dev"
+    "libip4tc-dev"
     "pkg-config"
 )
 provides=(
