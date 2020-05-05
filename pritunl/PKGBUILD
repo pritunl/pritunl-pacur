@@ -63,6 +63,15 @@ depends:apt=(
     "ca-certificates"
     "psmisc"
 )
+depends:ubuntu-focal=(
+    "pritunl-ndppd"
+    "python2"
+    "net-tools"
+    "openvpn"
+    "openssl"
+    "ca-certificates"
+    "psmisc"
+)
 makedepends:pacman=(
     "python2"
     "net-tools"
@@ -104,6 +113,14 @@ makedepends:apt=(
     "python-dev"
     "python-setuptools"
     "python-virtualenv"
+    "libssl-dev"
+    "libffi-dev"
+)
+makedepends:ubuntu-focal=(
+    "gcc"
+    "python2-dev"
+    "python2-setuptools"
+    "python2-virtualenv"
     "libssl-dev"
     "libffi-dev"
 )
