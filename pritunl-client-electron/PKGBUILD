@@ -33,6 +33,7 @@ depends:pacman=(
     "net-tools"
     "iproute2"
     "openvpn"
+    "icu"
 )
 depends:yum=(
     "GConf2"
@@ -56,6 +57,7 @@ makedepends:pacman=(
     "openvpn"
     "npm"
     "unzip"
+    "icu"
 )
 makedepends:yum=(
     "GConf2"
