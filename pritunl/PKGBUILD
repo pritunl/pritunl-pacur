@@ -161,7 +161,6 @@ backup=(
 
 build:amazonlinux-2() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    echo "rsa==4.0" >> requirements.txt
     virtualenv /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U packaging
@@ -184,7 +183,6 @@ build:amazonlinux-2() {
 }
 build:centos-7() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    echo "rsa==4.0" >> requirements.txt
     virtualenv /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U packaging
@@ -214,7 +212,6 @@ build:centos-7() {
 }
 build:oraclelinux-7() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    echo "rsa==4.0" >> requirements.txt
     virtualenv /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U packaging
@@ -244,7 +241,6 @@ build:oraclelinux-7() {
 }
 build:centos-8() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    echo "rsa==4.0" >> requirements.txt
     virtualenv-2 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U packaging
@@ -274,7 +270,6 @@ build:centos-8() {
 }
 build:oraclelinux-8() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    echo "rsa==4.0" >> requirements.txt
     virtualenv-2 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U packaging
@@ -315,7 +310,6 @@ build:pacman() {
     pacman -S --noconfirm pritunl-ndppd
 
     cd "${srcdir}/${pkgname}-${pkgver}"
-    echo "rsa==4.0" >> requirements.txt
     virtualenv2 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U packaging
@@ -330,7 +324,6 @@ build:pacman() {
 }
 build:yum() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    echo "rsa==4.0" >> requirements.txt
     virtualenv /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U packaging
@@ -352,7 +345,6 @@ build:yum() {
 }
 build:apt() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    echo "rsa==4.0" >> requirements.txt
     virtualenv /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U packaging
@@ -367,7 +359,6 @@ build:apt() {
 }
 build:ubuntu-focal() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    echo "rsa==4.0" >> requirements.txt
     virtualenv --python=/usr/bin/python2 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U packaging
