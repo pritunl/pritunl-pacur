@@ -171,6 +171,11 @@ build:amazonlinux-2() {
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
     rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/future/async_future.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/grpc_helpers_async.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operation_async.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operations_v1/operations_async_client.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/page_iterator_async.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/retry_async.py
     rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncfilters.py
     rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncsupport.py
     git config --global http.https://gopkg.in.followRedirects true
@@ -196,6 +201,11 @@ build:centos-7() {
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
     rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/future/async_future.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/grpc_helpers_async.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operation_async.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operations_v1/operations_async_client.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/page_iterator_async.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/retry_async.py
     rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncfilters.py
     rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncsupport.py
     git config --global http.https://gopkg.in.followRedirects true
@@ -221,6 +231,11 @@ build:oraclelinux-7() {
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
     rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/future/async_future.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/grpc_helpers_async.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operation_async.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operations_v1/operations_async_client.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/page_iterator_async.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/retry_async.py
     rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncfilters.py
     rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncsupport.py
     git config --global http.https://gopkg.in.followRedirects true
@@ -246,6 +261,11 @@ build:centos-8() {
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
     rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/future/async_future.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/grpc_helpers_async.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operation_async.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operations_v1/operations_async_client.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/page_iterator_async.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/retry_async.py
     rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncfilters.py
     rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncsupport.py
     git config --global http.https://gopkg.in.followRedirects true
@@ -271,6 +291,11 @@ build:oraclelinux-8() {
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
     rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/future/async_future.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/grpc_helpers_async.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operation_async.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operations_v1/operations_async_client.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/page_iterator_async.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/retry_async.py
     rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncfilters.py
     rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncsupport.py
     git config --global http.https://gopkg.in.followRedirects true
