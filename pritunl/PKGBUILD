@@ -181,13 +181,6 @@ build:amazonlinux-2() {
     git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
-
-    cd "selinux"
-    ln -s /usr/share/selinux/devel/Makefile
-    sed -i "s/1.0.0/${pkgver}/" pritunl.te
-    sed -i "s/1.0.0/${pkgver}/" pritunl_dns.te
-    sed -i "s/1.0.0/${pkgver}/" pritunl_web.te
-    make
 }
 build:centos-7() {
     cd "${srcdir}/${pkgname}-${pkgver}"
