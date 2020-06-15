@@ -399,6 +399,40 @@ package:centos-7() {
     cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
     cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
 }
+package:centos-8() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/var/lib/${pkgname}"
+    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
+    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}"
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
+    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
+    cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
+
+    mkdir -p "${pkgdir}/usr/share/selinux/packages"
+    cd "selinux8"
+    cp pritunl.pp ${pkgdir}/usr/share/selinux/packages/pritunl.pp
+    cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
+    cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
+}
+package:oraclelinux-8() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/var/lib/${pkgname}"
+    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
+    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}"
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
+    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
+    cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
+
+    mkdir -p "${pkgdir}/usr/share/selinux/packages"
+    cd "selinux8"
+    cp pritunl.pp ${pkgdir}/usr/share/selinux/packages/pritunl.pp
+    cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
+    cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
+}
 package:amazonlinux-2() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
