@@ -68,7 +68,10 @@ makedepends:apt=(
     "unzip"
 )
 provides=("${pkgname}")
-conflicts=("${pkgname}")
+conflicts=(
+  "${pkgname}"
+  "pritunl-client"
+)
 sources=(
     "${url}/archive/${pkgver}.tar.gz"
 )
@@ -84,6 +87,7 @@ build:pacman() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     cd service
     go get github.com/pritunl/pritunl-client-electron/service
+    go get github.com/pritunl/pritunl-client-electron/cli
 
     cd ../client
     npm install
@@ -92,13 +96,14 @@ build:pacman() {
     chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
 }
 build:yum() {
-    wget https://rpm.nodesource.com/setup_10.x
-    sh setup_10.x
+    wget https://rpm.nodesource.com/setup_12.x
+    sh setup_12.x
     yum -y install nodejs
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     cd service
     go get github.com/pritunl/pritunl-client-electron/service
+    go get github.com/pritunl/pritunl-client-electron/cli
 
     cd ../client
     npm install
@@ -120,13 +125,14 @@ build:yum() {
     rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mkdirp/bin/cmd.js
 }
 build:apt() {
-    wget https://deb.nodesource.com/setup_10.x
-    sh setup_10.x
+    wget https://deb.nodesource.com/setup_12.x
+    sh setup_12.x
     apt --assume-yes install nodejs
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     cd service
     go get github.com/pritunl/pritunl-client-electron/service
+    go get github.com/pritunl/pritunl-client-electron/cli
 
     cd ../client
     npm install
@@ -142,7 +148,7 @@ package:pacman() {
     cp resources_linux/pritunl-client-electron.desktop ${pkgdir}/usr/share/applications/pritunl-client-electron.desktop
 
     mkdir -p ${pkgdir}/etc/systemd/system
-    cp resources_linux/pritunl-client-electron.service ${pkgdir}/etc/systemd/system/pritunl-client-electron.service
+    cp resources_linux/pritunl-client.service ${pkgdir}/etc/systemd/system/pritunl-client.service
 
     mkdir -p ${pkgdir}/usr/bin
     mkdir -p ${pkgdir}/usr/lib
@@ -150,7 +156,8 @@ package:pacman() {
     chmod 4755 ${pkgdir}/usr/lib/pritunl_client_electron/chrome-sandbox
     ln -s /usr/lib/pritunl_client_electron/Pritunl ${pkgdir}/usr/bin/pritunl-client-electron
 
-    cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-electron-service
+    cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-service
+    cp /go/bin/cli ${pkgdir}/usr/bin/pritunl-client
 
     mkdir -p ${pkgdir}/usr/share/icons
     mv resources_linux/icons ${pkgdir}/usr/share/icons/hicolor
@@ -168,7 +175,7 @@ package:yum() {
     cp resources_linux/pritunl-client-electron.desktop ${pkgdir}/usr/share/applications/pritunl-client-electron.desktop
 
     mkdir -p ${pkgdir}/etc/systemd/system
-    cp resources_linux/pritunl-client-electron.service ${pkgdir}/etc/systemd/system/pritunl-client-electron.service
+    cp resources_linux/pritunl-client.service ${pkgdir}/etc/systemd/system/pritunl-client.service
 
     mkdir -p ${pkgdir}/usr/bin
     mkdir -p ${pkgdir}/usr/lib
@@ -176,7 +183,8 @@ package:yum() {
     chmod 4755 ${pkgdir}/usr/lib/pritunl_client_electron/chrome-sandbox
     ln -s /usr/lib/pritunl_client_electron/Pritunl ${pkgdir}/usr/bin/pritunl-client-electron
 
-    cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-electron-service
+    cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-service
+    cp /go/bin/cli ${pkgdir}/usr/bin/pritunl-client
 
     mkdir -p ${pkgdir}/usr/share/icons
     mv resources_linux/icons ${pkgdir}/usr/share/icons/hicolor
@@ -194,7 +202,7 @@ package:apt() {
     cp resources_linux/pritunl-client-electron.desktop ${pkgdir}/usr/share/applications/pritunl-client-electron.desktop
 
     mkdir -p ${pkgdir}/etc/systemd/system
-    cp resources_linux/pritunl-client-electron.service ${pkgdir}/etc/systemd/system/pritunl-client-electron.service
+    cp resources_linux/pritunl-client.service ${pkgdir}/etc/systemd/system/pritunl-client.service
 
     mkdir -p ${pkgdir}/usr/bin
     mkdir -p ${pkgdir}/usr/lib
@@ -202,7 +210,8 @@ package:apt() {
     chmod 4755 ${pkgdir}/usr/lib/pritunl_client_electron/chrome-sandbox
     ln -s /usr/lib/pritunl_client_electron/Pritunl ${pkgdir}/usr/bin/pritunl-client-electron
 
-    cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-electron-service
+    cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-service
+    cp /go/bin/cli ${pkgdir}/usr/bin/pritunl-client
 
     mkdir -p ${pkgdir}/usr/share/icons
     mv resources_linux/icons ${pkgdir}/usr/share/icons/hicolor
