@@ -6,19 +6,19 @@ targets=(
     "debian-jessie"
     "debian-stretch"
     "debian-buster"
-    "fedora-30"
     "fedora-31"
+    "fedora-32"
     "oraclelinux-7"
     "oraclelinux-8"
     "ubuntu-xenial"
     "ubuntu-bionic"
-    "ubuntu-disco"
     "ubuntu-eoan"
+    "ubuntu-focal"
 )
 pkgname="pritunl-client"
-pkgver="1.0.1865.25"
+pkgver="1.0.2079.9"
 pkgrel="1"
-pkgdesc="Pritunl OpenVPN Client"
+pkgdesc="Pritunl OpenVPN CLI Client"
 pkgdesclong=(
     "Free and open source cross platform OpenVPN client"
 )
@@ -27,138 +27,135 @@ arch="amd64"
 license=("custom")
 section="utils"
 priority="optional"
-url="https://github.com/pritunl/pritunl-client"
+url="https://github.com/pritunl/pritunl-client-electron"
 depends:pacman=(
-    "python2"
-    "python2-setuptools"
-    "python2-requests"
     "net-tools"
     "iproute2"
-    "openvpn"
-)
-depends:fedora=(
-    "python2"
-    "python2-setuptools"
-    "net-tools"
     "openvpn"
 )
 depends:yum=(
-    "python2"
-    "python-setuptools"
-    "net-tools"
-    "openvpn"
-)
-depends:apt=(
-    "python"
     "net-tools"
     "iptables"
     "openvpn"
-    "resolvconf"
+)
+depends:apt=(
+    "net-tools"
+    "iptables"
+    "openvpn"
 )
 makedepends:pacman=(
-    "python2"
-    "python2-setuptools"
-    "python2-requests"
     "net-tools"
     "iproute2"
     "openvpn"
-    "python2-distribute"
-)
-makedepends:fedora=(
-    "python2-setuptools"
-    "python2-virtualenv"
+    "npm"
+    "unzip"
 )
 makedepends:yum=(
-    "python-setuptools"
-    "python-virtualenv"
+    "unzip"
 )
 makedepends:apt=(
-    "python-dev"
-    "python-setuptools"
-    "python-virtualenv"
+    "unzip"
 )
 provides=("${pkgname}")
 conflicts=(
     "pritunl-client"
     "pritunl-client-gtk"
+    "pritunl-client-electron"
 )
 sources=(
     "${url}/archive/${pkgver}.tar.gz"
 )
 hashsums=(
-    "a777ac4c92e8faf8f3782c0628be791f5827d3422275a6c2e79287a63783d955"
+    "341992f60f38e5a6159422e0a0d898590b56ad1f663918351322981d02ad9fa2"
 )
 backup=(
-    "var/log/pritunl-client.log"
-    "var/log/pritunl-client.log.1"
+    "var/log/pritunl.log"
+    "var/log/pritunl.log.1"
 )
 
 build:pacman() {
-    cd "${srcdir}/pritunl-client-${pkgver}"
-    python2 setup.py build
-}
-build:fedora-29() {
-    cd "${srcdir}/pritunl-client-${pkgver}"
-    python2 setup.py build
-    python2 /usr/lib/python2.7/site-packages/virtualenv.py /usr/lib/pritunl-client
-    /usr/lib/pritunl-client/bin/pip install -r requirements.txt
-}
-build:fedora() {
-    cd "${srcdir}/pritunl-client-${pkgver}"
-    python2 setup.py build
-    virtualenv-2 /usr/lib/pritunl-client
-    /usr/lib/pritunl-client/bin/pip install -r requirements.txt
+    mkdir -p /go/src/github.com/pritunl
+    mv "${srcdir}/pritunl-client-electron-${pkgver}" /go/src/github.com/pritunl/pritunl-client-electron
+
+    cd /go/src/github.com/pritunl/pritunl-client-electron/service
+    go get
+    go install
+
+    cd /go/src/github.com/pritunl/pritunl-client-electron/cli
+    go get
+    go install
 }
 build:yum() {
-    cd "${srcdir}/pritunl-client-${pkgver}"
-    python setup.py build
-    virtualenv /usr/lib/pritunl-client
-    /usr/lib/pritunl-client/bin/pip install -r requirements.txt
+    mkdir -p /go/src/github.com/pritunl
+    mv "${srcdir}/pritunl-client-electron-${pkgver}" /go/src/github.com/pritunl/pritunl-client-electron
+
+    cd /go/src/github.com/pritunl/pritunl-client-electron/service
+    go get
+    go install
+
+    cd /go/src/github.com/pritunl/pritunl-client-electron/cli
+    go get
+    go install
 }
 build:apt() {
-    cd "${srcdir}/pritunl-client-${pkgver}"
-    python setup.py build
-    virtualenv /usr/lib/pritunl-client
-    /usr/lib/pritunl-client/bin/pip install -r requirements.txt
+    mkdir -p /go/src/github.com/pritunl
+    mv "${srcdir}/pritunl-client-electron-${pkgver}" /go/src/github.com/pritunl/pritunl-client-electron
+
+    cd /go/src/github.com/pritunl/pritunl-client-electron/service
+    go get
+    go install
+
+    cd /go/src/github.com/pritunl/pritunl-client-electron/cli
+    go get
+    go install
 }
 
 package:pacman() {
-    cd "${srcdir}/pritunl-client-${pkgver}"
-    mkdir -p "${pkgdir}/etc/pritunl_client"
-    python2 setup.py install --root="${pkgdir}" --prefix=/usr --no-upstart --no-gtk
+    mkdir -p ${pkgdir}/etc/systemd/system
+    cp resources_linux/pritunl-client.service ${pkgdir}/etc/systemd/system/pritunl-client.service
+
+    cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-service
+    cp /go/bin/cli ${pkgdir}/usr/bin/pritunl-client
+
+    mkdir -p ${pkgdir}/var/log
+    touch ${pkgdir}/var/log/pritunl.log
+    touch ${pkgdir}/var/log/pritunl.log.1
 }
 package:yum() {
-    cd "${srcdir}/pritunl-client-${pkgver}"
-    mkdir -p "${pkgdir}/usr/lib/pritunl-client"
-    /usr/lib/pritunl-client/bin/python2 setup.py install --root="${pkgdir}" --no-upstart --no-gtk
-    mkdir -p ${pkgdir}/usr/bin
-    ln -s /usr/lib/pritunl-client/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
-    cp -r /usr/lib/pritunl-client/* ${pkgdir}/usr/lib/pritunl-client/
+    mkdir -p ${pkgdir}/etc/systemd/system
+    cp resources_linux/pritunl-client.service ${pkgdir}/etc/systemd/system/pritunl-client.service
+
+    cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-service
+    cp /go/bin/cli ${pkgdir}/usr/bin/pritunl-client
+
+    mkdir -p ${pkgdir}/var/log
+    touch ${pkgdir}/var/log/pritunl.log
+    touch ${pkgdir}/var/log/pritunl.log.1
 }
 package:apt() {
-    cd "${srcdir}/pritunl-client-${pkgver}"
-    mkdir -p "${pkgdir}/usr/lib/pritunl-client"
-    /usr/lib/pritunl-client/bin/python setup.py install --root="${pkgdir}" --no-upstart --no-gtk
-    mkdir -p ${pkgdir}/usr/bin
-    ln -s /usr/lib/pritunl-client/bin/pritunl-client ${pkgdir}/usr/bin/pritunl-client
-    cp -r /usr/lib/pritunl-client/* ${pkgdir}/usr/lib/pritunl-client/
+    mkdir -p ${pkgdir}/etc/systemd/system
+    cp resources_linux/pritunl-client.service ${pkgdir}/etc/systemd/system/pritunl-client.service
+
+    cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-service
+    cp /go/bin/cli ${pkgdir}/usr/bin/pritunl-client
+
+    mkdir -p ${pkgdir}/var/log
+    touch ${pkgdir}/var/log/pritunl.log
+    touch ${pkgdir}/var/log/pritunl.log.1
 }
 
 postinst() {
     systemctl daemon-reload &> /dev/null || true
     systemctl restart pritunl-client &> /dev/null || true
     systemctl enable pritunl-client &> /dev/null || true
-    service pritunl-client restart &> /dev/null || true
-    restart pritunl-client &> /dev/null || true
 }
 
 prerm() {
     systemctl daemon-reload &> /dev/null || true
     systemctl stop pritunl-client &> /dev/null || true
     systemctl disable pritunl-client &> /dev/null || true
-    service pritunl-client stop &> /dev/null || true
 }
 
 postrm() {
-    rm -rf /etc/pritunl_client
+    systemctl daemon-reload &> /dev/null || true
 }
