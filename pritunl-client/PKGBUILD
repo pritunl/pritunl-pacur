@@ -116,6 +116,7 @@ package:pacman() {
     mkdir -p ${pkgdir}/etc/systemd/system
     cp resources_linux/pritunl-client.service ${pkgdir}/etc/systemd/system/pritunl-client.service
 
+    mkdir -p ${pkgdir}/usr/bin
     cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-service
     cp /go/bin/cli ${pkgdir}/usr/bin/pritunl-client
 
@@ -129,6 +130,7 @@ package:yum() {
     mkdir -p ${pkgdir}/etc/systemd/system
     cp resources_linux/pritunl-client.service ${pkgdir}/etc/systemd/system/pritunl-client.service
 
+    mkdir -p ${pkgdir}/usr/bin
     cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-service
     cp /go/bin/cli ${pkgdir}/usr/bin/pritunl-client
 
@@ -142,6 +144,7 @@ package:apt() {
     mkdir -p ${pkgdir}/etc/systemd/system
     cp resources_linux/pritunl-client.service ${pkgdir}/etc/systemd/system/pritunl-client.service
 
+    mkdir -p ${pkgdir}/usr/bin
     cp /go/bin/service ${pkgdir}/usr/bin/pritunl-client-service
     cp /go/bin/cli ${pkgdir}/usr/bin/pritunl-client
 
