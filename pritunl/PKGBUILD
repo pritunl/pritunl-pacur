@@ -177,6 +177,7 @@ build:amazonlinux-2() {
     rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/retry_async.py
     rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncfilters.py
     rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncsupport.py
+    rm /usr/lib/pritunl/lib/python2.7/site-packages/attr/_next_gen.py
     git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
