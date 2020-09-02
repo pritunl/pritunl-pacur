@@ -111,7 +111,7 @@ build:apt() {
 }
 
 package:pacman() {
-    cd "${srcdir}/pritunl-client-electron-${pkgver}"
+    cd /go/src/github.com/pritunl/pritunl-client-electron
 
     mkdir -p ${pkgdir}/etc/systemd/system
     cp resources_linux/pritunl-client.service ${pkgdir}/etc/systemd/system/pritunl-client.service
@@ -124,7 +124,7 @@ package:pacman() {
     touch ${pkgdir}/var/log/pritunl.log.1
 }
 package:yum() {
-    cd "${srcdir}/pritunl-client-electron-${pkgver}"
+    cd /go/src/github.com/pritunl/pritunl-client-electron
 
     mkdir -p ${pkgdir}/etc/systemd/system
     cp resources_linux/pritunl-client.service ${pkgdir}/etc/systemd/system/pritunl-client.service
@@ -137,7 +137,7 @@ package:yum() {
     touch ${pkgdir}/var/log/pritunl.log.1
 }
 package:apt() {
-    cd "${srcdir}/pritunl-client-electron-${pkgver}"
+    cd /go/src/github.com/pritunl/pritunl-client-electron
 
     mkdir -p ${pkgdir}/etc/systemd/system
     cp resources_linux/pritunl-client.service ${pkgdir}/etc/systemd/system/pritunl-client.service
