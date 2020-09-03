@@ -58,7 +58,7 @@ makedepends:apt=(
 )
 provides=("${pkgname}")
 conflicts=(
-    "pritunl-client"
+    "${pkgname}"
     "pritunl-client-gtk"
     "pritunl-client-electron"
 )
