@@ -224,9 +224,11 @@ package:apt() {
 }
 
 postinst() {
+    systemctl stop pritunl-client-electron &> /dev/null || true
+    systemctl disable pritunl-client-electron &> /dev/null || true
     systemctl daemon-reload &> /dev/null || true
-    systemctl restart pritunl-client-electron &> /dev/null || true
-    systemctl enable pritunl-client-electron &> /dev/null || true
+    systemctl restart pritunl-client &> /dev/null || true
+    systemctl enable pritunl-client &> /dev/null || true
     gtk-update-icon-cache -q -t -f /usr/share/icons/hicolor || true
     xdg-icon-resource forceupdate --theme hicolor &> /dev/null || true
     update-desktop-database -q || true
@@ -235,6 +237,8 @@ postinst() {
 prerm() {
     systemctl stop pritunl-client-electron &> /dev/null || true
     systemctl disable pritunl-client-electron &> /dev/null || true
+    systemctl stop pritunl-client &> /dev/null || true
+    systemctl disable pritunl-client &> /dev/null || true
 }
 
 postrm() {
