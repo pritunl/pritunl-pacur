@@ -42,6 +42,7 @@ depends:apt=(
     "net-tools"
     "iptables"
     "openvpn"
+    "resolvconf"
 )
 makedepends:pacman=(
     "net-tools"
