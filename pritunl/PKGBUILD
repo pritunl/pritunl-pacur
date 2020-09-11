@@ -395,8 +395,6 @@ package:centos-7() {
 }
 package:centos-8() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    rm -f "${pkgdir}/usr/lib/.build-id/e0/eb567d8bd452da7687fcc7e26d1287b2d3ab5b"
-    rm -f "${pkgdir}/usr/lib/.build-id/5b/5a8910373b5bc9a0a85f65e75121b333232c9d"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
     /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}"
@@ -414,8 +412,6 @@ package:centos-8() {
 }
 package:oraclelinux-8() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    rm -f "${pkgdir}/usr/lib/.build-id/e0/eb567d8bd452da7687fcc7e26d1287b2d3ab5b"
-    rm -f "${pkgdir}/usr/lib/.build-id/5b/5a8910373b5bc9a0a85f65e75121b333232c9d"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
     /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}"
