@@ -69,8 +69,8 @@ makedepends:apt=(
 )
 provides=("${pkgname}")
 conflicts=(
-  "${pkgname}"
-  "pritunl-client"
+    "${pkgname}"
+    "pritunl-client"
 )
 sources=(
     "${url}/archive/${pkgver}.tar.gz"
