@@ -6,7 +6,7 @@
 Icon?
 ehthumbs.db
 Thumbs.db
-*.pkg.tar.xz
+*.pkg.tar.zst
 *.rpm
 *.deb
 sign.key
