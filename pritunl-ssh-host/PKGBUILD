@@ -12,8 +12,8 @@ targets=(
     "oraclelinux-8"
     "ubuntu-xenial"
     "ubuntu-bionic"
-    "ubuntu-eoan"
     "ubuntu-focal"
+    "ubuntu-groovy"
 )
 pkgname="pritunl-ssh-host"
 pkgver="1.0.969.91"
