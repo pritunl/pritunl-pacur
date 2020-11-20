@@ -16,7 +16,7 @@ targets=(
     "ubuntu-groovy"
 )
 pkgname="pritunl-client-electron-numix-theme"
-pkgver="1.0.2418.61"
+pkgver="1.2.2626.63"
 pkgrel="1"
 pkgdesc="Pritunl OpenVPN Electron Client Numix Theme"
 pkgdesclong=(
@@ -34,7 +34,7 @@ sources=(
     "${url}/archive/${pkgver}.tar.gz"
 )
 hashsums=(
-    "f9d818d64694d5d9fbe8c273b804bf9d36ee95a44e973bc9767ce80049c0a2f5"
+    "7ce2ee434490d5a4090a36ddda8821e6581825f0c4325054281b9ff76221f67e"
 )
 
 package:pacman() {
