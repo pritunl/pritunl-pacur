@@ -95,8 +95,8 @@ build:pacman() {
     chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
 }
 build:yum() {
-    wget https://rpm.nodesource.com/setup_12.x
-    sh setup_12.x
+    wget https://rpm.nodesource.com/setup_15.x
+    sh setup_15.x
     yum -y install nodejs
 
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -124,8 +124,9 @@ build:yum() {
     rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mkdirp/bin/cmd.js
 }
 build:apt() {
-    wget https://deb.nodesource.com/setup_12.x
-    sh setup_12.x
+    wget --quiet -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+    wget https://deb.nodesource.com/setup_15.x
+    sh setup_15.x
     apt --assume-yes install nodejs
 
     cd "${srcdir}/${pkgname}-${pkgver}"
