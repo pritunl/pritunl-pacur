@@ -63,6 +63,12 @@ makedepends:yum=(
     "GConf2"
     "unzip"
 )
+makedepends:fedora=(
+    "GConf2"
+    "unzip"
+    "nodejs"
+    "npm"
+)
 makedepends:apt=(
     "libgconf-2-4"
     "unzip"
@@ -100,6 +106,31 @@ build:yum() {
     sh setup_15.x
     yum -y install nodejs
 
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    cd service
+    go get github.com/pritunl/pritunl-client-electron/service
+    go get github.com/pritunl/pritunl-client-electron/cli
+
+    cd ../client
+    npm install
+    ./node_modules/.bin/electron-rebuild
+    ./node_modules/.bin/electron-packager ./ Pritunl --platform=linux --arch=x64 --out=../build/linux
+    chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/info
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/travis-gh-pages
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/prepare-tests
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/delayed-call.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/delayed-require.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/difference.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/initial-value.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-verify
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-sign
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-conv
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mustache/bin/mustache
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/uuid/bin/uuid
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mkdirp/bin/cmd.js
+}
+build:fedora() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     cd service
     go get github.com/pritunl/pritunl-client-electron/service
