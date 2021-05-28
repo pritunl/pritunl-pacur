@@ -1,0 +1,9 @@
+[Unit]
+Description=Pritunl Endpoint Daemon
+
+[Service]
+LimitNOFILE=50000
+ExecStart=/usr/bin/pritunl-endpoint start
+
+[Install]
+WantedBy=multi-user.target
