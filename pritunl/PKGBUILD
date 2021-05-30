@@ -28,7 +28,7 @@ priority="optional"
 url="https://github.com/${pkgname}/${pkgname}"
 depends:pacman=(
     "pritunl-ndppd"
-    "python2"
+    "python3"
     "net-tools"
     "iproute2"
     "openvpn"
@@ -38,7 +38,7 @@ depends:pacman=(
 )
 depends:fedora=(
     "pritunl-ndppd"
-    "python2"
+    "python3"
     "net-tools"
     "openvpn"
     "openssl"
@@ -48,7 +48,7 @@ depends:fedora=(
 )
 depends:yum=(
     "pritunl-ndppd"
-    "python2"
+    "python3"
     "net-tools"
     "openvpn"
     "openssl"
@@ -58,7 +58,7 @@ depends:yum=(
 )
 depends:apt=(
     "pritunl-ndppd"
-    "python"
+    "python3"
     "net-tools"
     "openvpn"
     "openssl"
@@ -67,7 +67,7 @@ depends:apt=(
 )
 depends:ubuntu-focal=(
     "pritunl-ndppd"
-    "python2"
+    "python3"
     "net-tools"
     "openvpn"
     "openssl"
@@ -75,7 +75,7 @@ depends:ubuntu-focal=(
     "psmisc"
 )
 makedepends:pacman=(
-    "python2"
+    "python3"
     "net-tools"
     "iproute2"
     "openvpn"
@@ -83,17 +83,15 @@ makedepends:pacman=(
     "ca-certificates"
     "psmisc"
     "gcc"
-    "python2-distlib"
-    "python2-setuptools"
-    "python2-virtualenv"
-    "python2-cryptography"
+    "python3-setuptools"
+    "python3-virtualenv"
     "openssl"
     "libffi"
 )
 makedepends:fedora=(
     "gcc"
-    "python2-setuptools"
-    "python2-virtualenv"
+    "python3-setuptools"
+    "python3-virtualenv"
     "openssl-devel"
     "libffi-devel"
     "selinux-policy"
@@ -102,8 +100,8 @@ makedepends:fedora=(
 )
 makedepends:yum=(
     "gcc"
-    "python-setuptools"
-    "python-virtualenv"
+    "python3-setuptools"
+    "python3-virtualenv"
     "openssl-devel"
     "libffi-devel"
     "selinux-policy"
@@ -112,8 +110,8 @@ makedepends:yum=(
 )
 makedepends:centos-8=(
     "gcc"
-    "python2-setuptools"
-    "python2-virtualenv"
+    "python3-setuptools"
+    "python3-virtualenv"
     "openssl-devel"
     "libffi-devel"
     "selinux-policy"
@@ -122,8 +120,8 @@ makedepends:centos-8=(
 )
 makedepends:oraclelinux-8=(
     "gcc"
-    "python2-setuptools"
-    "python2-virtualenv"
+    "python3-setuptools"
+    "python3-virtualenv"
     "openssl-devel"
     "libffi-devel"
     "selinux-policy"
@@ -132,15 +130,15 @@ makedepends:oraclelinux-8=(
 )
 makedepends:apt=(
     "gcc"
-    "python-dev"
-    "python-setuptools"
-    "python-virtualenv"
+    "python3-dev"
+    "python3-setuptools"
+    "python3-virtualenv"
     "libssl-dev"
     "libffi-dev"
 )
 makedepends:ubuntu-focal=(
     "gcc"
-    "python2-dev"
+    "python3-dev"
     "virtualenv"
     "libssl-dev"
     "libffi-dev"
@@ -161,46 +159,24 @@ backup=(
 
 build:amazonlinux-2() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv /usr/lib/${pkgname}
+    virtualenv-3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
-    /usr/lib/${pkgname}/bin/pip install -U packaging
-    /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools==42.0.0
-    /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
+    /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/future/async_future.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/grpc_helpers_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operation_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operations_v1/operations_async_client.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/page_iterator_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/retry_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncfilters.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncsupport.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/attr/_next_gen.py
+
     git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
 }
 build:centos-7() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv /usr/lib/${pkgname}
+    virtualenv-3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
-    /usr/lib/${pkgname}/bin/pip install -U packaging
-    /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools==42.0.0
-    /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
+    /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/future/async_future.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/grpc_helpers_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operation_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operations_v1/operations_async_client.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/page_iterator_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/retry_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncfilters.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncsupport.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/attr/_next_gen.py
+
     git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
@@ -214,23 +190,12 @@ build:centos-7() {
 }
 build:oraclelinux-7() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv /usr/lib/${pkgname}
+    virtualenv-3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
-    /usr/lib/${pkgname}/bin/pip install -U packaging
-    /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools==42.0.0
-    /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
+    /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/future/async_future.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/grpc_helpers_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operation_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operations_v1/operations_async_client.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/page_iterator_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/retry_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncfilters.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncsupport.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/attr/_next_gen.py
+
     git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
@@ -244,22 +209,12 @@ build:oraclelinux-7() {
 }
 build:centos-8() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv-2 /usr/lib/${pkgname}
+    virtualenv-3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
-    /usr/lib/${pkgname}/bin/pip install -U packaging
-    /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools==42.0.0
-    /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
+    /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/future/async_future.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/grpc_helpers_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operation_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operations_v1/operations_async_client.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/page_iterator_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/retry_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncfilters.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncsupport.py
+
     git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
@@ -273,22 +228,12 @@ build:centos-8() {
 }
 build:oraclelinux-8() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv-2 /usr/lib/${pkgname}
+    virtualenv-3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
-    /usr/lib/${pkgname}/bin/pip install -U packaging
-    /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools==42.0.0
-    /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
+    /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/future/async_future.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/grpc_helpers_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operation_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/operations_v1/operations_async_client.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/page_iterator_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/google/api_core/retry_async.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncfilters.py
-    rm /usr/lib/pritunl/lib/python2.7/site-packages/jinja2/asyncsupport.py
+
     git config --global http.https://gopkg.in.followRedirects true
     go get github.com/pritunl/pritunl-dns
     go get github.com/pritunl/pritunl-web
@@ -313,12 +258,9 @@ build:pacman() {
     pacman -S --noconfirm pritunl-ndppd
 
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv2 /usr/lib/${pkgname}
+    virtualenv-3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
-    /usr/lib/${pkgname}/bin/pip install -U packaging
-    /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools==42.0.0
-    /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
+    /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
     git config --global http.https://gopkg.in.followRedirects true
@@ -327,12 +269,9 @@ build:pacman() {
 }
 build:yum() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv /usr/lib/${pkgname}
+    virtualenv-3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
-    /usr/lib/${pkgname}/bin/pip install -U packaging
-    /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools==42.0.0
-    /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
+    /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
     git config --global http.https://gopkg.in.followRedirects true
@@ -348,12 +287,9 @@ build:yum() {
 }
 build:apt() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv /usr/lib/${pkgname}
+    virtualenv-3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
-    /usr/lib/${pkgname}/bin/pip install -U packaging
-    /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools==42.0.0
-    /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
+    /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
     git config --global http.https://gopkg.in.followRedirects true
@@ -362,12 +298,9 @@ build:apt() {
 }
 build:ubuntu-focal() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv --python=/usr/bin/python2 /usr/lib/${pkgname}
+    virtualenv-3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
-    /usr/lib/${pkgname}/bin/pip install -U packaging
-    /usr/lib/${pkgname}/bin/pip install -U six
-    /usr/lib/${pkgname}/bin/pip install -U setuptools==42.0.0
-    /usr/lib/${pkgname}/bin/pip install -U setuptools_scm
+    /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
     /usr/lib/${pkgname}/bin/pip install -U -r requirements.txt
     git config --global http.https://gopkg.in.followRedirects true
@@ -379,7 +312,7 @@ package:centos-7() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}" --upstart
+    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}" --upstart
     rm -r ${pkgdir}/etc/init.d
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
@@ -397,7 +330,7 @@ package:centos-8() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}"
+    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
@@ -414,7 +347,7 @@ package:oraclelinux-8() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}"
+    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
@@ -431,7 +364,7 @@ package:amazonlinux-2() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}"
+    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
@@ -442,7 +375,7 @@ package:pacman() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}"
+    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
@@ -453,7 +386,7 @@ package:yum() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/bin/python2 setup.py install --root="${pkgdir}"
+    /usr/lib/${pkgname}/bin/python setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     cp -r /usr/lib/${pkgname}/* ${pkgdir}/usr/lib/${pkgname}/
@@ -513,8 +446,8 @@ postinst:yum() {
     restorecon -v /usr/lib/systemd/system/pritunl.service &> /dev/null || true
     restorecon -v /usr/lib/pritunl/bin/pritunl || true
     restorecon -v /usr/lib/pritunl/bin/python || true
-    restorecon -v /usr/lib/pritunl/bin/python2 &> /dev/null || true
-    restorecon -v /usr/lib/pritunl/bin/python2.7 &> /dev/null || true
+    restorecon -v /usr/lib/pritunl/bin/python3 &> /dev/null || true
+    restorecon -v /usr/lib/pritunl/bin/python3.6 &> /dev/null || true
     restorecon -v /usr/bin/pritunl-web || true
     restorecon -v /usr/bin/pritunl-dns || true
     restorecon -v -R /var/lib/pritunl &> /dev/null || true
