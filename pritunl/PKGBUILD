@@ -159,7 +159,7 @@ backup=(
 
 build:amazonlinux-2() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv-3 /usr/lib/${pkgname}
+    virtualenv --python=python3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
@@ -171,7 +171,7 @@ build:amazonlinux-2() {
 }
 build:centos-7() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv-3 /usr/lib/${pkgname}
+    virtualenv --python=python3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
@@ -190,7 +190,7 @@ build:centos-7() {
 }
 build:oraclelinux-7() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv-3 /usr/lib/${pkgname}
+    virtualenv --python=python3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
@@ -209,7 +209,7 @@ build:oraclelinux-7() {
 }
 build:centos-8() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv-3 /usr/lib/${pkgname}
+    virtualenv --python=python3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
@@ -228,7 +228,7 @@ build:centos-8() {
 }
 build:oraclelinux-8() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv-3 /usr/lib/${pkgname}
+    virtualenv --python=python3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
@@ -258,7 +258,7 @@ build:pacman() {
     pacman -S --noconfirm pritunl-ndppd
 
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv-3 /usr/lib/${pkgname}
+    virtualenv --python=python3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
@@ -269,7 +269,7 @@ build:pacman() {
 }
 build:yum() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv-3 /usr/lib/${pkgname}
+    virtualenv --python=python3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
@@ -287,7 +287,7 @@ build:yum() {
 }
 build:apt() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv-3 /usr/lib/${pkgname}
+    virtualenv --python=python3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
@@ -298,7 +298,7 @@ build:apt() {
 }
 build:ubuntu-focal() {
     cd "${srcdir}/${pkgname}-${pkgver}"
-    virtualenv-3 /usr/lib/${pkgname}
+    virtualenv --python=python3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U setuptools
     /usr/lib/${pkgname}/bin/python setup.py build
