@@ -51,6 +51,7 @@ depends:apt=(
     "openvpn"
 )
 makedepends:pacman=(
+    "python3"
     "libxss"
     "net-tools"
     "iproute2"
