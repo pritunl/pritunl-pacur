@@ -60,16 +60,19 @@ makedepends:pacman=(
     "icu"
 )
 makedepends:yum=(
+    "python3"
     "GConf2"
     "unzip"
 )
 makedepends:fedora=(
+    "python3"
     "GConf2"
     "unzip"
     "nodejs"
     "npm"
 )
 makedepends:apt=(
+    "python3"
     "libgconf-2-4"
     "unzip"
 )
