@@ -13,7 +13,7 @@ targets=(
     "ubuntu-xenial"
     "ubuntu-bionic"
     "ubuntu-focal"
-    "ubuntu-groovy"
+    "ubuntu-hirsute"
 )
 pkgname="pritunl-ssh"
 pkgver="1.0.969.91"
