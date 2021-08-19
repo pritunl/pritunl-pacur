@@ -1,0 +1,1 @@
+sudo pacur project repo
