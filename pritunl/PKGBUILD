@@ -428,6 +428,7 @@ package:apt() {
 }
 
 postinst() {
+    rm -rf /usr/lib/pritunl/lib/python3.6/site-packages/pritunl-1.30.2944.96-py3.6.egg-info || true
     if hash systemctl 2> /dev/null; then
         systemctl daemon-reload 2> /dev/null || true
     fi
@@ -437,6 +438,7 @@ postinst() {
 }
 
 postinst:yum() {
+    rm -rf /usr/lib/pritunl/lib/python3.6/site-packages/pritunl-1.30.2944.96-py3.6.egg-info || true
     if hash systemctl 2> /dev/null; then
         systemctl daemon-reload 2> /dev/null || true
     fi
