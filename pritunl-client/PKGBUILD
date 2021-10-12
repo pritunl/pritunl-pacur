@@ -70,8 +70,8 @@ hashsums=(
     "341992f60f38e5a6159422e0a0d898590b56ad1f663918351322981d02ad9fa2"
 )
 backup=(
-    "var/log/pritunl.log"
-    "var/log/pritunl.log.1"
+    "var/log/pritunl-client.log"
+    "var/log/pritunl-client.log.1"
 )
 
 build:pacman() {
