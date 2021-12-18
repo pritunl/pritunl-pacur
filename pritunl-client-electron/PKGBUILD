@@ -1,14 +1,11 @@
 targets=(
     "archlinux"
     "amazonlinux-2"
-    "centos-7"
     "centos-8"
-    "debian-stretch"
     "debian-buster"
     "debian-bullseye"
     "fedora-34"
     "fedora-35"
-    "oraclelinux-7"
     "oraclelinux-8"
     "ubuntu-xenial"
     "ubuntu-bionic"
@@ -106,8 +103,8 @@ build:pacman() {
     chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
 }
 build:yum() {
-    wget https://rpm.nodesource.com/setup_17.x
-    sh setup_17.x
+    wget https://rpm.nodesource.com/setup_lts.x
+    sh setup_lts.x
     yum -y install nodejs
 
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -161,8 +158,8 @@ build:fedora() {
 }
 build:apt() {
     wget --quiet -O - https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
-    wget https://deb.nodesource.com/setup_17.x
-    sh setup_17.x
+    wget https://deb.nodesource.com/setup_lts.x
+    sh setup_lts.x
     apt --assume-yes install nodejs
 
     cd "${srcdir}/${pkgname}-${pkgver}"
