@@ -201,8 +201,8 @@ package:pacman() {
     find ${pkgdir}/usr/share/icons -type f -exec chmod 644 {} \;
 
     mkdir -p ${pkgdir}/var/log
-    touch ${pkgdir}/var/log/pritunl.log
-    touch ${pkgdir}/var/log/pritunl.log.1
+    touch ${pkgdir}/var/log/pritunl-client.log
+    touch ${pkgdir}/var/log/pritunl-client.log.1
 }
 package:yum() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -228,8 +228,8 @@ package:yum() {
     find ${pkgdir}/usr/share/icons -type f -exec chmod 644 {} \;
 
     mkdir -p ${pkgdir}/var/log
-    touch ${pkgdir}/var/log/pritunl.log
-    touch ${pkgdir}/var/log/pritunl.log.1
+    touch ${pkgdir}/var/log/pritunl-client.log
+    touch ${pkgdir}/var/log/pritunl-client.log.1
 }
 package:apt() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -255,8 +255,8 @@ package:apt() {
     find ${pkgdir}/usr/share/icons -type f -exec chmod 644 {} \;
 
     mkdir -p ${pkgdir}/var/log
-    touch ${pkgdir}/var/log/pritunl.log
-    touch ${pkgdir}/var/log/pritunl.log.1
+    touch ${pkgdir}/var/log/pritunl-client.log
+    touch ${pkgdir}/var/log/pritunl-client.log.1
 }
 
 postinst() {

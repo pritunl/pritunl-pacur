@@ -122,8 +122,8 @@ package:pacman() {
     cp /go/bin/cli ${pkgdir}/usr/bin/pritunl-client
 
     mkdir -p ${pkgdir}/var/log
-    touch ${pkgdir}/var/log/pritunl.log
-    touch ${pkgdir}/var/log/pritunl.log.1
+    touch ${pkgdir}/var/log/pritunl-client.log
+    touch ${pkgdir}/var/log/pritunl-client.log.1
 }
 package:yum() {
     cd /go/src/github.com/pritunl/pritunl-client-electron
@@ -136,8 +136,8 @@ package:yum() {
     cp /go/bin/cli ${pkgdir}/usr/bin/pritunl-client
 
     mkdir -p ${pkgdir}/var/log
-    touch ${pkgdir}/var/log/pritunl.log
-    touch ${pkgdir}/var/log/pritunl.log.1
+    touch ${pkgdir}/var/log/pritunl-client.log
+    touch ${pkgdir}/var/log/pritunl-client.log.1
 }
 package:apt() {
     cd /go/src/github.com/pritunl/pritunl-client-electron
@@ -150,8 +150,8 @@ package:apt() {
     cp /go/bin/cli ${pkgdir}/usr/bin/pritunl-client
 
     mkdir -p ${pkgdir}/var/log
-    touch ${pkgdir}/var/log/pritunl.log
-    touch ${pkgdir}/var/log/pritunl.log.1
+    touch ${pkgdir}/var/log/pritunl-client.log
+    touch ${pkgdir}/var/log/pritunl-client.log.1
 }
 
 postinst() {
