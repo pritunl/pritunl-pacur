@@ -50,18 +50,24 @@ conflicts=(
     "${pkgname}"
 )
 sources=(
+    "${url}/archive/${pkgver}.tar.gz"
     "pritunl-link"
     "pritunl-link.conf"
     "pritunl-link.service"
 )
 hashsums=(
+    "6f255cdc47344aa176cb26dd5b6fc6567f97f9c2fbdfe7b89ac160110c3a338d"
     "c40950a1c2ad80a8ff45b2af59a7948e8b542474a8caa3584160ae77b67b4b39"
     "3b7a86bc48ad1b1ec3987875163fab6b379ff9a16d6243a6ee78768a9b2038ca"
     "f9affcf6c4926fe848ff383a3a33ba31af44ff8e141ae2190f282bcbdac7a56a"
 )
 
 build() {
-    go get github.com/pritunl/${pkgname}
+    mkdir -p /go/src/github.com/pritunl
+    mv "${srcdir}/${pkgname}-${pkgver}" /go/src/github.com/pritunl/${pkgname}
+    cd /go/src/github.com/pritunl/${pkgname}
+    go get
+    go install
 }
 build:pacman() {
     tee -a /etc/pacman.conf << EOF
