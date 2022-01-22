@@ -3,12 +3,10 @@ targets=(
     "amazonlinux-2"
     "centos-7"
     "centos-8"
-    "debian-stretch"
     "debian-buster"
     "debian-bullseye"
     "oraclelinux-7"
     "oraclelinux-8"
-    "ubuntu-xenial"
     "ubuntu-bionic"
     "ubuntu-focal"
 )
