@@ -31,6 +31,8 @@ depends:pacman=(
     "iproute2"
     "openvpn"
     "openssl"
+    "iptables"
+    "ipset"
     "ca-certificates"
     "psmisc"
 )
@@ -41,6 +43,7 @@ depends:fedora=(
     "openvpn"
     "openssl"
     "iptables"
+    "ipset"
     "ca-certificates"
     "psmisc"
 )
@@ -51,6 +54,7 @@ depends:yum=(
     "openvpn"
     "openssl"
     "iptables"
+    "ipset"
     "ca-certificates"
     "psmisc"
 )
@@ -61,6 +65,8 @@ depends:apt=(
     "net-tools"
     "openvpn"
     "openssl"
+    "iptables"
+    "ipset"
     "ca-certificates"
     "psmisc"
 )
