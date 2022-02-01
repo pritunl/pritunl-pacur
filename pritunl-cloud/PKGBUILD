@@ -1,5 +1,4 @@
 targets=(
-    "centos-8"
     "oraclelinux-8"
 )
 pkgname="pritunl-cloud"
@@ -63,7 +62,7 @@ package() {
 
 postinst() {
     systemctl daemon-reload &> /dev/null || true
-    systemctl is-active --quiet pritunl-zero && systemctl restart pritunl-cloud || true
+    systemctl is-active --quiet pritunl-cloud && systemctl restart pritunl-cloud || true
 }
 
 postrm() {
