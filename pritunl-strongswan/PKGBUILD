@@ -12,7 +12,7 @@ targets=(
     "ubuntu-focal"
 )
 pkgname="pritunl-strongswan"
-pkgver="5.9.3"
+pkgver="5.9.5"
 pkgrel="1"
 pkgdesc="Open Source IPsec Implementation"
 pkgdesclong=(
@@ -138,7 +138,7 @@ sources=(
     "${url}/strongswan-${pkgver}.tar.gz"
 )
 hashsums=(
-    "594aca4e7634aa81c126dd3006e72440a24a988e01d3823a4862c2720f3ded87"
+    "6db028c9033dfd7cab578ca7e4b0075922cffec7af8bffc7d67cac67f348a5be"
 )
 
 build() {
