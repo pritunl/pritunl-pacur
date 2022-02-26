@@ -1,5 +1,6 @@
 targets=(
     "oraclelinux-8"
+    "ubuntu-focal"
 )
 pkgname="pritunl-cloud"
 pkgver="1.0.1213.83"
@@ -23,8 +24,19 @@ depends:yum=(
     "openssl"
     "genisoimage"
 )
+depends:apt=(
+    "iptables"
+    "net-tools"
+    "usbutils"
+    "ipset"
+    "openssl"
+    "genisoimage"
+)
 
 makedepends:yum=(
+    "git"
+)
+makedepends:apt=(
     "git"
 )
 provides=("${pkgname}")
