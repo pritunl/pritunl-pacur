@@ -1,7 +1,6 @@
 targets=(
     "archlinux"
     "amazonlinux-2"
-    "centos-8"
     "debian-buster"
     "debian-bullseye"
     "fedora-34"

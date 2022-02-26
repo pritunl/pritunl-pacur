@@ -2,7 +2,6 @@ targets=(
     "archlinux"
     "amazonlinux-2"
     "centos-7"
-    "centos-8"
     "debian-stretch"
     "debian-buster"
     "debian-bullseye"
