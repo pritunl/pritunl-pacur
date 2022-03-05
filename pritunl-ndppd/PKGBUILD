@@ -35,7 +35,7 @@ conflicts=(
     "ndppd"
 )
 sources=(
-    "${url}/archive/${pkgver}.tar.gz"
+    "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
     "ee934167f8357f0bd0015e201a77fbe4d028c59e89dc98113805c6855e1c3992"

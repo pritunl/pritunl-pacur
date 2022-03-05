@@ -44,7 +44,7 @@ conflicts=(
     "${pkgname}"
 )
 sources=(
-    "${url}/archive/${pkgver}.tar.gz"
+    "${url}/archive/refs/tags/${pkgver}.tar.gz"
     "pritunl-cloud.service"
 )
 hashsums=(

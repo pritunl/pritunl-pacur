@@ -45,7 +45,7 @@ makedepends:pacman=(
 provides=("${pkgname}")
 conflicts=("${pkgname}")
 sources=(
-    "${url}/archive/${pkgver}.tar.gz"
+    "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
     "9b8e8258053eaae08ef4f0a153968b6a479e562bfa4aec0f8a4c11b38b05bd43"

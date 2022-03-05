@@ -179,7 +179,7 @@ makedepends:ubuntu-bionic=(
 provides=("${pkgname}")
 conflicts=("${pkgname}")
 sources=(
-    "${url}/archive/${pkgver}.tar.gz"
+    "${url}/archive/refs/tags/${pkgver}.tar.gz"
     "cacert.pem"
 )
 hashsums=(

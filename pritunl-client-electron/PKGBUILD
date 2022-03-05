@@ -79,7 +79,7 @@ conflicts=(
     "pritunl-client"
 )
 sources=(
-    "${url}/archive/${pkgver}.tar.gz"
+    "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
     "341992f60f38e5a6159422e0a0d898590b56ad1f663918351322981d02ad9fa2"
