@@ -34,6 +34,7 @@ depends:pacman=(
     "ipset"
     "ca-certificates"
     "psmisc"
+    "libffi"
 )
 depends:fedora=(
     "pritunl-ndppd"
@@ -45,6 +46,7 @@ depends:fedora=(
     "ipset"
     "ca-certificates"
     "psmisc"
+    "libffi"
 )
 depends:yum=(
     "pritunl-ndppd"
@@ -56,6 +58,7 @@ depends:yum=(
     "ipset"
     "ca-certificates"
     "psmisc"
+    "libffi"
 )
 depends:apt=(
     "pritunl-ndppd"
@@ -68,6 +71,7 @@ depends:apt=(
     "ipset"
     "ca-certificates"
     "psmisc"
+    "libffi"
 )
 makedepends:pacman=(
     "python3"
