@@ -80,7 +80,11 @@ build:pacman() {
     pacman -Sy
     pacman -S --noconfirm pritunl-strongswan
 
-    go get github.com/pritunl/${pkgname}
+    mkdir -p /go/src/github.com/pritunl
+    mv "${srcdir}/${pkgname}-${pkgver}" /go/src/github.com/pritunl/${pkgname}
+    cd /go/src/github.com/pritunl/${pkgname}
+    go get
+    go install
 }
 
 package() {
