@@ -91,9 +91,14 @@ backup=(
 
 build:pacman() {
     cd "${srcdir}/${pkgname}-${pkgver}"
+
     cd service
-    go get github.com/pritunl/pritunl-client-electron/service
-    go get github.com/pritunl/pritunl-client-electron/cli
+    go get -u
+    go build -v
+
+    cd ../cli
+    go get -u
+    go build -v
 
     cd ../client
     npm install
@@ -108,8 +113,12 @@ build:yum() {
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     cd service
-    go get github.com/pritunl/pritunl-client-electron/service
-    go get github.com/pritunl/pritunl-client-electron/cli
+    go get -u
+    go build -v
+
+    cd ../cli
+    go get -u
+    go build -v
 
     cd ../client
     npm install
@@ -132,9 +141,14 @@ build:yum() {
 }
 build:fedora() {
     cd "${srcdir}/${pkgname}-${pkgver}"
+
     cd service
-    go get github.com/pritunl/pritunl-client-electron/service
-    go get github.com/pritunl/pritunl-client-electron/cli
+    go get -u
+    go build -v
+
+    cd ../cli
+    go get -u
+    go build -v
 
     cd ../client
     npm install
@@ -162,9 +176,14 @@ build:apt() {
     apt --assume-yes install nodejs
 
     cd "${srcdir}/${pkgname}-${pkgver}"
+
     cd service
-    go get github.com/pritunl/pritunl-client-electron/service
-    go get github.com/pritunl/pritunl-client-electron/cli
+    go get -u
+    go build -v
+
+    cd ../cli
+    go get -u
+    go build -v
 
     cd ../client
     npm install
