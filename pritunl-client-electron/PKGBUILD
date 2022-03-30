@@ -93,12 +93,12 @@ build:pacman() {
     cd "${srcdir}/${pkgname}-${pkgver}"
 
     cd service
-    go get -u
-    go build -v
+    /usr/local/go/bin/go get -u
+    /usr/local/go/bin/go build -v
 
     cd ../cli
-    go get -u
-    go build -v
+    /usr/local/go/bin/go get -u
+    /usr/local/go/bin/go build -v
 
     cd ../client
     npm install

@@ -78,36 +78,36 @@ build:pacman() {
     mv "${srcdir}/pritunl-client-electron-${pkgver}" /go/src/github.com/pritunl/pritunl-client-electron
 
     cd /go/src/github.com/pritunl/pritunl-client-electron/service
-    go get
-    go install
+    go get -u
+    go build -v
 
     cd /go/src/github.com/pritunl/pritunl-client-electron/cli
-    go get
-    go install
+    go get -u
+    go build -v
 }
 build:yum() {
     mkdir -p /go/src/github.com/pritunl
     mv "${srcdir}/pritunl-client-electron-${pkgver}" /go/src/github.com/pritunl/pritunl-client-electron
 
     cd /go/src/github.com/pritunl/pritunl-client-electron/service
-    go get
-    go install
+    go get -u
+    go build -v
 
     cd /go/src/github.com/pritunl/pritunl-client-electron/cli
-    go get
-    go install
+    go get -u
+    go build -v
 }
 build:apt() {
     mkdir -p /go/src/github.com/pritunl
     mv "${srcdir}/pritunl-client-electron-${pkgver}" /go/src/github.com/pritunl/pritunl-client-electron
 
     cd /go/src/github.com/pritunl/pritunl-client-electron/service
-    go get
-    go install
+    go get -u
+    go build -v
 
     cd /go/src/github.com/pritunl/pritunl-client-electron/cli
-    go get
-    go install
+    go get -u
+    go build -v
 }
 
 package:pacman() {
