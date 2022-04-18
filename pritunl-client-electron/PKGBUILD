@@ -10,6 +10,7 @@ targets=(
     "ubuntu-bionic"
     "ubuntu-focal"
     "ubuntu-impish"
+    "ubuntu-jammy"
 )
 pkgname="pritunl-client-electron"
 pkgver="1.0.2079.9"
