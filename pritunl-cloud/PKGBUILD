@@ -3,7 +3,7 @@ targets=(
     "ubuntu-focal"
 )
 pkgname="pritunl-cloud"
-pkgver="1.0.1213.83"
+pkgver="1.2.2336.5"
 pkgrel="1"
 pkgdesc="Pritunl Cloud"
 pkgdesclong=(
@@ -48,7 +48,7 @@ sources=(
     "pritunl-cloud.service"
 )
 hashsums=(
-    "bdd7d288995771674d921cd512ee1c470b027429402d08706252e058ccc85c54"
+    "22854b677ee9277038800e8924d0f9d03ffae888589c97685c10de78ed7ce0e3"
     "158dca955549ebdb7086f2b921b602a28f0335dd1c5a44de509d0b4710a20848"
 )
 

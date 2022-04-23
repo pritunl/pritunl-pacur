@@ -15,7 +15,7 @@ targets=(
     "ubuntu-hirsute"
 )
 pkgname="pritunl-endpoint"
-pkgver="1.0.1091.35"
+pkgver="1.0.2255.3"
 pkgrel="1"
 pkgdesc="Pritunl Endpoint"
 pkgdesclong=(
@@ -56,7 +56,7 @@ sources=(
     "pritunl-endpoint.service"
 )
 hashsums=(
-    "2dd11dd3d4b30a55c3212b11a8917da58cea2916a397d6162c79ab5c5be9a2de"
+    "3158a888a44a30fd5a11af0ab4b23b5d13b85a1d1af8c97560014eed8570bfe5"
     "d914176fd50bd7f565700006a31aa97b79d3ad17cee20c8e5ff2061d5cb74817"
     "4410bfb2e08a738ca37e3a9790c53342213ec87f44e79aa055d844d67f0acb26"
 )

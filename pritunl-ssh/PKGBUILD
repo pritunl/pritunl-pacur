@@ -15,7 +15,7 @@ targets=(
     "ubuntu-hirsute"
 )
 pkgname="pritunl-ssh"
-pkgver="1.0.969.91"
+pkgver="1.2.3128.59"
 pkgrel="1"
 pkgdesc="Pritunl Zero SSH Client"
 pkgdesclong=(
@@ -48,7 +48,7 @@ sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
-    "9b8e8258053eaae08ef4f0a153968b6a479e562bfa4aec0f8a4c11b38b05bd43"
+    "90463ea996b8f07f2a0bedf371fe234d54fa751772e35996870a1555d4d1e43f"
 )
 
 package:pacman() {

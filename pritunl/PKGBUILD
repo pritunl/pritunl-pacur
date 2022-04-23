@@ -10,7 +10,7 @@ targets=(
     "ubuntu-focal"
 )
 pkgname="pritunl"
-pkgver="1.29.2051.18"
+pkgver="1.30.3116.68"
 pkgrel="1"
 pkgdesc="Enterprise VPN Server"
 pkgdesclong=(
@@ -183,7 +183,7 @@ sources=(
     "cacert.pem"
 )
 hashsums=(
-    "d5a1b29ea8ef340b40b3c0640f57ee3eb2a4de7912162a36f5d62215d86509c6"
+    "1c8aa5493fbc87a83278aba52e06cb2e78b0b266a19a7ec4bfac020b09c1886e"
     "f524fc21859b776e18df01a87880efa198112214e13494275dbcbd9bcb71d976"
 )
 backup=(
