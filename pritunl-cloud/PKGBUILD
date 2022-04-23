@@ -1,6 +1,7 @@
 targets=(
     "oraclelinux-8"
     "ubuntu-focal"
+    "ubuntu-jammy"
 )
 pkgname="pritunl-cloud"
 pkgver="1.2.2336.5"
