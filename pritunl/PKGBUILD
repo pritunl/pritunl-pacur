@@ -8,6 +8,7 @@ targets=(
     "oraclelinux-8"
     "ubuntu-bionic"
     "ubuntu-focal"
+    "ubuntu-jammy"
 )
 pkgname="pritunl"
 pkgver="1.30.3116.68"
