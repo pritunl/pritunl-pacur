@@ -101,11 +101,11 @@ build:pacman() {
 
     cd service
     /usr/local/go/bin/go get -u
-    /usr/local/go/bin/go build -v
+    /usr/local/go/bin/go install
 
     cd ../cli
     /usr/local/go/bin/go get -u
-    /usr/local/go/bin/go build -v
+    /usr/local/go/bin/go install
 
     cd ../client
     npm install
@@ -121,11 +121,11 @@ build:yum() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     cd service
     go get -u
-    go build -v
+    go install
 
     cd ../cli
     go get -u
-    go build -v
+    go install
 
     cd ../client
     npm install
@@ -151,11 +151,11 @@ build:fedora() {
 
     cd service
     go get -u
-    go build -v
+    go install
 
     cd ../cli
     go get -u
-    go build -v
+    go install
 
     cd ../client
     npm install
@@ -186,11 +186,11 @@ build:apt() {
 
     cd service
     go get -u
-    go build -v
+    go install
 
     cd ../cli
     go get -u
-    go build -v
+    go install
 
     cd ../client
     npm install
@@ -203,11 +203,11 @@ build:ubuntu-jammy() {
 
     cd service
     go get -u
-    go build -v
+    go install
 
     cd ../cli
     go get -u
-    go build -v
+    go install
 
     cd ../client
     npm install
