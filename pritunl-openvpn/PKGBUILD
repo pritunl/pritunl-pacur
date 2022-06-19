@@ -1,4 +1,5 @@
 targets=(
+    "almalinux-8"
     "oraclelinux-7"
     "oraclelinux-8"
 )

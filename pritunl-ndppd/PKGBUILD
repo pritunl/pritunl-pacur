@@ -4,10 +4,12 @@ targets=(
     "centos-7"
     "debian-buster"
     "debian-bullseye"
+    "almalinux-8"
     "oraclelinux-7"
     "oraclelinux-8"
     "ubuntu-bionic"
     "ubuntu-focal"
+    "ubuntu-jammy"
 )
 pkgname="pritunl-ndppd"
 pkgver="0.2.5"

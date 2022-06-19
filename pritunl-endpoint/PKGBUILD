@@ -7,6 +7,7 @@ targets=(
     "debian-bullseye"
     "fedora-33"
     "fedora-34"
+    "almalinux-8"
     "oraclelinux-7"
     "oraclelinux-8"
     "ubuntu-xenial"

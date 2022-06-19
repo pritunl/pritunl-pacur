@@ -5,11 +5,13 @@ targets=(
     "debian-stretch"
     "debian-buster"
     "debian-bullseye"
+    "almalinux-8"
     "oraclelinux-7"
     "oraclelinux-8"
     "ubuntu-xenial"
     "ubuntu-bionic"
     "ubuntu-focal"
+    "ubuntu-jammy"
 )
 pkgname="pritunl-strongswan"
 pkgver="5.9.5"

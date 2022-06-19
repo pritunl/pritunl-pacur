@@ -5,6 +5,7 @@ targets=(
     "debian-stretch"
     "debian-buster"
     "debian-bullseye"
+    "almalinux-8"
     "oraclelinux-7"
     "oraclelinux-8"
     "ubuntu-xenial"
