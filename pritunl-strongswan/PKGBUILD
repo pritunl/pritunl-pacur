@@ -102,6 +102,21 @@ makedepends:apt=(
     "iptables-dev"
     "pkg-config"
 )
+makedepends:debian-bullseye=(
+    "curl"
+    "libcurl4-openssl-dev"
+    "libgmp-dev"
+    "libgmp3-dev"
+    "net-tools"
+    "python3"
+    "openssl"
+    "libssl-dev"
+    "sqlite3"
+    "libsqlite3-dev"
+    "libcap-dev"
+    "libpam0g-dev"
+    "pkg-config"
+)
 provides=(
     "${pkgname}"
     "strongswan"
