@@ -4,7 +4,6 @@ targets=(
     "centos-7"
     "debian-stretch"
     "debian-buster"
-    "debian-bullseye"
     "almalinux-8"
     "almalinux-9"
     "oraclelinux-7"
@@ -100,22 +99,6 @@ makedepends:apt=(
     "libcap-dev"
     "libpam0g-dev"
     "iptables-dev"
-    "pkg-config"
-)
-makedepends:debian-bullseye=(
-    "curl"
-    "libcurl4-openssl-dev"
-    "libgmp-dev"
-    "libgmp3-dev"
-    "net-tools"
-    "python3"
-    "openssl"
-    "libssl-dev"
-    "sqlite3"
-    "libsqlite3-dev"
-    "libcap-dev"
-    "libpam0g-dev"
-    "libip4tc2"
     "pkg-config"
 )
 provides=(
