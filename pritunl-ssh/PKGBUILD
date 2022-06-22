@@ -8,6 +8,7 @@ targets=(
     "fedora-33"
     "fedora-34"
     "almalinux-8"
+    "almalinux-9"
     "oraclelinux-7"
     "oraclelinux-8"
     "ubuntu-xenial"

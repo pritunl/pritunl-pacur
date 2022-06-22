@@ -1,5 +1,6 @@
 targets=(
     "almalinux-8"
+    "almalinux-9"
     "oraclelinux-8"
     "ubuntu-focal"
     "ubuntu-jammy"
