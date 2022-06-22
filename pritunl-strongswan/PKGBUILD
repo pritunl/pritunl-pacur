@@ -96,6 +96,7 @@ makedepends:apt=(
     "libsqlite3-dev"
     "libcap-dev"
     "libpam0g-dev"
+    "libiptc-dev"
     "libip4tc-dev"
     "libip6tc-dev"
     "libxtables-dev"
