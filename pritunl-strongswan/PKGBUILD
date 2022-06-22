@@ -115,6 +115,7 @@ makedepends:debian-bullseye=(
     "libsqlite3-dev"
     "libcap-dev"
     "libpam0g-dev"
+    "libip4tc2"
     "pkg-config"
 )
 provides=(
