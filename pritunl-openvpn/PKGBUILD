@@ -63,6 +63,27 @@ makedepends:oraclelinux-8=(
     "perl-macros"
     "python3-docutils"
 )
+makedepends:almalinux=(
+    "gnupg2"
+    "gcc"
+    "automake"
+    "autoconf"
+    "autoconf-archive"
+    "libtool"
+    "gettext"
+    "lzo-devel"
+    "lz4-devel"
+    "make"
+    "openssl-devel"
+    "pkcs11-helper-devel"
+    "pam-devel"
+    "libselinux-devel"
+    "libcmocka-devel"
+    "systemd"
+    "systemd-devel"
+    "perl-macros"
+    "python3-docutils"
+)
 provides=(
     "${pkgname}"
     "openvpn"
