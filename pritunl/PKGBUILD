@@ -1,10 +1,10 @@
 targets=(
     "archlinux"
+    "almalinux-8"
     "amazonlinux-2"
     "centos-7"
     "debian-buster"
     "debian-bullseye"
-    "almalinux-8"
     "oraclelinux-7"
     "oraclelinux-8"
     "ubuntu-bionic"
@@ -130,6 +130,17 @@ makedepends:almalinux-8=(
     "selinux-policy-devel"
     "policycoreutils-python-utils"
 )
+makedepends:almalinux-9=(
+    "gcc"
+    "python3-devel"
+    "python3-setuptools"
+    "python3-virtualenv"
+    "openssl-devel"
+    "libffi-devel"
+    "selinux-policy"
+    "selinux-policy-devel"
+    "policycoreutils-python-utils"
+)
 makedepends:centos-7=(
     "gcc"
     "python3-devel"
@@ -208,6 +219,7 @@ backup=(
 build:amazonlinux-2() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
+    sed -i -e '/^dataclasses==0.8/,+2d' requirements.txt
     virtualenv --python=python3 /usr/lib/${pkgname}
     /usr/lib/${pkgname}/bin/pip install -U pip
     /usr/lib/${pkgname}/bin/pip install -U setuptools
