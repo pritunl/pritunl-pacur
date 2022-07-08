@@ -119,6 +119,17 @@ makedepends:amazonlinux-2=(
     "selinux-policy-devel"
     "policycoreutils-python"
 )
+makedepends:almalinux-8=(
+    "gcc"
+    "python3-devel"
+    "python3-setuptools"
+    "python3-virtualenv"
+    "openssl-devel"
+    "libffi-devel"
+    "selinux-policy"
+    "selinux-policy-devel"
+    "policycoreutils-python-utils"
+)
 makedepends:centos-7=(
     "gcc"
     "python3-devel"
