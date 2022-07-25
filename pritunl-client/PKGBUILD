@@ -14,7 +14,6 @@ targets=(
     "ubuntu-xenial"
     "ubuntu-bionic"
     "ubuntu-focal"
-    "ubuntu-impish"
     "ubuntu-jammy"
 )
 pkgname="pritunl-client"

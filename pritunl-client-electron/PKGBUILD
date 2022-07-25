@@ -10,7 +10,6 @@ targets=(
     "oraclelinux-8"
     "ubuntu-bionic"
     "ubuntu-focal"
-    "ubuntu-impish"
     "ubuntu-jammy"
 )
 pkgname="pritunl-client-electron"

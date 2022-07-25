@@ -14,7 +14,6 @@ targets=(
     "ubuntu-xenial"
     "ubuntu-bionic"
     "ubuntu-focal"
-    "ubuntu-hirsute"
     "ubuntu-jammy"
 )
 pkgname="pritunl-ssh-host"

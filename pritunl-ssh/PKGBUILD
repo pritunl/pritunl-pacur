@@ -5,8 +5,8 @@ targets=(
     "debian-stretch"
     "debian-buster"
     "debian-bullseye"
-    "fedora-33"
-    "fedora-34"
+    "fedora-35"
+    "fedora-36"
     "almalinux-8"
     "almalinux-9"
     "oraclelinux-7"
@@ -14,7 +14,6 @@ targets=(
     "ubuntu-xenial"
     "ubuntu-bionic"
     "ubuntu-focal"
-    "ubuntu-hirsute"
     "ubuntu-jammy"
 )
 pkgname="pritunl-ssh"
