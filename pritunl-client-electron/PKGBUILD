@@ -74,13 +74,6 @@ makedepends:apt=(
     "libgconf-2-4"
     "unzip"
 )
-makedepends:ubuntu-jammy=(
-    "nodejs"
-    "npm"
-    "python3"
-    "libgconf-2-4"
-    "unzip"
-)
 provides=("${pkgname}")
 conflicts=(
     "${pkgname}"
@@ -183,23 +176,6 @@ build:apt() {
     sh setup_lts.x
     apt --assume-yes install nodejs
 
-    cd "${srcdir}/${pkgname}-${pkgver}"
-
-    cd service
-    go get -u
-    go install
-
-    cd ../cli
-    go get -u
-    go install
-
-    cd ../client
-    npm install
-    ./node_modules/.bin/electron-rebuild
-    ./node_modules/.bin/electron-packager ./ Pritunl --platform=linux --arch=x64 --out=../build/linux
-    chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
-}
-build:ubuntu-jammy() {
     cd "${srcdir}/${pkgname}-${pkgver}"
 
     cd service
