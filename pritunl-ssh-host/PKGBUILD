@@ -15,6 +15,7 @@ targets=(
     "ubuntu-bionic"
     "ubuntu-focal"
     "ubuntu-jammy"
+    "ubuntu-kinetic"
 )
 pkgname="pritunl-ssh-host"
 pkgver="1.0.969.91"
