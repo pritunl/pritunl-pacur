@@ -1,10 +1,12 @@
 targets=(
+    "amazonlinux-2"
+    "centos-7"
     "almalinux-8"
     "oraclelinux-7"
     "oraclelinux-8"
 )
 pkgname="pritunl-openvpn"
-pkgver="2.5.7"
+pkgver="2.5.8"
 pkgrel="1"
 pkgdesc="A full-featured SSL VPN solution"
 pkgdesclong=(
@@ -19,6 +21,48 @@ url="https://community.openvpn.net/"
 depends:yum=(
     "net-tools"
     "openssl"
+)
+makedepends:amazonlinux-2=(
+    "gnupg2"
+    "gcc"
+    "automake"
+    "autoconf"
+    "autoconf-archive"
+    "libtool"
+    "gettext"
+    "lzo-devel"
+    "lz4-devel"
+    "make"
+    "openssl-devel"
+    "pkcs11-helper-devel"
+    "pam-devel"
+    "libselinux-devel"
+    "libcmocka-devel"
+    "systemd"
+    "systemd-devel"
+    "perl-macros"
+    "python-docutils"
+)
+makedepends:centos-7=(
+    "gnupg2"
+    "gcc"
+    "automake"
+    "autoconf"
+    "autoconf-archive"
+    "libtool"
+    "gettext"
+    "lzo-devel"
+    "lz4-devel"
+    "make"
+    "openssl-devel"
+    "pkcs11-helper-devel"
+    "pam-devel"
+    "libselinux-devel"
+    "libcmocka-devel"
+    "systemd"
+    "systemd-devel"
+    "perl-macros"
+    "python-docutils"
 )
 makedepends:oraclelinux-7=(
     "gnupg2"
@@ -95,7 +139,7 @@ sources=(
     "https://swupdate.openvpn.org/community/releases/openvpn-${pkgver}.tar.gz"
 )
 hashsums=(
-    "08340a389905c84196b6cd750add1bc0fa2d46a1afebfd589c24120946c13e68"
+    "a6f315b7231d44527e65901ff646f87d7f07862c87f33531daa109fb48c53db2"
 )
 
 build() {
