@@ -1,6 +1,5 @@
 targets=(
     "archlinux"
-    "amazonlinux-2"
     "debian-buster"
     "debian-bullseye"
     "fedora-35"
@@ -8,7 +7,6 @@ targets=(
     "almalinux-8"
     "almalinux-9"
     "oraclelinux-8"
-    "ubuntu-bionic"
     "ubuntu-focal"
     "ubuntu-jammy"
     "ubuntu-kinetic"
