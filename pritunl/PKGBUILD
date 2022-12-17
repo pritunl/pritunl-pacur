@@ -517,6 +517,9 @@ postinst() {
     if hash initctl 2> /dev/null; then
         initctl reload-configuration 2> /dev/null || true
     fi
+
+    groupadd -r pritunl-web &> /dev/null || true
+    useradd -r -g pritunl-web -s /sbin/nologin -c 'Pritunl web server' pritunl-web &> /dev/null || true
 }
 
 postinst:yum() {
@@ -540,6 +543,9 @@ postinst:yum() {
     restorecon -v /usr/bin/pritunl-dns || true
     restorecon -v -R /var/lib/pritunl &> /dev/null || true
     restorecon -v /var/log/pritunl* &> /dev/null || true
+
+    groupadd -r pritunl-web &> /dev/null || true
+    useradd -r -g pritunl-web -s /sbin/nologin -c 'Pritunl web server' pritunl-web &> /dev/null || true
 }
 
 postrm:yum() {
