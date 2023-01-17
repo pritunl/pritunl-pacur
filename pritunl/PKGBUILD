@@ -533,6 +533,8 @@ postinst:yum() {
     restorecon -v -R /run/pritunl* &> /dev/null || true
     restorecon -v /etc/systemd/system/pritunl.service &> /dev/null || true
     restorecon -v /usr/lib/systemd/system/pritunl.service &> /dev/null || true
+    restorecon -v /etc/systemd/system/pritunl-web.service &> /dev/null || true
+    restorecon -v /usr/lib/systemd/system/pritunl-web.service &> /dev/null || true
     restorecon -v /usr/lib/pritunl/bin/pritunl || true
     restorecon -v /usr/lib/pritunl/bin/python || true
     restorecon -v /usr/lib/pritunl/bin/python3 &> /dev/null || true
@@ -543,8 +545,7 @@ postinst:yum() {
     restorecon -v -R /var/lib/pritunl &> /dev/null || true
     restorecon -v /var/log/pritunl* &> /dev/null || true
 
-    groupadd -r pritunl-web &> /dev/null || true
-    useradd -r -g pritunl-web -s /sbin/nologin -c 'Pritunl web server' pritunl-web &> /dev/null || true
+    useradd -r -s /sbin/nologin -c 'Pritunl web server' pritunl-web &> /dev/null || true
 }
 
 postrm:yum() {
