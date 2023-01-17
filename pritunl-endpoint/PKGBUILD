@@ -107,6 +107,7 @@ package() {
 postinst() {
     systemctl daemon-reload &> /dev/null || true
     systemctl restart pritunl-endpoint &> /dev/null || true
+    systemctl enable pritunl-endpoint &> /dev/null || true
 }
 
 postrm() {
