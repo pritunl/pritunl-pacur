@@ -22,6 +22,7 @@ url="https://github.com/pritunl/${pkgname}"
 depends:yum=(
     "iptables"
     "net-tools"
+    "dhclient"
     "usbutils"
     "ipset"
     "psmisc"
@@ -31,6 +32,7 @@ depends:yum=(
 depends:apt=(
     "iptables"
     "net-tools"
+    "isc-dhcp-client"
     "usbutils"
     "ipset"
     "openssl"
