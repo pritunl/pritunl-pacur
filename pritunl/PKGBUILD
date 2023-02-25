@@ -225,7 +225,7 @@ EOF
 }
 build:almalinux-8() {
     cd "${srcdir}/Python-3.9.16"
-    ./configure --prefix=/usr --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
@@ -247,7 +247,7 @@ build:almalinux-8() {
 }
 build:amazonlinux-2() {
     cd "${srcdir}/Python-3.9.16"
-    ./configure --prefix=/usr --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
@@ -262,7 +262,7 @@ build:amazonlinux-2() {
 }
 build:centos-7() {
     cd "${srcdir}/Python-3.9.16"
-    ./configure --prefix=/usr --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
@@ -284,7 +284,7 @@ build:centos-7() {
 }
 build:oraclelinux-7() {
     cd "${srcdir}/Python-3.9.16"
-    ./configure --prefix=/usr --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
@@ -306,7 +306,7 @@ build:oraclelinux-7() {
 }
 build:oraclelinux-8() {
     cd "${srcdir}/Python-3.9.16"
-    ./configure --prefix=/usr --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
@@ -328,7 +328,7 @@ build:oraclelinux-8() {
 }
 build:apt() {
     cd "${srcdir}/Python-3.9.16"
-    ./configure --prefix=/usr --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
@@ -391,6 +391,9 @@ package:almalinux-8() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi/cacert.pem
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi/cacert.pem
+
+    find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
+    find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
 }
 package:amazonlinux-2() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -411,6 +414,9 @@ package:amazonlinux-2() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi/cacert.pem
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi/cacert.pem
+
+    find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
+    find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
 }
 package:centos-7() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -437,6 +443,9 @@ package:centos-7() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi/cacert.pem
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi/cacert.pem
+
+    find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
+    find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
 }
 package:oraclelinux-7() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -463,6 +472,9 @@ package:oraclelinux-7() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi/cacert.pem
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi/cacert.pem
+
+    find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
+    find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
 }
 package:oraclelinux-8() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -489,6 +501,9 @@ package:oraclelinux-8() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi/cacert.pem
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi/cacert.pem
+
+    find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
+    find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
 }
 package:apt() {
     cd "${srcdir}/${pkgname}-${pkgver}"
