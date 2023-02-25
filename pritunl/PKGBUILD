@@ -112,8 +112,6 @@ makedepends:amazonlinux-2=(
 )
 makedepends:almalinux-8=(
     "gcc"
-    "python3-devel"
-    "python3-setuptools"
     "rsync"
     "openssl-devel"
     "bzip2-devel"
@@ -127,8 +125,6 @@ makedepends:almalinux-8=(
 )
 makedepends:almalinux-9=(
     "gcc"
-    "python3-devel"
-    "python3-setuptools"
     "rsync"
     "openssl-devel"
     "bzip2-devel"
@@ -142,8 +138,6 @@ makedepends:almalinux-9=(
 )
 makedepends:centos-7=(
     "gcc"
-    "python3-devel"
-    "python3-setuptools"
     "rsync"
     "openssl-devel"
     "bzip2-devel"
@@ -157,8 +151,6 @@ makedepends:centos-7=(
 )
 makedepends:oraclelinux-7=(
     "gcc"
-    "python3-devel"
-    "python3-setuptools"
     "rsync"
     "openssl-devel"
     "bzip2-devel"
@@ -172,8 +164,6 @@ makedepends:oraclelinux-7=(
 )
 makedepends:oraclelinux-8=(
     "gcc"
-    "python3-devel"
-    "python3-setuptools"
     "rsync"
     "openssl-devel"
     "bzip2-devel"
@@ -188,8 +178,6 @@ makedepends:oraclelinux-8=(
 makedepends:apt=(
     "gcc"
     "rsync"
-    "python3-dev"
-    "python3-setuptools"
     "libssl-dev"
     "libbz2-dev"
     "libsqlite3-dev"
@@ -239,6 +227,7 @@ build:almalinux-8() {
     cd "${srcdir}/Python-3.9.16"
     ./configure --prefix=/usr --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto
     make DESTDIR=/usr/lib/${pkgname} install
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
 
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -260,6 +249,7 @@ build:amazonlinux-2() {
     cd "${srcdir}/Python-3.9.16"
     ./configure --prefix=/usr --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto
     make DESTDIR=/usr/lib/${pkgname} install
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
 
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -271,13 +261,17 @@ build:amazonlinux-2() {
     go install github.com/pritunl/pritunl-web@latest
 }
 build:centos-7() {
+    cd "${srcdir}/Python-3.9.16"
+    ./configure --prefix=/usr --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto
+    make DESTDIR=/usr/lib/${pkgname} install
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
+
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
-    virtualenv --python=python3 /usr/lib/${pkgname}
-    /usr/lib/${pkgname}/bin/pip install -U pip
-    /usr/lib/${pkgname}/bin/pip install -U setuptools
-    /usr/lib/${pkgname}/bin/python setup.py build
-    /usr/lib/${pkgname}/bin/pip install --require-hashes -r requirements.txt
+    /usr/lib/${pkgname}/usr/bin/pip3 install -U setuptools
+    /usr/lib/${pkgname}/usr/bin/python3 setup.py build
+    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements.txt
     go install github.com/pritunl/pritunl-dns@latest
     go install github.com/pritunl/pritunl-web@latest
 
@@ -292,6 +286,7 @@ build:oraclelinux-7() {
     cd "${srcdir}/Python-3.9.16"
     ./configure --prefix=/usr --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto
     make DESTDIR=/usr/lib/${pkgname} install
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
 
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -313,6 +308,7 @@ build:oraclelinux-8() {
     cd "${srcdir}/Python-3.9.16"
     ./configure --prefix=/usr --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto
     make DESTDIR=/usr/lib/${pkgname} install
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
 
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -334,6 +330,7 @@ build:apt() {
     cd "${srcdir}/Python-3.9.16"
     ./configure --prefix=/usr --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto
     make DESTDIR=/usr/lib/${pkgname} install
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
 
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -368,6 +365,32 @@ package:pacman() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/certifi/cacert.pem
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/certifi
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/certifi/cacert.pem
+}
+package:almalinux-8() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/var/lib/${pkgname}"
+    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
+    PYTHONHOME=/usr/lib/pritunl/usr /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    rsync --archive /usr/lib/pritunl/ ${pkgdir}/usr/lib/${pkgname}/
+    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
+    cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
+
+    mkdir -p "${pkgdir}/usr/share/selinux/packages"
+    cd "selinux8"
+    cp pritunl.pp ${pkgdir}/usr/share/selinux/packages/pritunl.pp
+    cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
+    cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
+    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
+    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi
+    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi
+    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi/cacert.pem
 }
 package:amazonlinux-2() {
     cd "${srcdir}/${pkgname}-${pkgver}"
