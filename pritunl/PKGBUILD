@@ -563,7 +563,12 @@ postinst:yum() {
     restorecon -v /usr/lib/pritunl/bin/python || true
     restorecon -v /usr/lib/pritunl/bin/python3 &> /dev/null || true
     restorecon -v /usr/lib/pritunl/bin/python3.6 &> /dev/null || true
-    restorecon -v /usr/lib/pritunl/bin/python3.7 &> /dev/null || true
+    restorecon -v /usr/lib/pritunl/bin/python3.9 &> /dev/null || true
+    restorecon -v /usr/lib/pritunl/usr/bin/pritunl || true
+    restorecon -v /usr/lib/pritunl/usr/bin/python || true
+    restorecon -v /usr/lib/pritunl/usr/bin/python3 &> /dev/null || true
+    restorecon -v /usr/lib/pritunl/usr/bin/python3.6 &> /dev/null || true
+    restorecon -v /usr/lib/pritunl/usr/bin/python3.9 &> /dev/null || true
     restorecon -v /usr/bin/pritunl-web || true
     restorecon -v /usr/bin/pritunl-dns || true
     restorecon -v -R /var/lib/pritunl &> /dev/null || true
