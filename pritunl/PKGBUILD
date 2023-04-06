@@ -614,6 +614,7 @@ postinst() {
     fi
 
     useradd -r -s /sbin/nologin -c 'Pritunl web server' pritunl-web &> /dev/null || true
+    systemctl try-restart pritunl-web 2> /dev/null || true
 }
 
 postinst:yum() {
