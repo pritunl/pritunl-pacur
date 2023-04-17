@@ -359,6 +359,9 @@ package:pacman() {
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/
     cd ${pkgdir}/usr/lib/pritunl/lib/python3.6/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/
     cd ${pkgdir}/usr/lib/pritunl/lib/python3.8/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
@@ -374,6 +377,9 @@ package:pacman() {
     ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
     cd ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.7/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
     cd ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
@@ -410,6 +416,9 @@ package:almalinux-8() {
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/
     cd ${pkgdir}/usr/lib/pritunl/lib/python3.6/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/
     cd ${pkgdir}/usr/lib/pritunl/lib/python3.8/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
@@ -425,6 +434,9 @@ package:almalinux-8() {
     ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
     cd ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.7/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
     cd ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
@@ -458,6 +470,9 @@ package:amazonlinux-2() {
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/
     cd ${pkgdir}/usr/lib/pritunl/lib/python3.6/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/
     cd ${pkgdir}/usr/lib/pritunl/lib/python3.8/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
@@ -473,6 +488,9 @@ package:amazonlinux-2() {
     ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
     cd ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.7/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
     cd ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
@@ -512,6 +530,9 @@ package:centos-7() {
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/
     cd ${pkgdir}/usr/lib/pritunl/lib/python3.6/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/
     cd ${pkgdir}/usr/lib/pritunl/lib/python3.8/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
@@ -527,6 +548,9 @@ package:centos-7() {
     ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
     cd ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.7/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
     cd ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
@@ -566,6 +590,9 @@ package:oraclelinux-7() {
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/
     cd ${pkgdir}/usr/lib/pritunl/lib/python3.6/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/
     cd ${pkgdir}/usr/lib/pritunl/lib/python3.8/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
@@ -581,6 +608,9 @@ package:oraclelinux-7() {
     ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
     cd ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.7/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
     cd ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
@@ -620,6 +650,9 @@ package:oraclelinux-8() {
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/
     cd ${pkgdir}/usr/lib/pritunl/lib/python3.6/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/
     cd ${pkgdir}/usr/lib/pritunl/lib/python3.8/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
@@ -635,6 +668,9 @@ package:oraclelinux-8() {
     ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
     cd ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.7/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
     cd ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
@@ -668,6 +704,9 @@ package:apt() {
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/
     cd ${pkgdir}/usr/lib/pritunl/lib/python3.6/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/
     cd ${pkgdir}/usr/lib/pritunl/lib/python3.8/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
@@ -683,6 +722,9 @@ package:apt() {
     ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
     cd ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.7/
     ln -s ../../usr/lib/python3.9/site-packages/ ./
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
     cd ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
