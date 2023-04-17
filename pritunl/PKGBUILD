@@ -353,31 +353,39 @@ package:pacman() {
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
 
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
-    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python2.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.8/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.9/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.10/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
 
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi
-    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python2.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.9/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.10/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+
+    cd "${srcdir}/${pkgname}-${pkgver}"
 }
 package:almalinux-8() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -396,23 +404,39 @@ package:almalinux-8() {
     cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
     cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
 
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
-    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python2.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.8/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.9/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.10/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
 
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi
-    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python2.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.9/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.10/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+
+    cd "${srcdir}/${pkgname}-${pkgver}"
 
     find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
     find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
@@ -428,23 +452,39 @@ package:amazonlinux-2() {
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
 
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
-    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python2.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.8/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.9/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.10/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
 
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi
-    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python2.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.9/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.10/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+
+    cd "${srcdir}/${pkgname}-${pkgver}"
 
     find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
     find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
@@ -466,23 +506,39 @@ package:centos-7() {
     cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
     cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
 
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
-    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python2.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.8/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.9/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.10/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
 
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi
-    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python2.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.9/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.10/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+
+    cd "${srcdir}/${pkgname}-${pkgver}"
 
     find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
     find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
@@ -504,23 +560,39 @@ package:oraclelinux-7() {
     cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
     cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
 
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
-    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python2.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.8/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.9/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.10/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
 
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi
-    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python2.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.9/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.10/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+
+    cd "${srcdir}/${pkgname}-${pkgver}"
 
     find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
     find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
@@ -542,23 +614,39 @@ package:oraclelinux-8() {
     cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
     cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
 
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
-    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python2.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.8/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.9/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.10/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
 
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi
-    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python2.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.9/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.10/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+
+    cd "${srcdir}/${pkgname}-${pkgver}"
 
     find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
     find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
@@ -574,31 +662,39 @@ package:apt() {
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
 
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
-    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python2.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.8/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.9/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/
+    cd ${pkgdir}/usr/lib/pritunl/lib/python3.10/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
 
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi
-    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/certifi/cacert.pem
-    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/certifi
-    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python2.7/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.6/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.8/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.9/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/
+    cd ${pkgdir}/usr/lib/pritunl/lib64/python3.10/
+    ln -s ../../usr/lib/python3.9/site-packages/ ./
+
+    cd "${srcdir}/${pkgname}-${pkgver}"
 }
 
 preinst() {
