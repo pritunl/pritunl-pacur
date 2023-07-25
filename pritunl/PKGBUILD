@@ -5,6 +5,7 @@ targets=(
     "centos-7"
     "debian-buster"
     "debian-bullseye"
+    "debian-bookworm"
     "oraclelinux-7"
     "oraclelinux-8"
     "ubuntu-bionic"

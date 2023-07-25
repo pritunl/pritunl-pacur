@@ -2,6 +2,7 @@ targets=(
     "archlinux"
     "debian-buster"
     "debian-bullseye"
+    "debian-bookworm"
     "fedora-37"
     "fedora-38"
     "almalinux-8"
@@ -10,7 +11,7 @@ targets=(
     "oraclelinux-9"
     "ubuntu-focal"
     "ubuntu-jammy"
-    "ubuntu-kinetic"
+    "ubuntu-lunar"
 )
 pkgname="pritunl-client-electron"
 pkgver="1.2.3128.59"
