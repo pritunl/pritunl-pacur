@@ -46,6 +46,28 @@ makedepends:amazonlinux-2=(
     "perl-macros"
     "python-docutils"
 )
+makedepends:amazonlinux-2023=(
+    "gnupg2"
+    "gcc"
+    "automake"
+    "autoconf"
+    "autoconf-archive"
+    "libtool"
+    "gettext"
+    "lzo-devel"
+    "lz4-devel"
+    "libnl3-devel"
+    "libcap-ng-devel"
+    "make"
+    "openssl-devel"
+    "pam-devel"
+    "libselinux-devel"
+    "libcmocka-devel"
+    "systemd"
+    "systemd-devel"
+    "perl-macros"
+    "python-docutils"
+)
 makedepends:centos-7=(
     "gnupg2"
     "gcc"
@@ -170,6 +192,17 @@ build:amazonlinux-2() {
 }
 
 build:amazonlinux-2023() {
+    tee /etc/yum.repos.d/pritunl.repo << EOF
+[pritunl]
+name=Pritunl Repository
+baseurl=https://repo.pritunl.com/unstable/yum/amazonlinux/2023/
+gpgcheck=1
+enabled=1
+gpgkey=https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
+EOF
+
+    yum -y install pkcs11-helper
+
     cd "${srcdir}/openvpn-${pkgver}"
     ./configure \
         --prefix=/usr \
