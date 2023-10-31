@@ -1,0 +1,66 @@
+targets=(
+    "amazonlinux-2023"
+)
+pkgname="pkcs11-helper"
+pkgver="1.29.0"
+pkgrel="1"
+pkgdesc="A library for using PKCS#11 providers"
+pkgdesclong=(
+    "pkcs11-helper is a library that simplifies the interaction with PKCS#11"
+    "providers for end-user applications using a simple API and optional"
+    "OpenSSL engine. The library allows using multiple PKCS#11 providers at"
+    "the same time, enumerating available token certificates, or selecting a"
+    "certificate directly by serialized id, handling card removal and card"
+    "insert events, handling card re-insert to a different slot, supporting"
+    "session expiration and much more all using a simple API."
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="amd64"
+license=("GPLv2")
+section="utils"
+priority="optional"
+url="http://www.opensc-project.org/opensc/wiki/pkcs11-helper"
+depends:yum=(
+    "automake"
+    "openssl-devel"
+)
+makedepends:amazonlinux-2023=(
+    "gcc"
+    "doxygen"
+    "graphviz"
+    "openssl-devel"
+)
+provides=(
+    "${pkgname}"
+    "${pkgname}-devel"
+)
+conflicts=(
+    "${pkgname}"
+    "${pkgname}-devel"
+)
+sources=(
+    "https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-${pkgver}/pkcs11-helper-${pkgver}.tar.bz2"
+)
+hashsums=(
+    "996846a3c8395e03d8c0515111dc84d82e6e3648d44ba28cb2dbbbca2d4db7d6"
+)
+
+build() {
+    cd "${srcdir}/pkcs11-helper-${pkgver}"
+
+    ./configure --disable-static --prefix=/usr
+    make
+}
+
+package() {
+    cd "${srcdir}/pkcs11-helper-${pkgver}"
+    make DESTDIR=${pkgdir} install
+}
+
+postinst:yum() {
+    /usr/sbin/ldconfig
+}
+
+postrm:yum() {
+    /usr/sbin/ldconfig
+}
