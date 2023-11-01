@@ -38,6 +38,16 @@ depends:pacman=(
     "libcap"
     "pam"
 )
+depends:amazonlinux-2023=(
+    "curl-minimal"
+    "gmp"
+    "net-tools"
+    "python3"
+    "openssl"
+    "sqlite"
+    "libcap"
+    "pam"
+)
 depends:yum=(
     "curl"
     "gmp"
@@ -68,6 +78,23 @@ makedepends:pacman=(
     "sqlite"
     "libcap"
     "pam"
+)
+makedepends:amazonlinux-2023=(
+    "curl-minimal"
+    "libcurl-devel"
+    "gmp"
+    "gmp-devel"
+    "net-tools"
+    "python3"
+    "openssl"
+    "openssl-devel"
+    "sqlite"
+    "sqlite-devel"
+    "libcap"
+    "libcap-devel"
+    "pam"
+    "pam-devel"
+    "iptables-devel"
 )
 makedepends:yum=(
     "curl"
