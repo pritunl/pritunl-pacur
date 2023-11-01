@@ -15,7 +15,7 @@ targets=(
     "ubuntu-jammy"
 )
 pkgname="pritunl-strongswan"
-pkgver="5.9.6"
+pkgver="5.9.11"
 pkgrel="1"
 pkgdesc="Open Source IPsec Implementation"
 pkgdesclong=(
@@ -119,7 +119,7 @@ sources=(
     "${url}/strongswan-${pkgver}.tar.gz"
 )
 hashsums=(
-    "36acfcfc4e669aa8a5aef2a7afadc280239feab0ac9fcbbe494efab10146cd20"
+    "c0a8160c4d2743d7b998af27a4f268d3ba14b7509c2fd29af96c73685feec0c7"
 )
 
 build() {

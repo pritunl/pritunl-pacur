@@ -14,7 +14,7 @@ targets=(
     "ubuntu-jammy"
 )
 pkgname="pritunl"
-pkgver="1.30.3116.68"
+pkgver="1.32.3697.80"
 pkgrel="1"
 pkgdesc="Enterprise VPN Server"
 pkgdesclong=(
@@ -122,9 +122,6 @@ makedepends:amazonlinux-2023=(
     "sqlite-devel"
     "xz-devel"
     "zlib-devel"
-    "selinux-policy"
-    "selinux-policy-devel"
-    "policycoreutils-python"
 )
 makedepends:almalinux-8=(
     "gcc"
@@ -209,7 +206,7 @@ sources=(
     "https://www.python.org/ftp/python/3.9.16/Python-3.9.16.tar.xz"
 )
 hashsums=(
-    "1c8aa5493fbc87a83278aba52e06cb2e78b0b266a19a7ec4bfac020b09c1886e"
+    "4a9bbb2af6152ee217ca34178def6d156781ec6b732cbfef7d4283dd68af4031"
     "f524fc21859b776e18df01a87880efa198112214e13494275dbcbd9bcb71d976"
     "2c11c3ce08ffc40d390319c72bc10d4f908e9c634494d65ed2cbc550731fd524"
     "22dddc099246dd2760665561e8adb7394ea0cc43a72684c6480f9380f7786439"
