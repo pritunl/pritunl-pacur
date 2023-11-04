@@ -110,11 +110,45 @@ build:pacman() {
     ./node_modules/.bin/electron-packager ./ Pritunl --platform=linux --arch=x64 --out=../build/linux
     chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
 }
-build:yum() {
-    yum -y install https://rpm.nodesource.com/pub_20.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm
-    yum -y --setopt=nodesource-nodejs.module_hotfixes=1 install nodejs
+build:almalinux-9() {
+    dnf -y module enable nodejs:18
+    dnf -y install nodejs
 
     cd "${srcdir}/${pkgname}-${pkgver}"
+
+    cd service
+    go get -u
+    go install
+
+    cd ../cli
+    go get -u
+    go install
+
+    cd ../client
+    npm install
+    ./node_modules/.bin/electron-rebuild
+    ./node_modules/.bin/electron-packager ./ Pritunl --platform=linux --arch=x64 --out=../build/linux
+    chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/info
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/travis-gh-pages
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/prepare-tests
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/delayed-call.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/delayed-require.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/difference.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/initial-value.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-verify
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-sign
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-conv
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mustache/bin/mustache
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/uuid/bin/uuid
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mkdirp/bin/cmd.js
+}
+build:oraclelinux-9() {
+    dnf -y module enable nodejs:18
+    dnf -y install nodejs
+
+    cd "${srcdir}/${pkgname}-${pkgver}"
+
     cd service
     go get -u
     go install
@@ -145,6 +179,38 @@ build:yum() {
 build:fedora() {
     cd "${srcdir}/${pkgname}-${pkgver}"
 
+    cd service
+    go get -u
+    go install
+
+    cd ../cli
+    go get -u
+    go install
+
+    cd ../client
+    npm install
+    ./node_modules/.bin/electron-rebuild
+    ./node_modules/.bin/electron-packager ./ Pritunl --platform=linux --arch=x64 --out=../build/linux
+    chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/info
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/travis-gh-pages
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/prepare-tests
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/delayed-call.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/delayed-require.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/difference.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/initial-value.coffee
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-verify
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-sign
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-conv
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mustache/bin/mustache
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/uuid/bin/uuid
+    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mkdirp/bin/cmd.js
+}
+build:yum() {
+    yum -y install https://rpm.nodesource.com/pub_20.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm
+    yum -y --setopt=nodesource-nodejs.module_hotfixes=1 install nodejs
+
+    cd "${srcdir}/${pkgname}-${pkgver}"
     cd service
     go get -u
     go install
