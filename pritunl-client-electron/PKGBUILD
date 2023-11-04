@@ -76,6 +76,7 @@ makedepends:apt=(
     "unzip"
     "ca-certificates"
     "gnupg"
+    "curl"
 )
 provides=("${pkgname}")
 conflicts=(
