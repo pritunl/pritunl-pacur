@@ -203,13 +203,13 @@ sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
     "cacert.pem"
     "cacert2.pem"
-    "https://www.python.org/ftp/python/3.9.16/Python-3.9.16.tar.xz"
+    "https://www.python.org/ftp/python/3.9.18/Python-3.9.18.tar.xz"
 )
 hashsums=(
     "4a9bbb2af6152ee217ca34178def6d156781ec6b732cbfef7d4283dd68af4031"
     "f524fc21859b776e18df01a87880efa198112214e13494275dbcbd9bcb71d976"
     "2c11c3ce08ffc40d390319c72bc10d4f908e9c634494d65ed2cbc550731fd524"
-    "22dddc099246dd2760665561e8adb7394ea0cc43a72684c6480f9380f7786439"
+    "01597db0132c1cf7b331eff68ae09b5a235a3c3caa9c944c29cac7d1c4c4c00a"
 )
 backup=(
     "etc/${pkgname}.conf"
@@ -237,7 +237,7 @@ EOF
     go install github.com/pritunl/pritunl-web@latest
 }
 build:almalinux-8() {
-    cd "${srcdir}/Python-3.9.16"
+    cd "${srcdir}/Python-3.9.18"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
@@ -259,7 +259,7 @@ build:almalinux-8() {
     make
 }
 build:amazonlinux-2() {
-    cd "${srcdir}/Python-3.9.16"
+    cd "${srcdir}/Python-3.9.18"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
@@ -274,7 +274,7 @@ build:amazonlinux-2() {
     go install github.com/pritunl/pritunl-web@latest
 }
 build:amazonlinux-2023() {
-    cd "${srcdir}/Python-3.9.16"
+    cd "${srcdir}/Python-3.9.18"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
@@ -289,7 +289,7 @@ build:amazonlinux-2023() {
     go install github.com/pritunl/pritunl-web@latest
 }
 build:centos-7() {
-    cd "${srcdir}/Python-3.9.16"
+    cd "${srcdir}/Python-3.9.18"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
@@ -311,7 +311,7 @@ build:centos-7() {
     make
 }
 build:oraclelinux-7() {
-    cd "${srcdir}/Python-3.9.16"
+    cd "${srcdir}/Python-3.9.18"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
@@ -333,7 +333,7 @@ build:oraclelinux-7() {
     make
 }
 build:oraclelinux-8() {
-    cd "${srcdir}/Python-3.9.16"
+    cd "${srcdir}/Python-3.9.18"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
@@ -355,7 +355,7 @@ build:oraclelinux-8() {
     make
 }
 build:apt() {
-    cd "${srcdir}/Python-3.9.16"
+    cd "${srcdir}/Python-3.9.18"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
