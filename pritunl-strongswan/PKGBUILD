@@ -9,7 +9,6 @@ targets=(
     "almalinux-8"
     "oraclelinux-7"
     "oraclelinux-8"
-    "oraclelinux-9"
     "ubuntu-bionic"
     "ubuntu-focal"
     "ubuntu-jammy"

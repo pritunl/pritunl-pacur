@@ -3,8 +3,8 @@ targets=(
     "debian-buster"
     "debian-bullseye"
     "debian-bookworm"
-    "fedora-37"
     "fedora-38"
+    "fedora-39"
     "almalinux-8"
     "almalinux-9"
     "oraclelinux-8"
@@ -111,12 +111,11 @@ build:pacman() {
     ./node_modules/.bin/electron-packager ./ Pritunl --platform=linux --arch=x64 --out=../build/linux
     chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
 }
-build:almalinux-9() {
-    dnf -y module enable nodejs:18
-    dnf -y install nodejs
+build:almalinux-8() {
+    yum -y install https://rpm.nodesource.com/pub_20.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm
+    yum -y --setopt=nodesource-nodejs.module_hotfixes=1 install nodejs
 
     cd "${srcdir}/${pkgname}-${pkgver}"
-
     cd service
     go get -u
     go install
@@ -144,12 +143,11 @@ build:almalinux-9() {
     rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/uuid/bin/uuid
     rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mkdirp/bin/cmd.js
 }
-build:oraclelinux-9() {
-    dnf -y module enable nodejs:18
-    dnf -y install nodejs
+build:oraclelinux-8() {
+    yum -y install https://rpm.nodesource.com/pub_20.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm
+    yum -y --setopt=nodesource-nodejs.module_hotfixes=1 install nodejs
 
     cd "${srcdir}/${pkgname}-${pkgver}"
-
     cd service
     go get -u
     go install
@@ -208,10 +206,11 @@ build:fedora() {
     rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mkdirp/bin/cmd.js
 }
 build:yum() {
-    yum -y install https://rpm.nodesource.com/pub_20.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm
-    yum -y --setopt=nodesource-nodejs.module_hotfixes=1 install nodejs
+    dnf -y module enable nodejs:18
+    dnf -y install nodejs
 
     cd "${srcdir}/${pkgname}-${pkgver}"
+
     cd service
     go get -u
     go install
