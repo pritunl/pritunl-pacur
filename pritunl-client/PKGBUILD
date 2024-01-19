@@ -18,6 +18,7 @@ targets=(
     "ubuntu-focal"
     "ubuntu-jammy"
     "ubuntu-lunar"
+    "ubuntu-mantic"
 )
 pkgname="pritunl-client"
 pkgver="1.2.3128.59"
