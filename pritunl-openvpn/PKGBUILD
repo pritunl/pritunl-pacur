@@ -7,7 +7,7 @@ targets=(
     "oraclelinux-8"
 )
 pkgname="pritunl-openvpn"
-pkgver="2.6.6"
+pkgver="2.6.8"
 pkgrel="1"
 pkgdesc="A full-featured SSL VPN solution"
 pkgdesclong=(
@@ -172,7 +172,7 @@ sources=(
     "https://swupdate.openvpn.org/community/releases/openvpn-${pkgver}.tar.gz"
 )
 hashsums=(
-    "3b074f392818b31aa529b84f76e8b5e4ad03fca764924f46d906bceaaf421034"
+    "5ede1565c8a6d880100f7f235317a7ee9eea83d5052db5547f13a9e76af7805d"
 )
 
 build:amazonlinux-2() {
