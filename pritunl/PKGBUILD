@@ -1033,14 +1033,8 @@ postinst:yum() {
     restorecon -v /usr/lib/systemd/system/pritunl.service &> /dev/null || true
     restorecon -v /etc/systemd/system/pritunl-web.service &> /dev/null || true
     restorecon -v /usr/lib/systemd/system/pritunl-web.service &> /dev/null || true
-    restorecon -v /usr/lib/pritunl/bin/pritunl || true
-    restorecon -v /usr/lib/pritunl/bin/python || true
-    restorecon -v /usr/lib/pritunl/bin/python3 &> /dev/null || true
-    restorecon -v /usr/lib/pritunl/bin/python3.6 &> /dev/null || true
-    restorecon -v /usr/lib/pritunl/bin/python3.9 &> /dev/null || true
     restorecon -v /usr/lib/pritunl/usr/bin/pritunl || true
-    restorecon -v /usr/lib/pritunl/usr/bin/python || true
-    restorecon -v /usr/lib/pritunl/usr/bin/python3 &> /dev/null || true
+    restorecon -v /usr/lib/pritunl/usr/bin/python3 || true
     restorecon -v /usr/lib/pritunl/usr/bin/python3.6 &> /dev/null || true
     restorecon -v /usr/lib/pritunl/usr/bin/python3.9 &> /dev/null || true
     restorecon -v /usr/bin/pritunl-web || true
