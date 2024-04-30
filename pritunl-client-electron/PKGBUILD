@@ -1,16 +1,12 @@
 targets=(
     "archlinux"
-    "debian-buster"
-    "debian-bullseye"
     "debian-bookworm"
-    "fedora-38"
     "fedora-39"
+    "fedora-40"
     "almalinux-9"
     "oraclelinux-9"
-    "ubuntu-focal"
-    "ubuntu-jammy"
-    "ubuntu-lunar"
     "ubuntu-mantic"
+    "ubuntu-noble"
 )
 pkgname="pritunl-client-electron"
 pkgver="1.2.3128.59"
@@ -40,7 +36,6 @@ depends:yum=(
     "openvpn"
 )
 depends:apt=(
-    "libgconf-2-4"
     "libgtk2.0-0"
     "libxss1"
     "net-tools"
@@ -70,6 +65,8 @@ makedepends:fedora=(
     "npm"
 )
 makedepends:apt=(
+    "nodejs"
+    "npm"
     "python3"
     "libgconf-2-4"
     "unzip"
@@ -109,70 +106,6 @@ build:pacman() {
     ./node_modules/.bin/electron-rebuild
     ./node_modules/.bin/electron-packager ./ Pritunl --platform=linux --arch=x64 --out=../build/linux
     chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
-}
-build:almalinux-8() {
-    yum -y install https://rpm.nodesource.com/pub_20.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm
-    yum -y --setopt=nodesource-nodejs.module_hotfixes=1 install nodejs
-
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    cd service
-    go get -u
-    go install
-
-    cd ../cli
-    go get -u
-    go install
-
-    cd ../client
-    npm install
-    ./node_modules/.bin/electron-rebuild
-    ./node_modules/.bin/electron-packager ./ Pritunl --platform=linux --arch=x64 --out=../build/linux
-    chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/info
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/travis-gh-pages
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/prepare-tests
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/delayed-call.coffee
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/delayed-require.coffee
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/difference.coffee
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/initial-value.coffee
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-verify
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-sign
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-conv
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mustache/bin/mustache
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/uuid/bin/uuid
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mkdirp/bin/cmd.js
-}
-build:oraclelinux-8() {
-    yum -y install https://rpm.nodesource.com/pub_20.x/nodistro/repo/nodesource-release-nodistro-1.noarch.rpm
-    yum -y --setopt=nodesource-nodejs.module_hotfixes=1 install nodejs
-
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    cd service
-    go get -u
-    go install
-
-    cd ../cli
-    go get -u
-    go install
-
-    cd ../client
-    npm install
-    ./node_modules/.bin/electron-rebuild
-    ./node_modules/.bin/electron-packager ./ Pritunl --platform=linux --arch=x64 --out=../build/linux
-    chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/info
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/travis-gh-pages
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/ajv/scripts/prepare-tests
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/delayed-call.coffee
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/delayed-require.coffee
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/difference.coffee
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/performance-now/test/scripts/initial-value.coffee
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-verify
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-sign
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/sshpk/bin/sshpk-conv
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mustache/bin/mustache
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/uuid/bin/uuid
-    rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mkdirp/bin/cmd.js
 }
 build:fedora() {
     cd "${srcdir}/${pkgname}-${pkgver}"
@@ -238,14 +171,6 @@ build:yum() {
     rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mkdirp/bin/cmd.js
 }
 build:apt() {
-    mkdir -p /etc/apt/keyrings
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-    tee /etc/apt/sources.list.d/nodesource.list << EOF
-deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_20.x nodistro main
-EOF
-    apt --assume-yes update
-    apt --assume-yes install nodejs
-
     cd "${srcdir}/${pkgname}-${pkgver}"
 
     cd service
