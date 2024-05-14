@@ -13,6 +13,7 @@ targets=(
     "ubuntu-bionic"
     "ubuntu-focal"
     "ubuntu-jammy"
+    "ubuntu-noble"
 )
 pkgname="pritunl"
 pkgver="1.32.3697.80"
