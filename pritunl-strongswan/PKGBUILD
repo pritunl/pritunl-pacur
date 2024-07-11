@@ -51,7 +51,7 @@ depends:amazonlinux-2023=(
     "pam"
 )
 depends:yum=(
-    "curl"
+    "curl-minimal"
     "gmp"
     "net-tools"
     "python3"
@@ -99,7 +99,7 @@ makedepends:amazonlinux-2023=(
     "iptables-devel"
 )
 makedepends:yum=(
-    "curl"
+    "curl-minimal"
     "libcurl-devel"
     "gmp"
     "gmp-devel"
