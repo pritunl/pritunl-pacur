@@ -7,14 +7,17 @@ targets=(
     "debian-bullseye"
     "debian-bookworm"
     "almalinux-8"
+    "almalinux-9"
     "oraclelinux-7"
     "oraclelinux-8"
+    "oraclelinux-9"
     "ubuntu-bionic"
     "ubuntu-focal"
     "ubuntu-jammy"
+    "ubuntu-noble"
 )
 pkgname="pritunl-strongswan"
-pkgver="5.9.11"
+pkgver="5.9.14"
 pkgrel="1"
 pkgdesc="Open Source IPsec Implementation"
 pkgdesclong=(
@@ -145,7 +148,7 @@ sources=(
     "${url}/strongswan-${pkgver}.tar.gz"
 )
 hashsums=(
-    "c0a8160c4d2743d7b998af27a4f268d3ba14b7509c2fd29af96c73685feec0c7"
+    "7bef87faf92ad5ffa5342a90c326223ccf64864df8b4ee3a506f325d7f833c9e"
 )
 
 build() {
