@@ -151,6 +151,7 @@ makedepends:oraclelinux-9=(
     "pam"
     "pam-devel"
     "iptables-devel"
+    "iptables-legacy-libs"
 )
 makedepends:almalinux-9=(
     "curl-minimal"
@@ -168,6 +169,7 @@ makedepends:almalinux-9=(
     "pam"
     "pam-devel"
     "iptables-devel"
+    "iptables-legacy-libs"
 )
 makedepends:apt=(
     "curl"
