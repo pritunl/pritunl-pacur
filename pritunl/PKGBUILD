@@ -59,7 +59,6 @@ depends:yum=(
 depends:apt=(
     "pritunl-ndppd"
     "python3"
-    "python3-distutils"
     "net-tools"
     "openvpn"
     "openssl"
