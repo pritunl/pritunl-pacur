@@ -63,7 +63,7 @@ makedepends:pacman=(
     "sqlite"
     "libcap"
     "pam"
-    "python3"
+    "python-setuptools"
 )
 makedepends:yum=(
     "glib2-devel"
