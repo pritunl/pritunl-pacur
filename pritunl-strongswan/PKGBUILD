@@ -40,39 +40,7 @@ depends:pacman=(
     "libcap"
     "pam"
 )
-depends:amazonlinux-2023=(
-    "curl-minimal"
-    "gmp"
-    "net-tools"
-    "python3"
-    "openssl"
-    "sqlite"
-    "libcap"
-    "pam"
-)
 depends:yum=(
-    "curl"
-    "gmp"
-    "net-tools"
-    "python3"
-    "openssl"
-    "sqlite"
-    "libcap"
-    "pam"
-)
-depends:oraclelinux-9=(
-    "curl-minimal"
-    "gmp"
-    "net-tools"
-    "python3"
-    "openssl"
-    "sqlite"
-    "libcap"
-    "pam"
-)
-depends:almalinux-9=(
-    "curl-minimal"
-    "gmp"
     "net-tools"
     "python3"
     "openssl"
@@ -81,114 +49,57 @@ depends:almalinux-9=(
     "pam"
 )
 depends:apt=(
-    "curl"
-    "libgmp-dev"
-    "libgmp3-dev"
     "net-tools"
     "python3"
     "openssl"
     "sqlite3"
+    "libcap2"
 )
 
 makedepends:pacman=(
     "curl"
     "gmp"
     "iproute2"
-    "net-tools"
-    "python3"
     "openssl"
     "sqlite"
     "libcap"
     "pam"
-)
-makedepends:amazonlinux-2023=(
-    "curl-minimal"
-    "libcurl-devel"
-    "gmp"
-    "gmp-devel"
-    "net-tools"
     "python3"
-    "openssl"
-    "openssl-devel"
-    "sqlite"
-    "sqlite-devel"
-    "libcap"
-    "libcap-devel"
-    "pam"
-    "pam-devel"
-    "iptables-devel"
 )
 makedepends:yum=(
-    "curl"
-    "libcurl-devel"
-    "gmp"
+    "glib2-devel"
+    "systemd-devel"
     "gmp-devel"
-    "net-tools"
-    "python3"
-    "openssl"
-    "openssl-devel"
-    "sqlite"
-    "sqlite-devel"
-    "libcap"
-    "libcap-devel"
-    "pam"
-    "pam-devel"
-    "iptables-devel"
-)
-makedepends:oraclelinux-9=(
-    "curl-minimal"
     "libcurl-devel"
-    "gmp"
-    "gmp-devel"
-    "net-tools"
-    "python3"
-    "openssl"
+    "openldap-devel"
     "openssl-devel"
-    "sqlite"
     "sqlite-devel"
-    "libcap"
-    "libcap-devel"
-    "pam"
+    "gettext-devel"
+    "libxml2-devel"
     "pam-devel"
+    "libgcrypt-devel"
     "iptables-devel"
-    "iptables-legacy-libs"
-)
-makedepends:almalinux-9=(
-    "curl-minimal"
-    "libcurl-devel"
-    "gmp"
-    "gmp-devel"
+    "libcap-devel"
     "net-tools"
-    "python3"
-    "openssl"
-    "openssl-devel"
-    "sqlite"
-    "sqlite-devel"
-    "libcap"
-    "libcap-devel"
-    "pam"
-    "pam-devel"
-    "iptables-devel"
-    "iptables-legacy-libs"
+    "python3-devel"
 )
 makedepends:apt=(
-    "curl"
-    "libcurl4-openssl-dev"
+    "libglib2.0-dev"
+    "libsystemd-dev"
     "libgmp-dev"
-    "libgmp3-dev"
-    "net-tools"
-    "python3"
-    "openssl"
+    "libcurl4-openssl-dev"
+    "libldap2-dev"
     "libssl-dev"
-    "sqlite3"
     "libsqlite3-dev"
-    "libcap-dev"
+    "gettext"
+    "libxml2-dev"
     "libpam0g-dev"
-    "libiptc-dev"
-    "libip4tc-dev"
-    "libip6tc-dev"
-    "libxtables-dev"
-    "pkg-config"
+    "libgcrypt20-dev"
+    "iptables-dev"
+    "libcap-dev"
+    "libtss2-dev"
+    "net-tools"
+    "python3-dev"
 )
 provides=(
     "${pkgname}"
@@ -209,27 +120,65 @@ hashsums=(
 
 build() {
     cd "${srcdir}/strongswan-${pkgver}"
-    ./configure --prefix=/usr \
+    ./configure --disable-static \
+        --prefix=/usr \
         --sbindir=/usr/bin \
         --sysconfdir=/etc \
         --libexecdir=/usr/lib \
         --with-ipsecdir=/usr/lib/strongswan \
         --with-nm-ca-dir=/etc/ssl/certs \
         --with-piddir=/etc/ipsec.d/run \
+        --enable-systemd \
+        --enable-openssl \
+        --enable-unity \
+        --enable-ctr \
+        --enable-ccm \
+        --enable-gcm \
+        --enable-chapoly \
+        --enable-md4 \
+        --enable-gcrypt \
+        --enable-newhope \
+        --enable-xauth-eap \
+        --enable-xauth-pam \
+        --enable-xauth-noauth \
+        --enable-eap-identity \
+        --enable-eap-md5 \
+        --enable-eap-gtc \
+        --enable-eap-tls \
+        --enable-eap-ttls \
+        --enable-eap-peap \
+        --enable-eap-mschapv2 \
+        --enable-eap-tnc \
+        --enable-eap-sim \
+        --enable-eap-sim-file \
+        --enable-eap-aka \
+        --enable-eap-aka-3gpp \
+        --enable-eap-aka-3gpp2 \
+        --enable-eap-dynamic \
+        --enable-eap-radius \
+        --enable-ext-auth \
+        --enable-ipseckey \
+        --enable-pkcs11 \
+        --enable-farp \
+        --enable-dhcp \
+        --enable-ha \
+        --enable-led \
+        --enable-sql \
         --enable-sqlite \
-        --enable-openssl --enable-curl \
-        --enable-sql --enable-attr-sql \
-        --enable-farp --enable-dhcp \
-        --enable-eap-sim --enable-eap-sim-file --enable-eap-simaka-pseudonym \
-        --enable-eap-simaka-reauth --enable-eap-identity --enable-eap-md5 \
-        --enable-eap-gtc --enable-eap-aka --enable-eap-aka-3gpp2 \
-        --enable-eap-mschapv2 --enable-eap-radius --enable-xauth-eap \
-        --enable-ha --enable-vici --enable-swanctl --enable-ext-auth \
-        --disable-mysql --disable-ldap --enable-cmd --enable-forecast --enable-connmark \
-        --enable-aesni --enable-eap-ttls --enable-radattr --enable-xauth-pam --enable-xauth-noauth \
-        --enable-eap-dynamic --enable-eap-peap --enable-eap-tls --enable-chapoly --enable-unity \
-        --with-capabilities=libcap --enable-newhope --enable-ntru --enable-mgf1 --enable-sha3 \
-        --enable-bliss --enable-dnscert
+        --enable-curl \
+        --enable-cmd \
+        --enable-acert \
+        --enable-vici \
+        --enable-swanctl \
+        --enable-duplicheck \
+        --enable-mgf1 \
+        --enable-bliss \
+        --enable-ntru \
+        --enable-aesni \
+        --disable-mysql \
+        --disable-ldap \
+        --enable-kernel-libipsec \
+        --with-capabilities=libcap
     make
 }
 
