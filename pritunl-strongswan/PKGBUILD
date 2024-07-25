@@ -30,9 +30,7 @@ section="utils"
 priority="optional"
 url="https://download.strongswan.org"
 depends:pacman=(
-    "curl"
     "gmp"
-    "iproute2"
     "net-tools"
     "python3"
     "openssl"
@@ -41,6 +39,7 @@ depends:pacman=(
     "pam"
 )
 depends:yum=(
+    "gmp"
     "net-tools"
     "python3"
     "openssl"
@@ -68,7 +67,6 @@ makedepends:pacman=(
 )
 makedepends:yum=(
     "glib2-devel"
-    "systemd-devel"
     "gmp-devel"
     "libcurl-devel"
     "openldap-devel"
@@ -85,7 +83,6 @@ makedepends:yum=(
 )
 makedepends:apt=(
     "libglib2.0-dev"
-    "libsystemd-dev"
     "libgmp-dev"
     "libcurl4-openssl-dev"
     "libldap2-dev"
@@ -120,15 +117,13 @@ hashsums=(
 
 build() {
     cd "${srcdir}/strongswan-${pkgver}"
-    ./configure --disable-static \
-        --prefix=/usr \
+    ./configure --prefix=/usr \
         --sbindir=/usr/bin \
         --sysconfdir=/etc \
         --libexecdir=/usr/lib \
         --with-ipsecdir=/usr/lib/strongswan \
         --with-nm-ca-dir=/etc/ssl/certs \
         --with-piddir=/etc/ipsec.d/run \
-        --enable-systemd \
         --enable-openssl \
         --enable-unity \
         --enable-ctr \
@@ -162,7 +157,6 @@ build() {
         --enable-farp \
         --enable-dhcp \
         --enable-ha \
-        --enable-led \
         --enable-sql \
         --enable-sqlite \
         --enable-curl \
@@ -171,10 +165,11 @@ build() {
         --enable-vici \
         --enable-swanctl \
         --enable-duplicheck \
+        --enable-aesni \
+        --enable-python-eggs \
         --enable-mgf1 \
         --enable-bliss \
         --enable-ntru \
-        --enable-aesni \
         --disable-mysql \
         --disable-ldap \
         --enable-kernel-libipsec \
