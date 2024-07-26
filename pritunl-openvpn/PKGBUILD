@@ -69,29 +69,6 @@ makedepends:amazonlinux-2023=(
     "perl-macros"
     "python-docutils"
 )
-makedepends:centos-7=(
-    "gnupg2"
-    "gcc"
-    "automake"
-    "autoconf"
-    "autoconf-archive"
-    "libtool"
-    "gettext"
-    "lzo-devel"
-    "lz4-devel"
-    "libnl3-devel"
-    "libcap-ng-devel"
-    "make"
-    "openssl-devel"
-    "pkcs11-helper-devel"
-    "pam-devel"
-    "libselinux-devel"
-    "libcmocka-devel"
-    "systemd"
-    "systemd-devel"
-    "perl-macros"
-    "python-docutils"
-)
 makedepends:oraclelinux-7=(
     "gnupg2"
     "gcc"
@@ -248,22 +225,6 @@ EOF
 
     yum -y install pkcs11-helper
 
-    cd "${srcdir}/openvpn-${pkgver}"
-    ./configure \
-        --prefix=/usr \
-        --sbindir=/usr/bin \
-        --enable-silent-rules \
-        --with-crypto-library=openssl \
-        --enable-pkcs11 \
-        --enable-selinux \
-        --enable-systemd \
-        --enable-x509-alt-username \
-        --enable-async-push \
-        --disable-dco
-    make
-}
-
-build:centos-7() {
     cd "${srcdir}/openvpn-${pkgver}"
     ./configure \
         --prefix=/usr \

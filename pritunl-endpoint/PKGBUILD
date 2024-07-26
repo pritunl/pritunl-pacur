@@ -44,10 +44,6 @@ depends:yum=(
 depends:apt=(
     "openssl"
 )
-depends:centos-7=(
-    "yum-utils"
-    "openssl"
-)
 depends:oraclelinux-7=(
     "yum-utils"
     "openssl"
