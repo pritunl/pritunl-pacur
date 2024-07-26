@@ -92,7 +92,7 @@ makedepends:apt=(
     "libxml2-dev"
     "libpam0g-dev"
     "libgcrypt20-dev"
-    "iptables-dev"
+    "libip4tc-dev"
     "libcap-dev"
     "libtss2-dev"
     "net-tools"
