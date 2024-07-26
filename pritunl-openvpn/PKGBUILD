@@ -8,7 +8,7 @@ targets=(
     "oraclelinux-9"
 )
 pkgname="pritunl-openvpn"
-pkgver="2.6.8"
+pkgver="2.6.12"
 pkgrel="1"
 pkgdesc="A full-featured SSL VPN solution"
 pkgdesclong=(
@@ -138,7 +138,29 @@ makedepends:oraclelinux-8=(
     "perl-macros"
     "python3-docutils"
 )
-makedepends:almalinux=(
+makedepends:oraclelinux-9=(
+    "gnupg2"
+    "gcc"
+    "automake"
+    "autoconf"
+    "autoconf-archive"
+    "libtool"
+    "gettext"
+    "lzo-devel"
+    "lz4-devel"
+    "libnl3-devel"
+    "libcap-ng-devel"
+    "make"
+    "openssl-devel"
+    "openssl-pkcs11"
+    "pkcs11-helper-devel"
+    "pam-devel"
+    "libselinux-devel"
+    "libcmocka-devel"
+    "systemd"
+    "systemd-devel"
+)
+makedepends:almalinux-8=(
     "gnupg2"
     "gcc"
     "automake"
@@ -161,6 +183,28 @@ makedepends:almalinux=(
     "perl-macros"
     "python3-docutils"
 )
+makedepends:almalinux-9=(
+    "gnupg2"
+    "gcc"
+    "automake"
+    "autoconf"
+    "autoconf-archive"
+    "libtool"
+    "gettext"
+    "lzo-devel"
+    "lz4-devel"
+    "libnl3-devel"
+    "libcap-ng-devel"
+    "make"
+    "openssl-devel"
+    "openssl-pkcs11"
+    "pkcs11-helper-devel"
+    "pam-devel"
+    "libselinux-devel"
+    "libcmocka-devel"
+    "systemd"
+    "systemd-devel"
+)
 provides=(
     "${pkgname}"
     "openvpn"
@@ -173,7 +217,7 @@ sources=(
     "https://swupdate.openvpn.org/community/releases/openvpn-${pkgver}.tar.gz"
 )
 hashsums=(
-    "5ede1565c8a6d880100f7f235317a7ee9eea83d5052db5547f13a9e76af7805d"
+    "1c610fddeb686e34f1367c347e027e418e07523a10f4d8ce4a2c2af2f61a1929"
 )
 
 build:amazonlinux-2() {
