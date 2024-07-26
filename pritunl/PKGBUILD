@@ -3,7 +3,6 @@ targets=(
     "almalinux-8"
     "amazonlinux-2"
     "amazonlinux-2023"
-    "centos-7"
     "debian-buster"
     "debian-bullseye"
     "debian-bookworm"

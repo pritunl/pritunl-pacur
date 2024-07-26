@@ -1,10 +1,11 @@
 targets=(
+    "almalinux-8"
+    "almalinux-9"
     "amazonlinux-2"
     "amazonlinux-2023"
-    "centos-7"
-    "almalinux-8"
     "oraclelinux-7"
     "oraclelinux-8"
+    "oraclelinux-9"
 )
 pkgname="pritunl-openvpn"
 pkgver="2.6.8"

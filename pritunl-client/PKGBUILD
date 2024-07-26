@@ -1,8 +1,9 @@
 targets=(
     "archlinux"
+    "almalinux-8"
+    "almalinux-9"
     "amazonlinux-2"
     "amazonlinux-2023"
-    "centos-7"
     "debian-buster"
     "debian-bullseye"
     "debian-bookworm"
@@ -17,7 +18,7 @@ targets=(
     "ubuntu-bionic"
     "ubuntu-focal"
     "ubuntu-jammy"
-    "ubuntu-mantic"
+    "ubuntu-mactic"
     "ubuntu-noble"
 )
 pkgname="pritunl-client"

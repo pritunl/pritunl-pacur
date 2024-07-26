@@ -1,8 +1,9 @@
 targets=(
     "archlinux"
+    "almalinux-8"
+    "almalinux-9"
     "amazonlinux-2"
     "amazonlinux-2023"
-    "centos-7"
     "debian-buster"
     "debian-bullseye"
     "debian-bookworm"
@@ -11,10 +12,10 @@ targets=(
     "oraclelinux-7"
     "oraclelinux-8"
     "oraclelinux-9"
-    "ubuntu-xenial"
     "ubuntu-bionic"
     "ubuntu-focal"
     "ubuntu-jammy"
+    "ubuntu-noble"
 )
 pkgname="pritunl-link"
 pkgver="1.0.2332.77"
