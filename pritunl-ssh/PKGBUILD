@@ -20,7 +20,7 @@ targets=(
     "ubuntu-noble"
 )
 pkgname="pritunl-ssh"
-pkgver="1.2.3128.59"
+pkgver="1.0.2435.24"
 pkgrel="1"
 pkgdesc="Pritunl Zero SSH Client"
 pkgdesclong=(
@@ -53,7 +53,7 @@ sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
-    "90463ea996b8f07f2a0bedf371fe234d54fa751772e35996870a1555d4d1e43f"
+    "defbdccd91da2dc953e6ad69e2226668741c39e0d6cf728489673d9cf02e66bb"
 )
 
 package:pacman() {
