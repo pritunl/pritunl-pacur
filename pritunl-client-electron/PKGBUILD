@@ -68,7 +68,6 @@ makedepends:apt=(
     "nodejs"
     "npm"
     "python3"
-    "libgconf-2-4"
     "unzip"
     "ca-certificates"
     "gnupg"
