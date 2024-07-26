@@ -22,7 +22,7 @@ targets=(
     "ubuntu-noble"
 )
 pkgname="pritunl-endpoint"
-pkgver="1.0.2255.3"
+pkgver="1.0.2899.20"
 pkgrel="1"
 pkgdesc="Pritunl Endpoint"
 pkgdesclong=(
@@ -72,7 +72,7 @@ sources=(
     "pritunl-endpoint.service"
 )
 hashsums=(
-    "3158a888a44a30fd5a11af0ab4b23b5d13b85a1d1af8c97560014eed8570bfe5"
+    "bf006e1897435ff360d92abdcca499a4382511d7f1a11a16024141fd77b1e815"
     "d914176fd50bd7f565700006a31aa97b79d3ad17cee20c8e5ff2061d5cb74817"
     "4410bfb2e08a738ca37e3a9790c53342213ec87f44e79aa055d844d67f0acb26"
 )
