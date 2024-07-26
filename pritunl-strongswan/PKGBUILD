@@ -167,7 +167,6 @@ build() {
         --enable-swanctl \
         --enable-duplicheck \
         --enable-aesni \
-        --enable-python-eggs \
         --enable-mgf1 \
         --enable-bliss \
         --enable-ntru \
