@@ -216,13 +216,13 @@ sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
     "cacert.pem"
     "cacert2.pem"
-    "https://www.python.org/ftp/python/3.9.18/Python-3.9.18.tar.xz"
+    "https://www.python.org/ftp/python/3.9.19/Python-3.9.19.tar.xz"
 )
 hashsums=(
     "4a9bbb2af6152ee217ca34178def6d156781ec6b732cbfef7d4283dd68af4031"
     "f524fc21859b776e18df01a87880efa198112214e13494275dbcbd9bcb71d976"
     "2c11c3ce08ffc40d390319c72bc10d4f908e9c634494d65ed2cbc550731fd524"
-    "01597db0132c1cf7b331eff68ae09b5a235a3c3caa9c944c29cac7d1c4c4c00a"
+    "d4892cd1618f6458cb851208c030df1482779609d0f3939991bd38184f8c679e"
 )
 backup=(
     "etc/${pkgname}.conf"
