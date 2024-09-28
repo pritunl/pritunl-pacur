@@ -1,5 +1,11 @@
 targets=(
+    "almalinux-8"
+    "almalinux-9"
+    "amazonlinux-2"
     "amazonlinux-2023"
+    "oraclelinux-7"
+    "oraclelinux-8"
+    "oraclelinux-9"
 )
 pkgname="pkcs11-helper"
 pkgver="1.29.0"
@@ -24,7 +30,7 @@ depends:yum=(
     "automake"
     "openssl-devel"
 )
-makedepends:amazonlinux-2023=(
+makedepends:yum=(
     "gcc"
     "doxygen"
     "graphviz"
