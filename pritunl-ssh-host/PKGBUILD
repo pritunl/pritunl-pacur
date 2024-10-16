@@ -22,7 +22,7 @@ targets=(
     "ubuntu-noble"
 )
 pkgname="pritunl-ssh-host"
-pkgver="1.0.2435.24"
+pkgver="1.0.3231.6"
 pkgrel="1"
 pkgdesc="Pritunl Zero SSH Host Client"
 pkgdesclong=(
@@ -56,7 +56,7 @@ sources=(
     "${pkgname}"
 )
 hashsums=(
-    "defbdccd91da2dc953e6ad69e2226668741c39e0d6cf728489673d9cf02e66bb"
+    "32960f54a2ca9ac22f2b2722e58b0aa33a79e5ce4be6d40c63335da435987daf"
     "e3013a687a20303a3dae118a526f26b3e3aecd0f054f5256e22d150c0418ca27"
 )
 

@@ -16,7 +16,7 @@ targets=(
     "ubuntu-noble"
 )
 pkgname="pritunl-zero"
-pkgver="1.0.3138.90"
+pkgver="1.0.3167.66"
 pkgrel="1"
 pkgdesc="Pritunl Zero"
 pkgdesclong=(
@@ -59,7 +59,7 @@ sources=(
     "pritunl-zero.service"
 )
 hashsums=(
-    "dbe099faa9039089ffa8e77caeb59d4723ac4d262b6806caabddc31cd81b461a"
+    "795dc52e1d327df65307322c021510efd87415ad8e8bb6631fdad348bcfa85c7"
     "c40950a1c2ad80a8ff45b2af59a7948e8b542474a8caa3584160ae77b67b4b39"
     "6cb1b284ab49018a5b9afab6b5653f95447a376dcf578ba8277455dacdaaeeae"
     "a002d62b3cf2135b8115ce7ee775e814cac0b17ca73b25362998d7b494c824a3"
