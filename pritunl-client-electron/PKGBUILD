@@ -1,15 +1,15 @@
 targets=(
     "archlinux"
+    "almalinux-9"
     "debian-bookworm"
     "fedora-39"
     "fedora-40"
-    "almalinux-9"
     "oraclelinux-9"
-    "ubuntu-mantic"
     "ubuntu-noble"
+    "ubuntu-oracular"
 )
 pkgname="pritunl-client-electron"
-pkgver="1.3.4026.10"
+pkgver="1.3.4051.36"
 pkgrel="1"
 pkgdesc="Pritunl OpenVPN Electron Client"
 pkgdesclong=(
@@ -82,7 +82,7 @@ sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
-    "eef203eef7684e4a78e15fd947a68d9036ed25cc854b7ff843eccd284d915101"
+    "685cb9dc7fc718fc504a2f62d9bcc878d184febe0c956a8acee6d6d47ef53fe0"
 )
 backup=(
     "var/log/pritunl-client.log"

@@ -3,8 +3,8 @@ targets=(
     "almalinux-9"
     "oraclelinux-8"
     "oraclelinux-9"
-    "ubuntu-focal"
     "ubuntu-jammy"
+    "ubuntu-noble"
 )
 pkgname="pritunl-cloud"
 pkgver="1.2.2933.86"
