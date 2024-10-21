@@ -16,7 +16,7 @@ targets=(
     "ubuntu-noble"
 )
 pkgname="pritunl-zero"
-pkgver="1.0.3167.66"
+pkgver="1.0.3253.94"
 pkgrel="1"
 pkgdesc="Pritunl Zero"
 pkgdesclong=(
@@ -59,7 +59,7 @@ sources=(
     "pritunl-zero.service"
 )
 hashsums=(
-    "795dc52e1d327df65307322c021510efd87415ad8e8bb6631fdad348bcfa85c7"
+    "2e525c8c411aaab00fbbca4ebe3437c1d7bc213668adfba086f089bc50529bdf"
     "c40950a1c2ad80a8ff45b2af59a7948e8b542474a8caa3584160ae77b67b4b39"
     "6cb1b284ab49018a5b9afab6b5653f95447a376dcf578ba8277455dacdaaeeae"
     "a002d62b3cf2135b8115ce7ee775e814cac0b17ca73b25362998d7b494c824a3"
@@ -92,29 +92,6 @@ package() {
 
     mkdir -p ${pkgdir}/etc/systemd/system
     cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
-
-    touch ${pkgdir}/etc/${pkgname}.json
-    chmod 600 ${pkgdir}/etc/${pkgname}.json
-    mkdir -p ${pkgdir}/var/log
-    touch ${pkgdir}/var/log/${pkgname}.log
-    touch ${pkgdir}/var/log/${pkgname}.log.1
-}
-package:amazonlinux-1() {
-    mkdir -p ${pkgdir}/usr/bin
-    cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    chmod 755 ${pkgdir}/usr/bin/${pkgname}
-
-    mkdir -p ${pkgdir}/usr/share/${pkgname}/www
-    cp -r /go/src/github.com/pritunl/${pkgname}/www/dist/. ${pkgdir}/usr/share/${pkgname}/www/
-
-    mkdir -p ${pkgdir}/etc
-    cp ${srcdir}/${pkgname}.json ${pkgdir}/etc/${pkgname}.json
-
-    mkdir -p ${pkgdir}/etc/systemd/system
-    cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
-
-    mkdir -p ${pkgdir}/etc/init
-    cp ${srcdir}/${pkgname}.conf ${pkgdir}/etc/init/${pkgname}.conf
 
     touch ${pkgdir}/etc/${pkgname}.json
     chmod 600 ${pkgdir}/etc/${pkgname}.json

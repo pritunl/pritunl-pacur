@@ -1,9 +1,11 @@
 targets=(
     "almalinux-8"
+    "almalinux-9"
     "amazonlinux-2"
     "amazonlinux-2023"
     "oraclelinux-7"
     "oraclelinux-8"
+    "oraclelinux-9"
 )
 pkgname="pritunl-openvpn"
 pkgver="2.6.12"
@@ -21,6 +23,7 @@ url="https://community.openvpn.net/"
 depends:yum=(
     "net-tools"
     "openssl"
+    "pkcs11-helper"
 )
 makedepends:yum=(
     "gnupg2"
@@ -113,6 +116,50 @@ makedepends:oraclelinux-7=(
     "python-docutils"
     "perl-macros"
 )
+makedepends:almalinux-9=(
+    "gnupg2"
+    "gcc"
+    "automake"
+    "autoconf"
+    "autoconf-archive"
+    "libtool"
+    "gettext"
+    "lzo-devel"
+    "lz4-devel"
+    "libnl3-devel"
+    "libcap-ng-devel"
+    "make"
+    "openssl-devel"
+    "pam-devel"
+    "libselinux-devel"
+    "libcmocka-devel"
+    "systemd"
+    "systemd-devel"
+    "python3-docutils"
+    "perl-macros"
+)
+makedepends:oraclelinux-9=(
+    "gnupg2"
+    "gcc"
+    "automake"
+    "autoconf"
+    "autoconf-archive"
+    "libtool"
+    "gettext"
+    "lzo-devel"
+    "lz4-devel"
+    "libnl3-devel"
+    "libcap-ng-devel"
+    "make"
+    "openssl-devel"
+    "pam-devel"
+    "libselinux-devel"
+    "libcmocka-devel"
+    "systemd"
+    "systemd-devel"
+    "python3-docutils"
+    "perl-macros"
+)
 provides=(
     "${pkgname}"
     "openvpn"
@@ -129,6 +176,8 @@ hashsums=(
 )
 
 build:amazonlinux-2() {
+    yum -y install https://yum.oracle.com/repo/OracleLinux/OL7/developer_EPEL/x86_64/getPackage/pkcs11-helper-1.11-3.el7.x86_64.rpm https://yum.oracle.com/repo/OracleLinux/OL7/developer_EPEL/x86_64/getPackage/pkcs11-helper-devel-1.11-3.el7.x86_64.rpm
+
     cd "${srcdir}/openvpn-${pkgver}"
     ./configure \
         --prefix=/usr \
@@ -148,7 +197,7 @@ build:amazonlinux-2023() {
     tee /etc/yum.repos.d/pritunl.repo << EOF
 [pritunl]
 name=Pritunl Repository
-baseurl=https://repo.pritunl.com/unstable/yum/amazonlinux/2023/
+baseurl=https://repo.pritunl.com/stable/yum/amazonlinux/2023/
 gpgcheck=1
 enabled=1
 gpgkey=https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
@@ -172,6 +221,60 @@ EOF
 }
 
 build:oraclelinux-7() {
+    cd "${srcdir}/openvpn-${pkgver}"
+    ./configure \
+        --prefix=/usr \
+        --sbindir=/usr/bin \
+        --enable-silent-rules \
+        --with-crypto-library=openssl \
+        --enable-pkcs11 \
+        --enable-selinux \
+        --enable-systemd \
+        --enable-x509-alt-username \
+        --enable-async-push \
+        --disable-dco
+    make
+}
+
+build:almalinux-9() {
+    tee /etc/yum.repos.d/pritunl.repo << EOF
+[pritunl]
+name=Pritunl Repository
+baseurl=https://repo.pritunl.com/stable/yum/almalinux/9/
+gpgcheck=1
+enabled=1
+gpgkey=https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
+EOF
+
+    dnf -y install pkcs11-helper
+
+    cd "${srcdir}/openvpn-${pkgver}"
+    ./configure \
+        --prefix=/usr \
+        --sbindir=/usr/bin \
+        --enable-silent-rules \
+        --with-crypto-library=openssl \
+        --enable-pkcs11 \
+        --enable-selinux \
+        --enable-systemd \
+        --enable-x509-alt-username \
+        --enable-async-push \
+        --disable-dco
+    make
+}
+
+build:oraclelinux-9() {
+    tee /etc/yum.repos.d/pritunl.repo << EOF
+[pritunl]
+name=Pritunl Repository
+baseurl=https://repo.pritunl.com/stable/yum/oraclelinux/9/
+gpgcheck=1
+enabled=1
+gpgkey=https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
+EOF
+
+    dnf -y install pkcs11-helper
+
     cd "${srcdir}/openvpn-${pkgver}"
     ./configure \
         --prefix=/usr \
