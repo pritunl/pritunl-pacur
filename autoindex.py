@@ -1,25 +1,35 @@
 import os
+import sys
 from datetime import datetime, timezone
 
 ROOT_DIR = "mirror"
-HTML_HEADER = """
-<html><head><title>Index of /{relative_path}</title></head>
+PREFIX = ""
+if len(sys.argv) > 1:
+    PREFIX = sys.argv[1] + "/"
+HTML_HEADER = """<html><head><title>Index of /{relative_path}</title></head>
 <body bgcolor="white">
 <h1>Index of /{relative_path}</h1><hr><pre><a href="../">../</a>
 """
 HTML_FOOTER = """</pre><hr>
 </body></html>
 """
+
+def limit_filename_length(filename, max_length=50):
+    if len(filename) > max_length:
+        return filename[:max_length - 3] + '..>'
+    return filename
+
 def generate_directory_listing_html(current_dir, relative_path, dirs, files):
-    html = HTML_HEADER.format(relative_path=relative_path)
+    html = HTML_HEADER.format(relative_path=PREFIX + relative_path)
 
     for directory in sorted(dirs):
         dir_path = os.path.join(current_dir, directory)
         stat_info = os.stat(dir_path)
         modified_time = datetime.fromtimestamp(stat_info.st_mtime,
             tz=timezone.utc).strftime("%d-%b-%Y %H:%M")
-        html += f"<a href=\"{directory}/\">{directory}/</a>" + \
-            f"{" " * (51 - len(directory) - 1)}{modified_time}{" " * 20}-\n"
+        label = limit_filename_length(directory + '/')
+        html += f"<a href=\"{directory}/\">{label}</a>" + \
+            f"{' ' * (51 - len(label))}{modified_time}{' ' * 20}-\n"
 
     for file_name in sorted(files):
         if file_name == "index.html":
@@ -29,8 +39,9 @@ def generate_directory_listing_html(current_dir, relative_path, dirs, files):
         modified_time = datetime.fromtimestamp(stat_info.st_mtime,
             tz=timezone.utc).strftime("%d-%b-%Y %H:%M")
         file_size = f"{stat_info.st_size:21}"
-        html += f"<a href=\"{file_name}\">{file_name}</a>" + \
-            f"{" " * (51 - len(file_name))}{modified_time}{file_size}\n"
+        label = limit_filename_length(file_name)
+        html += f"<a href=\"{file_name}\">{label}</a>" + \
+            f"{' ' * (51 - len(label))}{modified_time}{file_size}\n"
 
     html += HTML_FOOTER
 
