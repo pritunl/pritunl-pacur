@@ -3,12 +3,14 @@ FROM oraclelinux:9
 RUN dnf update -y
 RUN dnf install -y wget
 
-RUN gpg --recv-keys 4405F3F0DDBA1B9E68A31D2512C74390F9AAC728
-RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc
-RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc.asc
-RUN gpg --verify mc.asc mc
-RUN cp mc /usr/bin/mc
-RUN chmod +x /usr/bin/mc
+RUN echo $'[pritunl]\n\
+name=Pritunl Repository\n\
+baseurl=https://repo.pritunl.com/stable/yum/oraclelinux/9/\n\
+gpgcheck=1\n\
+enabled=1\n\
+gpgkey=https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc\n' > /etc/yum.repos.d/pritunl.repo
+
+RUN dnf -y install minio-client
 
 ENTRYPOINT ["/usr/bin/mc"]
 CMD ["--version"]

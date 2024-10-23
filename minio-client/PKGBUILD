@@ -1,0 +1,68 @@
+targets=(
+    "almalinux-8"
+    "almalinux-9"
+    "amazonlinux-2"
+    "amazonlinux-2023"
+    "debian-buster"
+    "debian-bullseye"
+    "debian-bookworm"
+    "oraclelinux-7"
+    "oraclelinux-8"
+    "oraclelinux-9"
+    "ubuntu-bionic"
+    "ubuntu-focal"
+    "ubuntu-jammy"
+    "ubuntu-noble"
+)
+pkgname="minio-client"
+copyyear="2024"
+date="2024-10-02T08:27:28Z"
+release="RELEASE.2024-10-02T08-27-28Z"
+commit="11ebe952ea30e426e564f66e78d178465ae7c432"
+commitshort="11ebe95"
+pkgver="2024.10.02"
+pkgrel="1"
+pkgdesc="Unix like utilities for object store"
+pkgdesclong=(
+    "MinIO Client (mc) provides a modern alternative to UNIX commands like"
+    "ls, cat, cp, mirror, diff, find etc. It supports filesystems and "
+    "Amazon S3 compatible cloud storage service (AWS Signature v2 and v4)."
+)
+maintainer="Pritunl <contact@pritunl.com>"
+arch="amd64"
+license=("AGPL")
+section="utils"
+priority="optional"
+url="https://github.com/minio/mc"
+makedepends:pacman=(
+    "git"
+)
+makedepends:yum=(
+    "git"
+)
+makedepends:apt=(
+    "git"
+)
+provides=("${pkgname}")
+conflicts=(
+    "${pkgname}"
+    "mc"
+)
+sources=(
+    "${url}/archive/refs/tags/${release}.tar.gz"
+)
+hashsums=(
+    "9b23f4deda8f3ca61039959db2c6550cc99e87691d8fc1b0274d6a9712f9c48b"
+)
+
+build() {
+    mkdir -p /go/src/github.com/minio
+    mv "${srcdir}/mc-${release}" /go/src/github.com/minio/mc
+    cd /go/src/github.com/minio/mc
+    go install -v -ldflags "-s -w -X github.com/minio/mc/cmd.Version=${date} -X github.com/minio/mc/cmd.CopyrightYear=${copyyear} -X github.com/minio/mc/cmd.ReleaseTag=${release} -X github.com/minio/mc/cmd.CommitID=${commit} -X github.com/minio/mc/cmd.ShortCommitID=${commitshort}"
+}
+
+package() {
+    mkdir -p ${pkgdir}/usr/bin
+    cp /go/bin/mc ${pkgdir}/usr/bin/mc
+}
