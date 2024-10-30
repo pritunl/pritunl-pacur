@@ -7,8 +7,8 @@ targets=(
     "debian-buster"
     "debian-bullseye"
     "debian-bookworm"
-    "fedora-39"
     "fedora-40"
+    "fedora-41"
     "oraclelinux-7"
     "oraclelinux-8"
     "oraclelinux-9"
@@ -19,7 +19,7 @@ targets=(
     "ubuntu-oracular"
 )
 pkgname="pritunl-client"
-pkgver="1.3.4058.0"
+pkgver="1.3.4066.51"
 pkgrel="1"
 pkgdesc="Pritunl OpenVPN CLI Client"
 pkgdesclong=(
@@ -70,7 +70,7 @@ sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
-    "2b84dc7e626e795d4813dff27363433edf2e09025028496fe51b8d55c65418d7"
+    "c988f063791f582ee2e28fb79e4bbf588de0b4fcdc6e4d916951f27a2c7c6baf"
 )
 backup=(
     "var/log/pritunl-client.log"
