@@ -2,6 +2,7 @@ targets=(
     "archlinux"
     "almalinux-9"
     "debian-bookworm"
+    "fedora-39"
     "fedora-40"
     "fedora-41"
     "oraclelinux-9"

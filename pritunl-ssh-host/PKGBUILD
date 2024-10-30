@@ -7,6 +7,7 @@ targets=(
     "debian-buster"
     "debian-bullseye"
     "debian-bookworm"
+    "fedora-39"
     "fedora-40"
     "fedora-41"
     "oraclelinux-7"
