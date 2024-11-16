@@ -10,7 +10,7 @@ targets=(
     "ubuntu-oracular"
 )
 pkgname="pritunl-client-electron"
-pkgver="1.3.4075.60"
+pkgver="1.3.4083.88"
 pkgrel="1"
 pkgdesc="Pritunl OpenVPN Electron Client"
 pkgdesclong=(
@@ -83,7 +83,7 @@ sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
-    "af272f140a4b444adc061a869f38e3fc21f80c2bcaee008e14193ab0a236d4d6"
+    "895dbc1b64239952169dc72a0058f525919fa2a600910b6161d3255db194205d"
 )
 backup=(
     "var/log/pritunl-client.log"
