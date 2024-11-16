@@ -20,7 +20,7 @@ update_pkgbuild() {
     local latest_sha256
     latest_sha256=$(curl -L "$tar_url" | sha256sum | awk '{print $1}')
 
-    sed -i "0,/hashsums=(/{n;s/[a-f0-9]\{64\}/$latest_sha256/;}" "$pkgbuild_dir/PKGBUILD"
+    sed -i "/hashsums=(/{n;s/\"[a-f0-9]\{64\}\"/\"$latest_sha256\"/1;}" "$pkgbuild_dir/PKGBUILD"
 }
 
 update_pkgbuild "pritunl" "pritunl"
