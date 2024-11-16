@@ -1,3 +1,4 @@
+#!/bin/bash
 if [ ! -n "$1" ]; then
   echo "target unset"
   exit 1

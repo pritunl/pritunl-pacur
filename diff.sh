@@ -1,3 +1,4 @@
+#!/bin/bash
 rsync --human-readable --archive --xattrs --progress --super --dry-run --delete \
   --exclude /.git \
   --exclude /mirror \
