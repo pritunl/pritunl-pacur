@@ -53,7 +53,7 @@ conflicts=(
     "${pkgname}"
 )
 sources=(
-    "https://codeload.github.com/pritunl/pritunl-link/tar.gz/refs/tags/${pkgver}"
+    "${url}/archive/refs/tags/${pkgver}.tar.gz"
     "pritunl-link"
     "pritunl-link.conf"
     "pritunl-link.service"

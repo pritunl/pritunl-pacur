@@ -16,7 +16,7 @@ update_pkgbuild() {
 
     sed -i "s/pkgver=\"[^\"]*\"/pkgver=\"$latest_version\"/" "$pkgbuild_dir/PKGBUILD"
 
-    local tar_url="https://codeload.github.com/$repo/tar.gz/refs/tags/$latest_version"
+    local tar_url="https://github.com/$repo/archive/refs/tags/$latest_version.tar.gz"
     local latest_sha256
     latest_sha256=$(curl -L "$tar_url" | sha256sum | awk '{print $1}')
 

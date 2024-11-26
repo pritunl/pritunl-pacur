@@ -49,7 +49,7 @@ conflicts=(
     "mc"
 )
 sources=(
-    "https://codeload.github.com/minio/mc/tar.gz/refs/tags/${release}"
+    "${url}/archive/refs/tags/${release}.tar.gz"
 )
 hashsums=(
     "9b23f4deda8f3ca61039959db2c6550cc99e87691d8fc1b0274d6a9712f9c48b"

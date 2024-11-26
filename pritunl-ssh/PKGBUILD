@@ -50,7 +50,7 @@ makedepends:pacman=(
 provides=("${pkgname}")
 conflicts=("${pkgname}")
 sources=(
-    "https://codeload.github.com/pritunl/pritunl-zero-client/tar.gz/refs/tags/${pkgver}"
+    "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
     "32960f54a2ca9ac22f2b2722e58b0aa33a79e5ce4be6d40c63335da435987daf"

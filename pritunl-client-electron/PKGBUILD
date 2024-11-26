@@ -80,7 +80,7 @@ conflicts=(
     "pritunl-client"
 )
 sources=(
-    "https://codeload.github.com/pritunl/pritunl-client-electron/tar.gz/refs/tags/${pkgver}"
+    "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
     "895dbc1b64239952169dc72a0058f525919fa2a600910b6161d3255db194205d"
