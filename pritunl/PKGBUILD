@@ -201,7 +201,7 @@ makedepends:apt=(
 provides=("${pkgname}")
 conflicts=("${pkgname}")
 sources=(
-    "${url}/archive/refs/tags/${pkgver}.tar.gz"
+    "https://codeload.github.com/pritunl/pritunl/tar.gz/refs/tags/${pkgver}"
     "cacert.pem"
     "cacert2.pem"
     "https://www.python.org/ftp/python/3.9.20/Python-3.9.20.tar.xz"

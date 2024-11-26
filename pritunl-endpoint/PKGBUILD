@@ -61,7 +61,7 @@ conflicts=(
     "${pkgname}"
 )
 sources=(
-    "${url}/archive/refs/tags/${pkgver}.tar.gz"
+    "https://codeload.github.com/pritunl/pritunl-endpoint/tar.gz/refs/tags/${pkgver}"
     "pritunl-endpoint.json"
     "pritunl-endpoint.service"
 )

@@ -50,7 +50,7 @@ conflicts=(
     "${pkgname}"
 )
 sources=(
-    "${url}/archive/refs/tags/${pkgver}.tar.gz"
+    "https://codeload.github.com/pritunl/pritunl-cloud/tar.gz/refs/tags/${pkgver}"
     "pritunl-cloud.service"
 )
 hashsums=(

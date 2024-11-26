@@ -41,7 +41,7 @@ conflicts=(
     "ndppd"
 )
 sources=(
-    "${url}/archive/refs/tags/${pkgver}.tar.gz"
+    "https://codeload.github.com/DanielAdolfsson/ndppd/tar.gz/refs/tags/${pkgver}"
 )
 hashsums=(
     "ee934167f8357f0bd0015e201a77fbe4d028c59e89dc98113805c6855e1c3992"
