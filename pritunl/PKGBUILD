@@ -16,7 +16,7 @@ targets=(
     "ubuntu-noble"
 )
 pkgname="pritunl"
-pkgver="1.32.4093.80"
+pkgver="1.32.4115.91"
 pkgrel="1"
 pkgdesc="Enterprise VPN Server"
 pkgdesclong=(
@@ -207,7 +207,7 @@ sources=(
     "https://www.python.org/ftp/python/3.9.20/Python-3.9.20.tar.xz"
 )
 hashsums=(
-    "9764ac252f81ddb0e56d234115a3e647005a2bcb0b045e3690f0f797a40e1be6"
+    "cd619531f8b067aca60757bb2d926b65603a67c8d916a57793cedb0cb00c515f"
     "f524fc21859b776e18df01a87880efa198112214e13494275dbcbd9bcb71d976"
     "2c11c3ce08ffc40d390319c72bc10d4f908e9c634494d65ed2cbc550731fd524"
     "6b281279efd85294d2d6993e173983a57464c0133956fbbb5536ec9646beaf0c"
