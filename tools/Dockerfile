@@ -2,6 +2,7 @@ FROM oraclelinux:9
 
 RUN dnf update -y
 RUN dnf install -y wget
+RUN dnf clean all
 
 RUN echo $'[pritunl]\n\
 name=Pritunl Repository\n\
