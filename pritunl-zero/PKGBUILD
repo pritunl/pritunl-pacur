@@ -77,11 +77,16 @@ build() {
     cd /go/src/github.com/pritunl/${pkgname}
     go get
     go install
+
+    cd /go/src/github.com/pritunl/${pkgname}/redirect
+    go get
+    go install
 }
 
 package() {
     mkdir -p ${pkgdir}/usr/bin
     cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    cp /go/bin/redirect ${pkgdir}/usr/bin/${pkgname}-redirect
     chmod 755 ${pkgdir}/usr/bin/${pkgname}
 
     mkdir -p ${pkgdir}/usr/share/${pkgname}/www
@@ -91,7 +96,9 @@ package() {
     cp ${srcdir}/${pkgname}.json ${pkgdir}/etc/${pkgname}.json
 
     mkdir -p ${pkgdir}/etc/systemd/system
-    cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
+    cp /go/src/github.com/pritunl/${pkgname}/tools/pritunl-zero.service ${pkgdir}/etc/systemd/system
+    cp /go/src/github.com/pritunl/${pkgname}/tools/pritunl-zero-redirect.socket ${pkgdir}/etc/systemd/system
+    cp /go/src/github.com/pritunl/${pkgname}/tools/pritunl-zero-redirect.service ${pkgdir}/etc/systemd/system
 
     touch ${pkgdir}/etc/${pkgname}.json
     chmod 600 ${pkgdir}/etc/${pkgname}.json
