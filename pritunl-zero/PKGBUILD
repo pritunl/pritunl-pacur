@@ -53,17 +53,11 @@ conflicts=(
 )
 sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
-    "pritunl-zero"
-    "pritunl-zero.conf"
     "pritunl-zero.json"
-    "pritunl-zero.service"
 )
 hashsums=(
     "8be522602818b9f4bc9ed11fffa5118e0a5a38ac40b0d240be44fcaf882cfc38"
-    "c40950a1c2ad80a8ff45b2af59a7948e8b542474a8caa3584160ae77b67b4b39"
-    "6cb1b284ab49018a5b9afab6b5653f95447a376dcf578ba8277455dacdaaeeae"
     "a002d62b3cf2135b8115ce7ee775e814cac0b17ca73b25362998d7b494c824a3"
-    "86f8a0cf590523f71193a740d25ce64dad9ab3a3e94ee1d73223eef220fa3bc9"
 )
 backup=(
     "etc/${pkgname}.json"
