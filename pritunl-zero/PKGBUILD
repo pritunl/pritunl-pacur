@@ -102,6 +102,7 @@ package() {
 }
 
 postinst() {
+    useradd -r -s /sbin/nologin -c 'Pritunl Zero web server' pritunl-zero-web &> /dev/null || true
     systemctl daemon-reload &> /dev/null || true
     systemctl is-active --quiet pritunl-zero && systemctl restart pritunl-zero || true
 }
