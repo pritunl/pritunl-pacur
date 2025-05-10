@@ -7,6 +7,53 @@ import hmac
 import http.client
 import time
 
+content_types = {
+    ".html": "text/html",
+    ".htm": "text/html",
+    ".xhtml": "application/xhtml+xml",
+    ".css": "text/css",
+    ".js": "application/javascript",
+    ".json": "application/json",
+    ".xml": "application/xml",
+    ".txt": "text/plain",
+    ".md": "text/markdown",
+    ".csv": "text/csv",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".png": "image/png",
+    ".gif": "image/gif",
+    ".svg": "image/svg+xml",
+    ".webp": "image/webp",
+    ".ico": "image/x-icon",
+    ".bmp": "image/bmp",
+    ".tiff": "image/tiff",
+    ".tif": "image/tiff",
+    ".pdf": "application/pdf",
+    ".zip": "application/zip",
+    ".gz": "application/gzip",
+    ".tar": "application/x-tar",
+    ".rar": "application/vnd.rar",
+    ".7z": "application/x-7z-compressed",
+    ".bz2": "application/x-bzip2",
+    ".zst": "application/zstd",
+    ".xz": "application/x-xz",
+    ".exe": "application/x-msdownload",
+    ".dll": "application/x-msdownload",
+    ".so": "application/octet-stream",
+    ".apk": "application/vnd.android.package-archive",
+    ".deb": "application/vnd.debian.binary-package",
+    ".rpm": "application/x-rpm",
+    ".ttf": "font/ttf",
+    ".otf": "font/otf",
+    ".woff": "font/woff",
+    ".woff2": "font/woff2",
+    ".sig": "application/pgp-signature",
+    ".asc": "application/pgp-signature",
+    ".py": "text/x-python",
+    ".go": "text/x-go",
+    ".sh": "application/x-sh",
+}
+
 class ProgressFileReader:
     def __init__(self, file_path, chunk_size=8192):
         self.file = open(file_path, "rb")
@@ -91,14 +138,7 @@ def main():
     method = "PUT"
 
     ext = os.path.splitext(source_file_path)[1].lower()
-    if ext == ".html":
-        content_type = "text/html"
-    elif ext == ".json":
-        content_type = "application/json"
-    elif ext == ".sig":
-        content_type = "application/pgp-signature"
-    else:
-        content_type = "application/octet-stream"
+    content_type = content_types.get(ext, "application/octet-stream")
 
     content_length = str(os.path.getsize(source_file_path))
     payload_hash = sha256_hexdigest_file(source_file_path)
