@@ -30,13 +30,28 @@ section="utils"
 priority="optional"
 url="https://github.com/pritunl/${pkgname}"
 depends:pacman=(
+    "iptables"
+    "ipset"
     "pritunl-strongswan"
 )
 depends:yum=(
+    "iptables"
+    "ipset"
     "pritunl-strongswan"
 )
 depends:apt=(
+    "iptables"
+    "ipset"
     "pritunl-strongswan"
+)
+optdepends:pacman=(
+    "wireguard-tools"
+)
+optdepends:yum=(
+    "wireguard-tools"
+)
+optdepends:apt=(
+    "wireguard-tools"
 )
 
 makedepends:pacman=(
