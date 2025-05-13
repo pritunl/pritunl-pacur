@@ -16,7 +16,7 @@ targets=(
     "ubuntu-noble"
 )
 pkgname="pritunl-link"
-pkgver="1.0.3266.83"
+pkgver="1.0.3454.46"
 pkgrel="1"
 pkgdesc="Enterprise VPN Link Server"
 pkgdesclong=(
@@ -74,7 +74,7 @@ sources=(
     "pritunl-link.service"
 )
 hashsums=(
-    "eec6b8dce99feeb6d557acbdc51a234dadb79f5a21c6c59e998fa89537c7960c"
+    "b6076e14883270b5935e148a0086536b0d0c5ea301961c1c44c282649f1fa764"
     "c40950a1c2ad80a8ff45b2af59a7948e8b542474a8caa3584160ae77b67b4b39"
     "3b7a86bc48ad1b1ec3987875163fab6b379ff9a16d6243a6ee78768a9b2038ca"
     "f9affcf6c4926fe848ff383a3a33ba31af44ff8e141ae2190f282bcbdac7a56a"

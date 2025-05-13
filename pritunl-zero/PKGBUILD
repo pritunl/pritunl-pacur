@@ -16,7 +16,7 @@ targets=(
     "ubuntu-noble"
 )
 pkgname="pritunl-zero"
-pkgver="1.0.3433.91"
+pkgver="1.0.3444.47"
 pkgrel="1"
 pkgdesc="Pritunl Zero"
 pkgdesclong=(
@@ -56,7 +56,7 @@ sources=(
     "pritunl-zero.json"
 )
 hashsums=(
-    "8be522602818b9f4bc9ed11fffa5118e0a5a38ac40b0d240be44fcaf882cfc38"
+    "1d50f0927c01773f50c507500674cb8c70088edf79bcc1b2d4246cb6727f6101"
     "a002d62b3cf2135b8115ce7ee775e814cac0b17ca73b25362998d7b494c824a3"
 )
 backup=(

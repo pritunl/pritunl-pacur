@@ -275,8 +275,6 @@ package:apt() {
 
 postinst() {
     chmod 755 /usr/lib/pritunl_client_electron || true
-    systemctl stop pritunl-client-electron &> /dev/null || true
-    systemctl disable pritunl-client-electron &> /dev/null || true
     systemctl daemon-reload &> /dev/null || true
     systemctl restart pritunl-client &> /dev/null || true
     systemctl enable pritunl-client &> /dev/null || true

@@ -51,11 +51,9 @@ conflicts=(
 )
 sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
-    "pritunl-cloud.service"
 )
 hashsums=(
     "f3f143c2f6403b371b9db68c70f88f7fa21eff7f3967f76ee5dd43c618a8870c"
-    "158dca955549ebdb7086f2b921b602a28f0335dd1c5a44de509d0b4710a20848"
 )
 
 build() {
