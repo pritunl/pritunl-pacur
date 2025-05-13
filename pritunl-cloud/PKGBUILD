@@ -51,9 +51,16 @@ conflicts=(
 )
 sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
+    "pritunl-cloud.json"
 )
 hashsums=(
     "f3f143c2f6403b371b9db68c70f88f7fa21eff7f3967f76ee5dd43c618a8870c"
+    "a002d62b3cf2135b8115ce7ee775e814cac0b17ca73b25362998d7b494c824a3"
+)
+backup=(
+    "etc/${pkgname}.json"
+    "var/log/${pkgname}.log"
+    "var/log/${pkgname}.log.1"
 )
 
 build() {
@@ -72,8 +79,18 @@ package() {
     mkdir -p ${pkgdir}/usr/share/${pkgname}/www
     cp -r /go/src/github.com/pritunl/${pkgname}/www/dist/. ${pkgdir}/usr/share/${pkgname}/www/
 
+    mkdir -p ${pkgdir}/etc
+    cp ${srcdir}/${pkgname}.json ${pkgdir}/etc/${pkgname}.json
+    chmod 600 ${pkgdir}/etc/${pkgname}.json
+
     mkdir -p ${pkgdir}/etc/systemd/system
-    cp ${srcdir}/${pkgname}.service ${pkgdir}/etc/systemd/system/${pkgname}.service
+    cp /go/src/github.com/pritunl/${pkgname}/tools/pritunl-cloud.service ${pkgdir}/etc/systemd/system
+    cp /go/src/github.com/pritunl/${pkgname}/tools/pritunl-cloud-redirect.socket ${pkgdir}/etc/systemd/system
+    cp /go/src/github.com/pritunl/${pkgname}/tools/pritunl-cloud-redirect.service ${pkgdir}/etc/systemd/system
+
+    mkdir -p ${pkgdir}/var/log
+    touch ${pkgdir}/var/log/${pkgname}.log
+    touch ${pkgdir}/var/log/${pkgname}.log.1
 }
 
 postinst() {

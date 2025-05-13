@@ -88,14 +88,13 @@ package() {
 
     mkdir -p ${pkgdir}/etc
     cp ${srcdir}/${pkgname}.json ${pkgdir}/etc/${pkgname}.json
+    chmod 600 ${pkgdir}/etc/${pkgname}.json
 
     mkdir -p ${pkgdir}/etc/systemd/system
     cp /go/src/github.com/pritunl/${pkgname}/tools/pritunl-zero.service ${pkgdir}/etc/systemd/system
     cp /go/src/github.com/pritunl/${pkgname}/tools/pritunl-zero-redirect.socket ${pkgdir}/etc/systemd/system
     cp /go/src/github.com/pritunl/${pkgname}/tools/pritunl-zero-redirect.service ${pkgdir}/etc/systemd/system
 
-    touch ${pkgdir}/etc/${pkgname}.json
-    chmod 600 ${pkgdir}/etc/${pkgname}.json
     mkdir -p ${pkgdir}/var/log
     touch ${pkgdir}/var/log/${pkgname}.log
     touch ${pkgdir}/var/log/${pkgname}.log.1
