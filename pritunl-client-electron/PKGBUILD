@@ -7,6 +7,7 @@ targets=(
     "fedora-42"
     "oraclelinux-9"
     "ubuntu-noble"
+    "ubuntu-oracular"
     "ubuntu-plucky"
 )
 pkgname="pritunl-client-electron"
@@ -94,11 +95,11 @@ build:pacman() {
     cd "${srcdir}/${pkgname}-${pkgver}"
 
     cd service
-    go get -u
+    go get
     go install
 
     cd ../cli
-    go get -u
+    go get
     go install
 
     cd ../client
@@ -111,11 +112,11 @@ build:fedora() {
     cd "${srcdir}/${pkgname}-${pkgver}"
 
     cd service
-    go get -u
+    go get
     go install
 
     cd ../cli
-    go get -u
+    go get
     go install
 
     cd ../client
@@ -138,17 +139,17 @@ build:fedora() {
     rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mkdirp/bin/cmd.js
 }
 build:yum() {
-    dnf -y module enable nodejs:18
+    dnf -y module enable nodejs:20
     dnf -y install nodejs
 
     cd "${srcdir}/${pkgname}-${pkgver}"
 
     cd service
-    go get -u
+    go get
     go install
 
     cd ../cli
-    go get -u
+    go get
     go install
 
     cd ../client
@@ -170,15 +171,59 @@ build:yum() {
     rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/uuid/bin/uuid
     rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mkdirp/bin/cmd.js
 }
+build:debian-bookworm() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+
+    cd service
+    go get
+    go install
+
+    cd ../cli
+    go get
+    go install
+
+    cd ../client
+
+    sed -i 's/"@electron\/rebuild": *"[^"]*"/"@electron\/rebuild": "3.6.0"/' package.json
+    sed -i 's/"@electron\/packager": *"[^"]*"/"@electron\/packager": "18.3.5"/' package.json
+    sed -i 's/"electron": *"[^"]*"/"electron": "32.1.2"/' package.json
+
+    npm install
+    ./node_modules/.bin/electron-rebuild
+    ./node_modules/.bin/electron-packager ./ Pritunl --platform=linux --arch=x64 --out=../build/linux
+    chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
+}
+build:ubuntu-noble() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+
+    cd service
+    go get
+    go install
+
+    cd ../cli
+    go get
+    go install
+
+    cd ../client
+
+    sed -i 's/"@electron\/rebuild": *"[^"]*"/"@electron\/rebuild": "3.6.0"/' package.json
+    sed -i 's/"@electron\/packager": *"[^"]*"/"@electron\/packager": "18.3.5"/' package.json
+    sed -i 's/"electron": *"[^"]*"/"electron": "32.1.2"/' package.json
+
+    npm install
+    ./node_modules/.bin/electron-rebuild
+    ./node_modules/.bin/electron-packager ./ Pritunl --platform=linux --arch=x64 --out=../build/linux
+    chmod +x ../build/linux/Pritunl-linux-x64/libffmpeg.so
+}
 build:apt() {
     cd "${srcdir}/${pkgname}-${pkgver}"
 
     cd service
-    go get -u
+    go get
     go install
 
     cd ../cli
-    go get -u
+    go get
     go install
 
     cd ../client

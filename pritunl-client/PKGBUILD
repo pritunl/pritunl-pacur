@@ -17,6 +17,7 @@ targets=(
     "ubuntu-focal"
     "ubuntu-jammy"
     "ubuntu-noble"
+    "ubuntu-oracular"
     "ubuntu-plucky"
 )
 pkgname="pritunl-client"
@@ -83,11 +84,11 @@ build:pacman() {
     mv "${srcdir}/pritunl-client-electron-${pkgver}" /go/src/github.com/pritunl/pritunl-client-electron
 
     cd /go/src/github.com/pritunl/pritunl-client-electron/service
-    go get -u
+    go get
     go install
 
     cd /go/src/github.com/pritunl/pritunl-client-electron/cli
-    go get -u
+    go get
     go install
 }
 build:yum() {
@@ -95,11 +96,11 @@ build:yum() {
     mv "${srcdir}/pritunl-client-electron-${pkgver}" /go/src/github.com/pritunl/pritunl-client-electron
 
     cd /go/src/github.com/pritunl/pritunl-client-electron/service
-    go get -u
+    go get
     go install
 
     cd /go/src/github.com/pritunl/pritunl-client-electron/cli
-    go get -u
+    go get
     go install
 }
 build:apt() {
@@ -107,11 +108,11 @@ build:apt() {
     mv "${srcdir}/pritunl-client-electron-${pkgver}" /go/src/github.com/pritunl/pritunl-client-electron
 
     cd /go/src/github.com/pritunl/pritunl-client-electron/service
-    go get -u
+    go get
     go install
 
     cd /go/src/github.com/pritunl/pritunl-client-electron/cli
-    go get -u
+    go get
     go install
 }
 
