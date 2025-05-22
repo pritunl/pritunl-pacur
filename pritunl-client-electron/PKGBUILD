@@ -11,7 +11,7 @@ targets=(
     "ubuntu-plucky"
 )
 pkgname="pritunl-client-electron"
-pkgver="1.3.4220.57"
+pkgver="1.3.4269.93"
 pkgrel="1"
 pkgdesc="Pritunl OpenVPN Electron Client"
 pkgdesclong=(
@@ -84,7 +84,7 @@ sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
-    "24f312800274c78e1b028261d9bc3265b3cfdd7a8f194d05287c6ca05e21699c"
+    "3ba4f4ce004dad89a94814be6c81bdca1005779ef9a75dc9807271334933acf9"
 )
 backup=(
     "var/log/pritunl-client.log"
