@@ -116,7 +116,9 @@ def main():
     secret_key = os.environ.get("AWS_SECRET_ACCESS_KEY")
     region = os.environ.get("AWS_DEFAULT_REGION", "us-east-1")
     storage_class = os.environ.get("AWS_S3_STORAGE_CLASS")
+    base_domain = os.environ.get("AWS_S3_DOMAIN")
     cloudflare_account_id = os.environ.get("CLOUDFLARE_ACCOUNT_ID")
+    oracle_cloud_namespace = os.environ.get("ORACLE_CLOUD_NAMESPACE")
 
     if not access_key or not secret_key:
         print("Missing required environment variables", file=sys.stderr)
@@ -129,8 +131,13 @@ def main():
 
     bucket, s3_key = dest_path.split("/", 1)
 
-    if cloudflare_account_id:
+    if base_domain:
+        host = base_domain
+    elif cloudflare_account_id:
         host = f"{cloudflare_account_id}.r2.cloudflarestorage.com"
+    elif oracle_cloud_namespace:
+        host = (f"{oracle_cloud_namespace}.compat.objectstorage"
+            f".{region}.oraclecloud.com")
     else:
         host = f"s3.{region}.amazonaws.com"
 

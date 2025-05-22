@@ -139,7 +139,7 @@ build:fedora() {
     rm -f ../build/linux/Pritunl-linux-x64/resources/app/node_modules/mkdirp/bin/cmd.js
 }
 build:yum() {
-    dnf -y module enable nodejs:20
+    dnf -y module enable nodejs:22
     dnf -y install nodejs
 
     cd "${srcdir}/${pkgname}-${pkgver}"

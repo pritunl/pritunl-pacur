@@ -15,12 +15,12 @@ targets=(
     "ubuntu-noble"
 )
 pkgname="minio-client"
-copyyear="2024"
-date="2024-10-02T08:27:28Z"
-release="RELEASE.2024-10-02T08-27-28Z"
-commit="11ebe952ea30e426e564f66e78d178465ae7c432"
+copyyear="2025"
+date="2025-04-03T17:07:56Z"
+release="RELEASE.2025-04-03T17-07-56Z"
+commit="56f94fd375ee0aac2a917f14b6ff401b892029b4"
 commitshort="11ebe95"
-pkgver="2024.10.02"
+pkgver="2025.04.03"
 pkgrel="1"
 pkgdesc="Unix like utilities for object store"
 pkgdesclong=(
@@ -52,7 +52,7 @@ sources=(
     "${url}/archive/refs/tags/${release}.tar.gz"
 )
 hashsums=(
-    "9b23f4deda8f3ca61039959db2c6550cc99e87691d8fc1b0274d6a9712f9c48b"
+    "e8f6bc82f898e37aea981e7243919a84cfff195cf0dba1e72b4eabfc08aa778a"
 )
 
 build() {
