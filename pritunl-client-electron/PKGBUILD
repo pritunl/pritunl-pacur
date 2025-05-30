@@ -140,7 +140,7 @@ build:fedora() {
 }
 build:yum() {
     dnf -y module enable nodejs:22
-    dnf -y install nodejs
+    dnf -y install nodejs npm
 
     cd "${srcdir}/${pkgname}-${pkgver}"
 

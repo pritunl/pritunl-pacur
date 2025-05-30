@@ -28,6 +28,7 @@ depends:yum=(
     "psmisc"
     "openssl"
     "genisoimage"
+    "ipvsadm"
 )
 depends:apt=(
     "iptables"
@@ -37,6 +38,10 @@ depends:apt=(
     "ipset"
     "openssl"
     "genisoimage"
+)
+optdepends:yum=(
+    "swtpm"
+    "swtpm-tools"
 )
 
 makedepends:yum=(
