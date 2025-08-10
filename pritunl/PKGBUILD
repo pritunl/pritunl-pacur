@@ -4,7 +4,6 @@ targets=(
     "almalinux-9"
     "amazonlinux-2"
     "amazonlinux-2023"
-    "debian-buster"
     "debian-bullseye"
     "debian-bookworm"
     "oraclelinux-7"

@@ -22,24 +22,20 @@ url="https://github.com/pritunl/${pkgname}"
 depends:yum=(
     "iptables"
     "net-tools"
-    "dhclient"
-    "usbutils"
     "ipset"
-    "psmisc"
-    "openssl"
-    "genisoimage"
     "ipvsadm"
+    "xorriso"
 )
 depends:apt=(
     "iptables"
     "net-tools"
-    "isc-dhcp-client"
-    "usbutils"
     "ipset"
-    "openssl"
-    "genisoimage"
+    "ipvsadm"
+    "xorriso"
 )
 optdepends:yum=(
+    "qemu-kvm"
+    "qemu-img"
     "swtpm"
     "swtpm-tools"
 )
@@ -60,7 +56,7 @@ sources=(
 )
 hashsums=(
     "f3f143c2f6403b371b9db68c70f88f7fa21eff7f3967f76ee5dd43c618a8870c"
-    "a002d62b3cf2135b8115ce7ee775e814cac0b17ca73b25362998d7b494c824a3"
+    "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
 )
 backup=(
     "etc/${pkgname}.json"
