@@ -6,6 +6,7 @@ targets=(
     "amazonlinux-2023"
     "debian-bullseye"
     "debian-bookworm"
+    "debian-trixie"
     "oraclelinux-7"
     "oraclelinux-8"
     "oraclelinux-9"
