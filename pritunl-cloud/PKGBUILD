@@ -52,11 +52,9 @@ conflicts=(
 )
 sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
-    "pritunl-cloud.json"
 )
 hashsums=(
     "f3f143c2f6403b371b9db68c70f88f7fa21eff7f3967f76ee5dd43c618a8870c"
-    "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
 )
 backup=(
     "etc/${pkgname}.json"
@@ -70,18 +68,28 @@ build() {
     cd /go/src/github.com/pritunl/${pkgname}
     go get
     go install
+
+    cd agent
+    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-extldflags "-static"' -v -o agent-static
+    mv ./agent-static /go/bin/${pkgname}-agent
+    CGO_ENABLED=0 GOOS=freebsd GOARCH=amd64 go build -v -o agent-bsd
+    mv ./agent-bsd /go/bin/${pkgname}-agent-bsd
 }
 
 package() {
     mkdir -p ${pkgdir}/usr/bin
     cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     chmod 755 ${pkgdir}/usr/bin/${pkgname}
+    cp /go/bin/${pkgname}-agent ${pkgdir}/usr/bin/${pkgname}-agent
+    chmod 755 ${pkgdir}/usr/bin/${pkgname}-agent
+    cp /go/bin/${pkgname}-agent-bsd ${pkgdir}/usr/bin/${pkgname}-agent-bsd
+    chmod 755 ${pkgdir}/usr/bin/${pkgname}-agent-bsd
 
     mkdir -p ${pkgdir}/usr/share/${pkgname}/www
     cp -r /go/src/github.com/pritunl/${pkgname}/www/dist/. ${pkgdir}/usr/share/${pkgname}/www/
 
     mkdir -p ${pkgdir}/etc
-    cp ${srcdir}/${pkgname}.json ${pkgdir}/etc/${pkgname}.json
+    echo "{}" > ${pkgdir}/etc/${pkgname}.json
     chmod 600 ${pkgdir}/etc/${pkgname}.json
 
     mkdir -p ${pkgdir}/etc/systemd/system
