@@ -1,10 +1,6 @@
 targets=(
-    "almalinux-8"
-    "almalinux-9"
-    "oraclelinux-8"
     "oraclelinux-9"
-    "ubuntu-jammy"
-    "ubuntu-noble"
+    "oraclelinux-10"
 )
 pkgname="pritunl-cloud"
 pkgver="1.2.2933.86"
@@ -69,17 +65,23 @@ build() {
     go get
     go install
 
-    cd agent
+    cd /go/src/github.com/pritunl/${pkgname}/agent
     CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-extldflags "-static"' -v -o agent-static
     mv ./agent-static /go/bin/${pkgname}-agent
     CGO_ENABLED=0 GOOS=freebsd GOARCH=amd64 go build -v -o agent-bsd
     mv ./agent-bsd /go/bin/${pkgname}-agent-bsd
+
+    cd /go/src/github.com/pritunl/${pkgname}/redirect
+    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o redirect
+    mv ./redirect /go/bin/${pkgname}-redirect
 }
 
 package() {
     mkdir -p ${pkgdir}/usr/bin
     cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     chmod 755 ${pkgdir}/usr/bin/${pkgname}
+    cp /go/bin/${pkgname}-redirect ${pkgdir}/usr/bin/${pkgname}-redirect
+    chmod 755 ${pkgdir}/usr/bin/${pkgname}-redirect
     cp /go/bin/${pkgname}-agent ${pkgdir}/usr/bin/${pkgname}-agent
     chmod 755 ${pkgdir}/usr/bin/${pkgname}-agent
     cp /go/bin/${pkgname}-agent-bsd ${pkgdir}/usr/bin/${pkgname}-agent-bsd
@@ -103,6 +105,7 @@ package() {
 }
 
 postinst() {
+    useradd -r -s /sbin/nologin -c 'Pritunl Cloud web server' pritunl-cloud-web &> /dev/null || true
     systemctl daemon-reload &> /dev/null || true
     systemctl is-active --quiet pritunl-cloud && systemctl restart pritunl-cloud || true
 }
