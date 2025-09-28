@@ -25,6 +25,9 @@ license=("custom")
 section="utils"
 priority="optional"
 url="https://github.com/pritunl/pritunl-client-electron"
+rpmopts=(
+    "AutoProv: no"
+)
 depends:pacman=(
     "libxss"
     "net-tools"
