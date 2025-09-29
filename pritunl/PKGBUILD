@@ -232,8 +232,8 @@ EOF
     cd "${srcdir}/Python-3.9.23"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
-    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -246,8 +246,8 @@ build:almalinux-8() {
     cd "${srcdir}/Python-3.9.23"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
-    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -267,8 +267,8 @@ build:almalinux-9() {
     cd "${srcdir}/Python-3.9.23"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
-    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -288,8 +288,8 @@ build:amazonlinux-2() {
     cd "${srcdir}/Python-3.9.23"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
-    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -302,8 +302,8 @@ build:amazonlinux-2023() {
     cd "${srcdir}/Python-3.9.23"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
-    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -316,8 +316,8 @@ build:oraclelinux-7() {
     cd "${srcdir}/Python-3.9.23"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
-    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -337,8 +337,8 @@ build:oraclelinux-8() {
     cd "${srcdir}/Python-3.9.23"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
-    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -358,8 +358,8 @@ build:oraclelinux-9() {
     cd "${srcdir}/Python-3.9.23"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
-    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -379,8 +379,8 @@ build:apt() {
     cd "${srcdir}/Python-3.9.23"
     ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
-    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip --upgrade
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install --upgrade pip
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
