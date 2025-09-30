@@ -8,7 +8,7 @@ targets=(
     "oraclelinux-9"
 )
 pkgname="pritunl-openvpn"
-pkgver="2.6.12"
+pkgver="2.6.15"
 pkgrel="1"
 pkgdesc="A full-featured SSL VPN solution"
 pkgdesclong=(
@@ -172,13 +172,38 @@ sources=(
     "https://swupdate.openvpn.org/community/releases/openvpn-${pkgver}.tar.gz"
 )
 hashsums=(
-    "1c610fddeb686e34f1367c347e027e418e07523a10f4d8ce4a2c2af2f61a1929"
+    "e35513ee15995e3c71adfd8891b9f33522896c70b3baa2ed9a23c7a42c4d7bde"
 )
 
 build:amazonlinux-2() {
-    yum -y install https://yum.oracle.com/repo/OracleLinux/OL7/developer_EPEL/x86_64/getPackage/pkcs11-helper-1.11-3.el7.x86_64.rpm https://yum.oracle.com/repo/OracleLinux/OL7/developer_EPEL/x86_64/getPackage/pkcs11-helper-devel-1.11-3.el7.x86_64.rpm
-
     cd "${srcdir}/openvpn-${pkgver}"
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_ldflags="-pie -Wl,-z,relro,-z,now -Wl,-z,noexecstack"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="$base_ldflags -fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags="$base_ldflags"
+    fi
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        cflags="$cflags $gcc8_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        cflags="$cflags $arch_flags"
+    fi
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
     ./configure \
         --prefix=/usr \
         --sbindir=/usr/bin \
@@ -206,6 +231,33 @@ EOF
     yum -y install pkcs11-helper
 
     cd "${srcdir}/openvpn-${pkgver}"
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_ldflags="-pie -Wl,-z,relro,-z,now -Wl,-z,noexecstack"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="$base_ldflags -fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags="$base_ldflags"
+    fi
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        cflags="$cflags $gcc8_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        cflags="$cflags $arch_flags"
+    fi
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
     ./configure \
         --prefix=/usr \
         --sbindir=/usr/bin \
@@ -222,6 +274,33 @@ EOF
 
 build:oraclelinux-7() {
     cd "${srcdir}/openvpn-${pkgver}"
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_ldflags="-pie -Wl,-z,relro,-z,now -Wl,-z,noexecstack"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="$base_ldflags -fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags="$base_ldflags"
+    fi
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        cflags="$cflags $gcc8_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        cflags="$cflags $arch_flags"
+    fi
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
     ./configure \
         --prefix=/usr \
         --sbindir=/usr/bin \
@@ -249,6 +328,33 @@ EOF
     dnf -y install pkcs11-helper
 
     cd "${srcdir}/openvpn-${pkgver}"
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_ldflags="-pie -Wl,-z,relro,-z,now -Wl,-z,noexecstack"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="$base_ldflags -fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags="$base_ldflags"
+    fi
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        cflags="$cflags $gcc8_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        cflags="$cflags $arch_flags"
+    fi
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
     ./configure \
         --prefix=/usr \
         --sbindir=/usr/bin \
@@ -276,6 +382,33 @@ EOF
     dnf -y install pkcs11-helper
 
     cd "${srcdir}/openvpn-${pkgver}"
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_ldflags="-pie -Wl,-z,relro,-z,now -Wl,-z,noexecstack"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="$base_ldflags -fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags="$base_ldflags"
+    fi
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        cflags="$cflags $gcc8_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        cflags="$cflags $arch_flags"
+    fi
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
     ./configure \
         --prefix=/usr \
         --sbindir=/usr/bin \
@@ -292,6 +425,33 @@ EOF
 
 build() {
     cd "${srcdir}/openvpn-${pkgver}"
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_ldflags="-pie -Wl,-z,relro,-z,now -Wl,-z,noexecstack"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="$base_ldflags -fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags="$base_ldflags"
+    fi
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        cflags="$cflags $gcc8_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        cflags="$cflags $arch_flags"
+    fi
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
     ./configure \
         --prefix=/usr \
         --sbindir=/usr/bin \
@@ -307,6 +467,33 @@ build() {
 
 package() {
     cd "${srcdir}/openvpn-${pkgver}"
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_ldflags="-pie -Wl,-z,relro,-z,now -Wl,-z,noexecstack"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="$base_ldflags -fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags="$base_ldflags"
+    fi
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        cflags="$cflags $gcc8_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        cflags="$cflags $arch_flags"
+    fi
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
     make DESTDIR=${pkgdir} install
     install -d -m0755 "${pkgdir}/usr/share/licenses/openvpn/"
     ln -sf "/usr/share/doc/openvpn/COPYING" "${pkgdir}/usr/share/licenses/openvpn/"
