@@ -85,6 +85,7 @@ makedepends:pacman=(
 )
 makedepends:yum=(
     "gcc"
+    "gcc-c++"
     "python3-devel"
     "python3-setuptools"
     "python3-virtualenv"
@@ -101,6 +102,7 @@ makedepends:yum=(
 )
 makedepends:amazonlinux-2=(
     "gcc"
+    "gcc-c++"
     "python3-devel"
     "rsync"
     "openssl-devel"
@@ -115,6 +117,7 @@ makedepends:amazonlinux-2=(
 )
 makedepends:amazonlinux-2023=(
     "gcc"
+    "gcc-c++"
     "python3-devel"
     "rsync"
     "openssl-devel"
@@ -126,6 +129,7 @@ makedepends:amazonlinux-2023=(
 )
 makedepends:almalinux-8=(
     "gcc"
+    "gcc-c++"
     "rsync"
     "openssl-devel"
     "bzip2-devel"
@@ -139,6 +143,7 @@ makedepends:almalinux-8=(
 )
 makedepends:almalinux-9=(
     "gcc"
+    "gcc-c++"
     "rsync"
     "openssl-devel"
     "bzip2-devel"
@@ -152,6 +157,7 @@ makedepends:almalinux-9=(
 )
 makedepends:oraclelinux-7=(
     "gcc"
+    "gcc-c++"
     "rsync"
     "openssl-devel"
     "bzip2-devel"
@@ -165,6 +171,7 @@ makedepends:oraclelinux-7=(
 )
 makedepends:oraclelinux-8=(
     "gcc"
+    "gcc-c++"
     "rsync"
     "openssl-devel"
     "bzip2-devel"
@@ -178,6 +185,7 @@ makedepends:oraclelinux-8=(
 )
 makedepends:oraclelinux-9=(
     "gcc"
+    "gcc-c++"
     "rsync"
     "openssl-devel"
     "bzip2-devel"
@@ -191,6 +199,7 @@ makedepends:oraclelinux-9=(
 )
 makedepends:apt=(
     "gcc"
+    "g++"
     "rsync"
     "libssl-dev"
     "libbz2-dev"
@@ -231,19 +240,25 @@ EOF
 
     cd "${srcdir}/Python-3.9.23"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
-    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="-fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags=""
+    fi
     if [ "$gcc_major" -ge 8 ]; then
         gcc8_flags="-fstack-clash-protection -fcf-protection"
-        security_flags="$base_security_flags $gcc8_flags"
-    else
-        security_flags="$base_security_flags"
+        cflags="$cflags $gcc8_flags"
     fi
     if [ "$gcc_major" -ge 11 ]; then
         arch_flags="-march=x86-64-v2"
-        security_flags="$security_flags $arch_flags"
+        cflags="$cflags $arch_flags"
     fi
-    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
-    export LDFLAGS_NODIST="-fno-semantic-interposition"
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
 
     echo "####################################################################"
     echo "CFLAGS_NODIST: $CFLAGS_NODIST"
@@ -265,19 +280,25 @@ EOF
 build:almalinux-8() {
     cd "${srcdir}/Python-3.9.23"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
-    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="-fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags=""
+    fi
     if [ "$gcc_major" -ge 8 ]; then
         gcc8_flags="-fstack-clash-protection -fcf-protection"
-        security_flags="$base_security_flags $gcc8_flags"
-    else
-        security_flags="$base_security_flags"
+        cflags="$cflags $gcc8_flags"
     fi
     if [ "$gcc_major" -ge 11 ]; then
         arch_flags="-march=x86-64-v2"
-        security_flags="$security_flags $arch_flags"
+        cflags="$cflags $arch_flags"
     fi
-    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
-    export LDFLAGS_NODIST="-fno-semantic-interposition"
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
 
     echo "####################################################################"
     echo "CFLAGS_NODIST: $CFLAGS_NODIST"
@@ -306,19 +327,25 @@ build:almalinux-8() {
 build:almalinux-9() {
     cd "${srcdir}/Python-3.9.23"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
-    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="-fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags=""
+    fi
     if [ "$gcc_major" -ge 8 ]; then
         gcc8_flags="-fstack-clash-protection -fcf-protection"
-        security_flags="$base_security_flags $gcc8_flags"
-    else
-        security_flags="$base_security_flags"
+        cflags="$cflags $gcc8_flags"
     fi
     if [ "$gcc_major" -ge 11 ]; then
         arch_flags="-march=x86-64-v2"
-        security_flags="$security_flags $arch_flags"
+        cflags="$cflags $arch_flags"
     fi
-    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
-    export LDFLAGS_NODIST="-fno-semantic-interposition"
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
 
     echo "####################################################################"
     echo "CFLAGS_NODIST: $CFLAGS_NODIST"
@@ -347,19 +374,25 @@ build:almalinux-9() {
 build:amazonlinux-2() {
     cd "${srcdir}/Python-3.9.23"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
-    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="-fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags=""
+    fi
     if [ "$gcc_major" -ge 8 ]; then
         gcc8_flags="-fstack-clash-protection -fcf-protection"
-        security_flags="$base_security_flags $gcc8_flags"
-    else
-        security_flags="$base_security_flags"
+        cflags="$cflags $gcc8_flags"
     fi
     if [ "$gcc_major" -ge 11 ]; then
         arch_flags="-march=x86-64-v2"
-        security_flags="$security_flags $arch_flags"
+        cflags="$cflags $arch_flags"
     fi
-    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
-    export LDFLAGS_NODIST="-fno-semantic-interposition"
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
 
     echo "####################################################################"
     echo "CFLAGS_NODIST: $CFLAGS_NODIST"
@@ -381,19 +414,25 @@ build:amazonlinux-2() {
 build:amazonlinux-2023() {
     cd "${srcdir}/Python-3.9.23"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
-    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="-fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags=""
+    fi
     if [ "$gcc_major" -ge 8 ]; then
         gcc8_flags="-fstack-clash-protection -fcf-protection"
-        security_flags="$base_security_flags $gcc8_flags"
-    else
-        security_flags="$base_security_flags"
+        cflags="$cflags $gcc8_flags"
     fi
     if [ "$gcc_major" -ge 11 ]; then
         arch_flags="-march=x86-64-v2"
-        security_flags="$security_flags $arch_flags"
+        cflags="$cflags $arch_flags"
     fi
-    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
-    export LDFLAGS_NODIST="-fno-semantic-interposition"
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
 
     echo "####################################################################"
     echo "CFLAGS_NODIST: $CFLAGS_NODIST"
@@ -415,26 +454,32 @@ build:amazonlinux-2023() {
 build:oraclelinux-7() {
     cd "${srcdir}/Python-3.9.23"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
-    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="-fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags=""
+    fi
     if [ "$gcc_major" -ge 8 ]; then
         gcc8_flags="-fstack-clash-protection -fcf-protection"
-        security_flags="$base_security_flags $gcc8_flags"
-    else
-        security_flags="$base_security_flags"
+        cflags="$cflags $gcc8_flags"
     fi
     if [ "$gcc_major" -ge 11 ]; then
         arch_flags="-march=x86-64-v2"
-        security_flags="$security_flags $arch_flags"
+        cflags="$cflags $arch_flags"
     fi
-    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
-    export LDFLAGS_NODIST="-fno-semantic-interposition"
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
 
     echo "####################################################################"
     echo "CFLAGS_NODIST: $CFLAGS_NODIST"
     echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
     echo "####################################################################"
 
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-computed-gotos=yes --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
@@ -456,19 +501,25 @@ build:oraclelinux-7() {
 build:oraclelinux-8() {
     cd "${srcdir}/Python-3.9.23"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
-    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="-fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags=""
+    fi
     if [ "$gcc_major" -ge 8 ]; then
         gcc8_flags="-fstack-clash-protection -fcf-protection"
-        security_flags="$base_security_flags $gcc8_flags"
-    else
-        security_flags="$base_security_flags"
+        cflags="$cflags $gcc8_flags"
     fi
     if [ "$gcc_major" -ge 11 ]; then
         arch_flags="-march=x86-64-v2"
-        security_flags="$security_flags $arch_flags"
+        cflags="$cflags $arch_flags"
     fi
-    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
-    export LDFLAGS_NODIST="-fno-semantic-interposition"
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
 
     echo "####################################################################"
     echo "CFLAGS_NODIST: $CFLAGS_NODIST"
@@ -497,19 +548,25 @@ build:oraclelinux-8() {
 build:oraclelinux-9() {
     cd "${srcdir}/Python-3.9.23"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
-    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="-fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags=""
+    fi
     if [ "$gcc_major" -ge 8 ]; then
         gcc8_flags="-fstack-clash-protection -fcf-protection"
-        security_flags="$base_security_flags $gcc8_flags"
-    else
-        security_flags="$base_security_flags"
+        cflags="$cflags $gcc8_flags"
     fi
     if [ "$gcc_major" -ge 11 ]; then
         arch_flags="-march=x86-64-v2"
-        security_flags="$security_flags $arch_flags"
+        cflags="$cflags $arch_flags"
     fi
-    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
-    export LDFLAGS_NODIST="-fno-semantic-interposition"
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
 
     echo "####################################################################"
     echo "CFLAGS_NODIST: $CFLAGS_NODIST"
@@ -538,19 +595,25 @@ build:oraclelinux-9() {
 build:apt() {
     cd "${srcdir}/Python-3.9.23"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
-    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="-fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags=""
+    fi
     if [ "$gcc_major" -ge 8 ]; then
         gcc8_flags="-fstack-clash-protection -fcf-protection"
-        security_flags="$base_security_flags $gcc8_flags"
-    else
-        security_flags="$base_security_flags"
+        cflags="$cflags $gcc8_flags"
     fi
     if [ "$gcc_major" -ge 11 ]; then
         arch_flags="-march=x86-64-v2"
-        security_flags="$security_flags $arch_flags"
+        cflags="$cflags $arch_flags"
     fi
-    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
-    export LDFLAGS_NODIST="-fno-semantic-interposition"
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
 
     echo "####################################################################"
     echo "CFLAGS_NODIST: $CFLAGS_NODIST"
@@ -577,7 +640,7 @@ package:pacman() {
     /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    rsync --archive /usr/lib/pritunl/ ${pkgdir}/usr/lib/${pkgname}/
+    rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
 
@@ -635,7 +698,7 @@ package:almalinux-8() {
     PYTHONHOME=/usr/lib/pritunl/usr /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    rsync --archive /usr/lib/pritunl/ ${pkgdir}/usr/lib/${pkgname}/
+    rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
 
@@ -699,7 +762,7 @@ package:almalinux-9() {
     PYTHONHOME=/usr/lib/pritunl/usr /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    rsync --archive /usr/lib/pritunl/ ${pkgdir}/usr/lib/${pkgname}/
+    rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
 
@@ -763,7 +826,7 @@ package:amazonlinux-2() {
     /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    rsync --archive /usr/lib/pritunl/ ${pkgdir}/usr/lib/${pkgname}/
+    rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
 
@@ -821,7 +884,7 @@ package:amazonlinux-2023() {
     /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    rsync --archive /usr/lib/pritunl/ ${pkgdir}/usr/lib/${pkgname}/
+    rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
 
@@ -879,7 +942,7 @@ package:oraclelinux-7() {
     /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    rsync --archive /usr/lib/pritunl/ ${pkgdir}/usr/lib/${pkgname}/
+    rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
 
@@ -943,7 +1006,7 @@ package:oraclelinux-8() {
     /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    rsync --archive /usr/lib/pritunl/ ${pkgdir}/usr/lib/${pkgname}/
+    rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
 
@@ -1007,7 +1070,7 @@ package:oraclelinux-9() {
     /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    rsync --archive /usr/lib/pritunl/ ${pkgdir}/usr/lib/${pkgname}/
+    rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
 
@@ -1071,7 +1134,7 @@ package:apt() {
     /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    rsync --archive /usr/lib/pritunl/ ${pkgdir}/usr/lib/${pkgname}/
+    rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
 
