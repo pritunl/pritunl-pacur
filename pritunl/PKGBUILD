@@ -16,7 +16,7 @@ targets=(
     "ubuntu-noble"
 )
 pkgname="pritunl"
-pkgver="1.32.4399.86"
+pkgver="1.32.4400.99"
 pkgrel="1"
 pkgdesc="Enterprise VPN Server"
 pkgdesclong=(
@@ -207,7 +207,7 @@ sources=(
     "https://www.python.org/ftp/python/3.9.23/Python-3.9.23.tar.xz"
 )
 hashsums=(
-    "8e7f2b393a0461c3d3c4f83f0bba55b702f8b51f8c6bd7178c7afc3278412b32"
+    "806e5d7c22880195652e5224fc7c381c4ace38ae7e09c27b8efbd9dbabe45f76"
     "f524fc21859b776e18df01a87880efa198112214e13494275dbcbd9bcb71d976"
     "2c11c3ce08ffc40d390319c72bc10d4f908e9c634494d65ed2cbc550731fd524"
     "61a42919e13d539f7673cf11d1c404380e28e540510860b9d242196e165709c9"
@@ -230,7 +230,27 @@ EOF
     pacman -S --noconfirm pritunl-ndppd
 
     cd "${srcdir}/Python-3.9.23"
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        security_flags="$base_security_flags $gcc8_flags"
+    else
+        security_flags="$base_security_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        security_flags="$security_flags $arch_flags"
+    fi
+    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
+    export LDFLAGS_NODIST="-fno-semantic-interposition"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
@@ -244,7 +264,27 @@ EOF
 }
 build:almalinux-8() {
     cd "${srcdir}/Python-3.9.23"
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        security_flags="$base_security_flags $gcc8_flags"
+    else
+        security_flags="$base_security_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        security_flags="$security_flags $arch_flags"
+    fi
+    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
+    export LDFLAGS_NODIST="-fno-semantic-interposition"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
@@ -265,7 +305,27 @@ build:almalinux-8() {
 }
 build:almalinux-9() {
     cd "${srcdir}/Python-3.9.23"
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        security_flags="$base_security_flags $gcc8_flags"
+    else
+        security_flags="$base_security_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        security_flags="$security_flags $arch_flags"
+    fi
+    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
+    export LDFLAGS_NODIST="-fno-semantic-interposition"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
@@ -286,7 +346,27 @@ build:almalinux-9() {
 }
 build:amazonlinux-2() {
     cd "${srcdir}/Python-3.9.23"
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        security_flags="$base_security_flags $gcc8_flags"
+    else
+        security_flags="$base_security_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        security_flags="$security_flags $arch_flags"
+    fi
+    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
+    export LDFLAGS_NODIST="-fno-semantic-interposition"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
@@ -300,7 +380,27 @@ build:amazonlinux-2() {
 }
 build:amazonlinux-2023() {
     cd "${srcdir}/Python-3.9.23"
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        security_flags="$base_security_flags $gcc8_flags"
+    else
+        security_flags="$base_security_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        security_flags="$security_flags $arch_flags"
+    fi
+    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
+    export LDFLAGS_NODIST="-fno-semantic-interposition"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
@@ -314,7 +414,27 @@ build:amazonlinux-2023() {
 }
 build:oraclelinux-7() {
     cd "${srcdir}/Python-3.9.23"
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        security_flags="$base_security_flags $gcc8_flags"
+    else
+        security_flags="$base_security_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        security_flags="$security_flags $arch_flags"
+    fi
+    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
+    export LDFLAGS_NODIST="-fno-semantic-interposition"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
@@ -335,7 +455,27 @@ build:oraclelinux-7() {
 }
 build:oraclelinux-8() {
     cd "${srcdir}/Python-3.9.23"
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        security_flags="$base_security_flags $gcc8_flags"
+    else
+        security_flags="$base_security_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        security_flags="$security_flags $arch_flags"
+    fi
+    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
+    export LDFLAGS_NODIST="-fno-semantic-interposition"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
@@ -356,7 +496,27 @@ build:oraclelinux-8() {
 }
 build:oraclelinux-9() {
     cd "${srcdir}/Python-3.9.23"
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        security_flags="$base_security_flags $gcc8_flags"
+    else
+        security_flags="$base_security_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        security_flags="$security_flags $arch_flags"
+    fi
+    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
+    export LDFLAGS_NODIST="-fno-semantic-interposition"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
@@ -377,7 +537,27 @@ build:oraclelinux-9() {
 }
 build:apt() {
     cd "${srcdir}/Python-3.9.23"
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-platlibdir=lib
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_security_flags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        security_flags="$base_security_flags $gcc8_flags"
+    else
+        security_flags="$base_security_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        security_flags="$security_flags $arch_flags"
+    fi
+    export CFLAGS_NODIST="-fno-semantic-interposition $security_flags"
+    export LDFLAGS_NODIST="-fno-semantic-interposition"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
+    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make DESTDIR=/usr/lib/${pkgname} install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
