@@ -73,15 +73,16 @@ build() {
     go install
 
     cd /go/src/github.com/pritunl/${pkgname}/redirect
-    go get
-    go install
+    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o redirect
+    mv ./redirect /go/bin/${pkgname}-redirect
 }
 
 package() {
     mkdir -p ${pkgdir}/usr/bin
     cp /go/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
-    cp /go/bin/redirect ${pkgdir}/usr/bin/${pkgname}-redirect
     chmod 755 ${pkgdir}/usr/bin/${pkgname}
+    cp /go/bin/${pkgname}-redirect ${pkgdir}/usr/bin/${pkgname}-redirect
+    chmod 755 ${pkgdir}/usr/bin/${pkgname}-redirect
 
     mkdir -p ${pkgdir}/usr/share/${pkgname}/www
     cp -r /go/src/github.com/pritunl/${pkgname}/www/dist/. ${pkgdir}/usr/share/${pkgname}/www/
