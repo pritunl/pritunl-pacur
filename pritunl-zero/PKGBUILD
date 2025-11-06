@@ -55,9 +55,11 @@ conflicts=(
 )
 sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
+    "pritunl-zero.json"
 )
 hashsums=(
     "23ee104826d8a5fc4ee0079f9a76f5f1428069c95c2a07e7e0623b3b21cfa659"
+    "a002d62b3cf2135b8115ce7ee775e814cac0b17ca73b25362998d7b494c824a3"
 )
 backup=(
     "etc/${pkgname}.json"
@@ -88,7 +90,7 @@ package() {
     cp -r /go/src/github.com/pritunl/${pkgname}/www/dist/. ${pkgdir}/usr/share/${pkgname}/www/
 
     mkdir -p ${pkgdir}/etc
-    echo "{}" > ${pkgdir}/etc/${pkgname}.json
+    cp ${srcdir}/${pkgname}.json ${pkgdir}/etc/${pkgname}.json
     chmod 600 ${pkgdir}/etc/${pkgname}.json
 
     mkdir -p ${pkgdir}/etc/systemd/system
