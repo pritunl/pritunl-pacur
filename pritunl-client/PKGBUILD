@@ -22,7 +22,7 @@ targets=(
     "ubuntu-plucky"
 )
 pkgname="pritunl-client"
-pkgver="1.3.4392.66"
+pkgver="1.3.4439.70"
 pkgrel="1"
 pkgdesc="Pritunl OpenVPN CLI Client"
 pkgdesclong=(
@@ -73,7 +73,7 @@ sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
-    "a4b9cceb4eaf9f83c8ff4a23c38eba037e0815038d30ee84c41c5182702e8bba"
+    "d05e8e3d56d86a82082bd2811a65e2b9ca778c6d4e099edcaded5b603ccd1fec"
 )
 backup=(
     "var/log/pritunl-client.log"
