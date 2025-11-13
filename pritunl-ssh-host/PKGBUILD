@@ -8,9 +8,9 @@ targets=(
     "debian-bullseye"
     "debian-bookworm"
     "debian-trixie"
-    "fedora-40"
     "fedora-41"
     "fedora-42"
+    "fedora-43"
     "oraclelinux-7"
     "oraclelinux-8"
     "oraclelinux-9"
@@ -20,6 +20,7 @@ targets=(
     "ubuntu-jammy"
     "ubuntu-noble"
     "ubuntu-plucky"
+    "ubuntu-questing"
 )
 pkgname="pritunl-ssh-host"
 pkgver="1.0.3231.6"
