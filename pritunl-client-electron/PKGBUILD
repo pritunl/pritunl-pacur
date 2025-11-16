@@ -28,6 +28,7 @@ priority="optional"
 url="https://github.com/pritunl/pritunl-client-electron"
 rpmopts=(
     "AutoProv: no"
+    "%global __requires_exclude ^config\\("
 )
 depends:pacman=(
     "libxss"
