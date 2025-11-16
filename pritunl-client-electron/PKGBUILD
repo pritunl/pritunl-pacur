@@ -27,8 +27,9 @@ section="utils"
 priority="optional"
 url="https://github.com/pritunl/pritunl-client-electron"
 rpmopts=(
+    "%global __requires_exclude (libffmpeg|libEGL|libGLESv2|libvk_swiftshader|libvulkan)\\.so"
+    "Provides: config(pritunl-client-electron) = %{version}-%{release}"
     "AutoProv: no"
-    "%global __requires_exclude ^config\\("
 )
 depends:pacman=(
     "libxss"
