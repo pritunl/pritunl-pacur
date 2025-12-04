@@ -2,6 +2,7 @@ targets=(
     "archlinux"
     "almalinux-8"
     "almalinux-9"
+    "almalinux-10"
     "amazonlinux-2"
     "amazonlinux-2023"
     "debian-bullseye"
@@ -10,13 +11,14 @@ targets=(
     "oraclelinux-7"
     "oraclelinux-8"
     "oraclelinux-9"
+    "oraclelinux-10"
     "ubuntu-bionic"
     "ubuntu-focal"
     "ubuntu-jammy"
     "ubuntu-noble"
 )
 pkgname="pritunl"
-pkgver="1.32.4400.99"
+pkgver="1.32.4465.96"
 pkgrel="1"
 pkgdesc="Enterprise VPN Server"
 pkgdesclong=(
@@ -155,6 +157,20 @@ makedepends:almalinux-9=(
     "selinux-policy-devel"
     "policycoreutils-python-utils"
 )
+makedepends:almalinux-10=(
+    "gcc"
+    "gcc-c++"
+    "rsync"
+    "openssl-devel"
+    "bzip2-devel"
+    "libffi-devel"
+    "sqlite-devel"
+    "xz-devel"
+    "zlib-devel"
+    "selinux-policy"
+    "selinux-policy-devel"
+    "policycoreutils-python-utils"
+)
 makedepends:oraclelinux-7=(
     "gcc"
     "gcc-c++"
@@ -197,6 +213,20 @@ makedepends:oraclelinux-9=(
     "selinux-policy-devel"
     "policycoreutils-python-utils"
 )
+makedepends:oraclelinux-10=(
+    "gcc"
+    "gcc-c++"
+    "rsync"
+    "openssl-devel"
+    "bzip2-devel"
+    "libffi-devel"
+    "sqlite-devel"
+    "xz-devel"
+    "zlib-devel"
+    "selinux-policy"
+    "selinux-policy-devel"
+    "policycoreutils-python-utils"
+)
 makedepends:apt=(
     "gcc"
     "g++"
@@ -213,13 +243,13 @@ sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
     "cacert.pem"
     "cacert2.pem"
-    "https://www.python.org/ftp/python/3.9.23/Python-3.9.23.tar.xz"
+    "https://www.python.org/ftp/python/3.9.25/Python-3.9.25.tgz"
 )
 hashsums=(
-    "806e5d7c22880195652e5224fc7c381c4ace38ae7e09c27b8efbd9dbabe45f76"
+    "60c200f41ad85f90e3921f8bf6a9f0805bdd2e61e8bf782192606f9401f2ac70"
     "f524fc21859b776e18df01a87880efa198112214e13494275dbcbd9bcb71d976"
     "2c11c3ce08ffc40d390319c72bc10d4f908e9c634494d65ed2cbc550731fd524"
-    "61a42919e13d539f7673cf11d1c404380e28e540510860b9d242196e165709c9"
+    "a7438eabd3a48139f42d4e058096af8d880b0bb6e8fb8c78838892e4ce5583f2"
 )
 backup=(
     "etc/${pkgname}.conf"
@@ -238,7 +268,7 @@ EOF
     pacman -Sy
     pacman -S --noconfirm pritunl-ndppd
 
-    cd "${srcdir}/Python-3.9.23"
+    cd "${srcdir}/Python-3.9.25"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -265,8 +295,8 @@ EOF
     echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
     echo "####################################################################"
 
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make DESTDIR=/usr/lib/${pkgname} install
+    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
+    make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
@@ -278,7 +308,7 @@ EOF
     go install github.com/pritunl/pritunl-web@latest
 }
 build:almalinux-8() {
-    cd "${srcdir}/Python-3.9.23"
+    cd "${srcdir}/Python-3.9.25"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -305,8 +335,8 @@ build:almalinux-8() {
     echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
     echo "####################################################################"
 
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make DESTDIR=/usr/lib/${pkgname} install
+    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
+    make ENSUREPIP=no install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
@@ -325,7 +355,7 @@ build:almalinux-8() {
     make
 }
 build:almalinux-9() {
-    cd "${srcdir}/Python-3.9.23"
+    cd "${srcdir}/Python-3.9.25"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -352,8 +382,8 @@ build:almalinux-9() {
     echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
     echo "####################################################################"
 
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make DESTDIR=/usr/lib/${pkgname} install
+    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
+    make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
@@ -371,8 +401,8 @@ build:almalinux-9() {
     sed -i "s/1.0.0/${pkgver}/" pritunl_web.te
     make
 }
-build:amazonlinux-2() {
-    cd "${srcdir}/Python-3.9.23"
+build:almalinux-10() {
+    cd "${srcdir}/Python-3.9.25"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -399,8 +429,55 @@ build:amazonlinux-2() {
     echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
     echo "####################################################################"
 
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make DESTDIR=/usr/lib/${pkgname} install
+    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
+    make install
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
+
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    sed -i "s/’/'/" LICENSE
+    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements.txt
+    /usr/lib/${pkgname}/usr/bin/python3 setup.py build
+    go install github.com/pritunl/pritunl-dns@latest
+    go install github.com/pritunl/pritunl-web@latest
+
+    cd "selinux10"
+    ln -s /usr/share/selinux/devel/Makefile
+    sed -i "s/1.0.0/${pkgver}/" pritunl.te
+    sed -i "s/1.0.0/${pkgver}/" pritunl_dns.te
+    sed -i "s/1.0.0/${pkgver}/" pritunl_web.te
+    make
+}
+build:amazonlinux-2() {
+    cd "${srcdir}/Python-3.9.25"
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="-fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags=""
+    fi
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        cflags="$cflags $gcc8_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        cflags="$cflags $arch_flags"
+    fi
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
+    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
+    make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
@@ -412,7 +489,7 @@ build:amazonlinux-2() {
     go install github.com/pritunl/pritunl-web@latest
 }
 build:amazonlinux-2023() {
-    cd "${srcdir}/Python-3.9.23"
+    cd "${srcdir}/Python-3.9.25"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -439,8 +516,8 @@ build:amazonlinux-2023() {
     echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
     echo "####################################################################"
 
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make DESTDIR=/usr/lib/${pkgname} install
+    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
+    make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
@@ -452,7 +529,7 @@ build:amazonlinux-2023() {
     go install github.com/pritunl/pritunl-web@latest
 }
 build:oraclelinux-7() {
-    cd "${srcdir}/Python-3.9.23"
+    cd "${srcdir}/Python-3.9.25"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -479,8 +556,8 @@ build:oraclelinux-7() {
     echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
     echo "####################################################################"
 
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-computed-gotos=yes --with-platlibdir=lib
-    make DESTDIR=/usr/lib/${pkgname} install
+    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-computed-gotos=yes --with-platlibdir=lib
+    make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
@@ -499,7 +576,7 @@ build:oraclelinux-7() {
     make
 }
 build:oraclelinux-8() {
-    cd "${srcdir}/Python-3.9.23"
+    cd "${srcdir}/Python-3.9.25"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -526,8 +603,8 @@ build:oraclelinux-8() {
     echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
     echo "####################################################################"
 
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make DESTDIR=/usr/lib/${pkgname} install
+    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
+    make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
@@ -546,7 +623,7 @@ build:oraclelinux-8() {
     make
 }
 build:oraclelinux-9() {
-    cd "${srcdir}/Python-3.9.23"
+    cd "${srcdir}/Python-3.9.25"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -573,8 +650,8 @@ build:oraclelinux-9() {
     echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
     echo "####################################################################"
 
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make DESTDIR=/usr/lib/${pkgname} install
+    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
+    make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
@@ -592,8 +669,8 @@ build:oraclelinux-9() {
     sed -i "s/1.0.0/${pkgver}/" pritunl_web.te
     make
 }
-build:apt() {
-    cd "${srcdir}/Python-3.9.23"
+build:oraclelinux-10() {
+    cd "${srcdir}/Python-3.9.25"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -620,8 +697,55 @@ build:apt() {
     echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
     echo "####################################################################"
 
-    ./configure --prefix=/usr --libdir=/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make DESTDIR=/usr/lib/${pkgname} install
+    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
+    make install
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
+
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    sed -i "s/’/'/" LICENSE
+    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements.txt
+    /usr/lib/${pkgname}/usr/bin/python3 setup.py build
+    go install github.com/pritunl/pritunl-dns@latest
+    go install github.com/pritunl/pritunl-web@latest
+
+    cd "selinux10"
+    ln -s /usr/share/selinux/devel/Makefile
+    sed -i "s/1.0.0/${pkgver}/" pritunl.te
+    sed -i "s/1.0.0/${pkgver}/" pritunl_dns.te
+    sed -i "s/1.0.0/${pkgver}/" pritunl_web.te
+    make
+}
+build:apt() {
+    cd "${srcdir}/Python-3.9.25"
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="-fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags=""
+    fi
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        cflags="$cflags $gcc8_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        cflags="$cflags $arch_flags"
+    fi
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
+    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
+    make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
     /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
 
@@ -768,6 +892,70 @@ package:almalinux-9() {
 
     mkdir -p "${pkgdir}/usr/share/selinux/packages"
     cd "selinux9"
+    cp pritunl.pp ${pkgdir}/usr/share/selinux/packages/pritunl.pp
+    cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
+    cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
+    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
+    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi
+    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi
+    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi/cacert.pem
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi
+    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi
+    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi
+    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi
+    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+
+    find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
+    find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
+}
+package:almalinux-10() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/var/lib/${pkgname}"
+    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
+    PYTHONHOME=/usr/lib/pritunl/usr /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
+    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
+    cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
+
+    mkdir -p "${pkgdir}/usr/share/selinux/packages"
+    cd "selinux10"
     cp pritunl.pp ${pkgdir}/usr/share/selinux/packages/pritunl.pp
     cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
     cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
@@ -1076,6 +1264,70 @@ package:oraclelinux-9() {
 
     mkdir -p "${pkgdir}/usr/share/selinux/packages"
     cd "selinux9"
+    cp pritunl.pp ${pkgdir}/usr/share/selinux/packages/pritunl.pp
+    cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
+    cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
+    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
+    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi
+    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi
+    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/certifi/cacert.pem
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi
+    cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi
+    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi
+    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/certifi/cacert.pem
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi
+    cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+
+    find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
+    find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
+}
+package:oraclelinux-10() {
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    mkdir -p "${pkgdir}/var/lib/${pkgname}"
+    mkdir -p "${pkgdir}/usr/lib/${pkgname}"
+    /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
+    mkdir -p ${pkgdir}/usr/bin
+    ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
+    rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
+    cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
+    cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
+
+    mkdir -p "${pkgdir}/usr/share/selinux/packages"
+    cd "selinux10"
     cp pritunl.pp ${pkgdir}/usr/share/selinux/packages/pritunl.pp
     cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
     cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
