@@ -6,7 +6,7 @@ targets=(
     "ubuntu-noble"
 )
 pkgname="pritunl-cloud"
-pkgver="2.0.3616.97"
+pkgver="2.0.3665.99"
 pkgrel="1"
 pkgdesc="Pritunl Cloud"
 pkgdesclong=(
@@ -53,7 +53,7 @@ sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
-    "1737a667ca9cee252968d49904512a5f983271776396ca3d8ed92ae548633e61"
+    "13f85cae92cb3057ed265ef3aae11ca74e387108562ea19ba19f6175ee8320b5"
 )
 backup=(
     "etc/${pkgname}.json"
