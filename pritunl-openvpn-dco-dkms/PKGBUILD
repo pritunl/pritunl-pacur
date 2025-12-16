@@ -1,11 +1,11 @@
 targets=(
     "almalinux-8"
     "almalinux-9"
-    "amazonlinux-2"
+    "almalinux-10"
     "amazonlinux-2023"
-    "oraclelinux-7"
     "oraclelinux-8"
     "oraclelinux-9"
+    "oraclelinux-10"
 )
 pkgname="pritunl-openvpn-dco-dkms"
 pkgver="0.2.20251017"
@@ -47,14 +47,6 @@ hashsums=(
 
 build() {
     cd ${srcdir}/ovpn-dco-${pkgver}
-
-    sed -i 's/ovpn-dco-v2/ovpn/g' include/uapi/linux/ovpn_dco.h
-    sed -i 's/ovpn-dco-v2/ovpn-dco/g' drivers/net/ovpn-dco/main.c
-    sed -i 's/"ovpn-dco"/"ovpn"/g' drivers/net/ovpn-dco/main.c
-    sed -i 's/ovpn-dco-v2/ovpn-dco/g' drivers/net/ovpn-dco/Makefile
-    sed -i 's/CONFIG_OVPN_DCO_V2/CONFIG_OVPN_DCO/g' drivers/net/ovpn-dco/Makefile
-    sed -i 's/ovpn-dco-v2/ovpn-dco/g' Makefile
-    sed -i 's/CONFIG_OVPN_DCO_V2/CONFIG_OVPN_DCO/g' Makefile
 }
 
 package() {
@@ -74,7 +66,7 @@ PACKAGE_NAME="ovpn"
 PACKAGE_VERSION="${pkgver}"
 AUTOINSTALL="yes"
 
-BUILT_MODULE_NAME[0]="ovpn-dco"
+BUILT_MODULE_NAME[0]="ovpn-dco-v2"
 BUILT_MODULE_LOCATION[0]="drivers/net/ovpn-dco"
 DEST_MODULE_LOCATION[0]="/kernel/drivers/net"
 
