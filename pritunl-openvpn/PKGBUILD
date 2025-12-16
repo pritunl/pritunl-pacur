@@ -1,11 +1,13 @@
 targets=(
     "almalinux-8"
     "almalinux-9"
+    "almalinux-10"
     "amazonlinux-2"
     "amazonlinux-2023"
     "oraclelinux-7"
     "oraclelinux-8"
     "oraclelinux-9"
+    "oraclelinux-10"
 )
 pkgname="pritunl-openvpn"
 pkgver="2.6.17"
@@ -138,7 +140,51 @@ makedepends:almalinux-9=(
     "python3-docutils"
     "perl-macros"
 )
+makedepends:almalinux-10=(
+    "gnupg2"
+    "gcc"
+    "automake"
+    "autoconf"
+    "autoconf-archive"
+    "libtool"
+    "gettext"
+    "lzo-devel"
+    "lz4-devel"
+    "libnl3-devel"
+    "libcap-ng-devel"
+    "make"
+    "openssl-devel"
+    "pam-devel"
+    "libselinux-devel"
+    "libcmocka-devel"
+    "systemd"
+    "systemd-devel"
+    "python3-docutils"
+    "perl-macros"
+)
 makedepends:oraclelinux-9=(
+    "gnupg2"
+    "gcc"
+    "automake"
+    "autoconf"
+    "autoconf-archive"
+    "libtool"
+    "gettext"
+    "lzo-devel"
+    "lz4-devel"
+    "libnl3-devel"
+    "libcap-ng-devel"
+    "make"
+    "openssl-devel"
+    "pam-devel"
+    "libselinux-devel"
+    "libcmocka-devel"
+    "systemd"
+    "systemd-devel"
+    "python3-docutils"
+    "perl-macros"
+)
+makedepends:oraclelinux-10=(
     "gnupg2"
     "gcc"
     "automake"
@@ -214,7 +260,7 @@ build:amazonlinux-2() {
         --enable-systemd \
         --enable-x509-alt-username \
         --enable-async-push \
-        --enable-dco
+        --disable-dco
     make
 }
 
@@ -311,7 +357,7 @@ build:oraclelinux-7() {
         --enable-systemd \
         --enable-x509-alt-username \
         --enable-async-push \
-        --enable-dco
+        --disable-dco
     make
 }
 
@@ -369,11 +415,119 @@ EOF
     make
 }
 
+build:almalinux-10() {
+    tee /etc/yum.repos.d/pritunl.repo << EOF
+[pritunl]
+name=Pritunl Repository
+baseurl=https://repo.pritunl.com/unstable/yum/almalinux/10/
+gpgcheck=1
+enabled=1
+gpgkey=https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
+EOF
+
+    dnf -y install pkcs11-helper
+
+    cd "${srcdir}/openvpn-${pkgver}"
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_ldflags="-pie -Wl,-z,relro,-z,now -Wl,-z,noexecstack"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="$base_ldflags -fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags="$base_ldflags"
+    fi
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        cflags="$cflags $gcc8_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        cflags="$cflags $arch_flags"
+    fi
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
+    ./configure \
+        --prefix=/usr \
+        --sbindir=/usr/bin \
+        --enable-silent-rules \
+        --with-crypto-library=openssl \
+        --enable-pkcs11 \
+        --enable-selinux \
+        --enable-systemd \
+        --enable-x509-alt-username \
+        --enable-async-push \
+        --enable-dco
+    make
+}
+
 build:oraclelinux-9() {
     tee /etc/yum.repos.d/pritunl.repo << EOF
 [pritunl]
 name=Pritunl Repository
 baseurl=https://repo.pritunl.com/stable/yum/oraclelinux/9/
+gpgcheck=1
+enabled=1
+gpgkey=https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
+EOF
+
+    dnf -y install pkcs11-helper
+
+    cd "${srcdir}/openvpn-${pkgver}"
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    base_ldflags="-pie -Wl,-z,relro,-z,now -Wl,-z,noexecstack"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="$base_ldflags -fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags="$base_ldflags"
+    fi
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        cflags="$cflags $gcc8_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        cflags="$cflags $arch_flags"
+    fi
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
+    ./configure \
+        --prefix=/usr \
+        --sbindir=/usr/bin \
+        --enable-silent-rules \
+        --with-crypto-library=openssl \
+        --enable-pkcs11 \
+        --enable-selinux \
+        --enable-systemd \
+        --enable-x509-alt-username \
+        --enable-async-push \
+        --enable-dco
+    make
+}
+
+build:oraclelinux-10() {
+    tee /etc/yum.repos.d/pritunl.repo << EOF
+[pritunl]
+name=Pritunl Repository
+baseurl=https://repo.pritunl.com/unstable/yum/oraclelinux/10/
 gpgcheck=1
 enabled=1
 gpgkey=https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
