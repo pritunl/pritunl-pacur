@@ -18,7 +18,7 @@ targets=(
     "ubuntu-noble"
 )
 pkgname="pritunl"
-pkgver="1.32.4528.97"
+pkgver="1.32.4537.56"
 pkgrel="1"
 pkgdesc="Enterprise VPN Server"
 pkgdesclong=(
