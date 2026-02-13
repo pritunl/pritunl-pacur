@@ -298,7 +298,8 @@ EOF
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -338,7 +339,8 @@ build:almalinux-8() {
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make ENSUREPIP=no install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -385,7 +387,8 @@ build:almalinux-9() {
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -432,7 +435,8 @@ build:almalinux-10() {
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -479,7 +483,8 @@ build:amazonlinux-2() {
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -519,7 +524,8 @@ build:amazonlinux-2023() {
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -559,7 +565,8 @@ build:oraclelinux-7() {
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-computed-gotos=yes --with-platlibdir=lib
     make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -606,7 +613,8 @@ build:oraclelinux-8() {
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -653,7 +661,8 @@ build:oraclelinux-9() {
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -700,7 +709,8 @@ build:oraclelinux-10() {
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
@@ -747,7 +757,8 @@ build:apt() {
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==23.3.2
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
+    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
     sed -i "s/’/'/" LICENSE
