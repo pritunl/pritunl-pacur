@@ -10,7 +10,7 @@ targets=(
     "oraclelinux-10"
 )
 pkgname="pritunl-openvpn"
-pkgver="2.6.17"
+pkgver="2.7.0"
 pkgrel="1"
 pkgdesc="A full-featured SSL VPN solution"
 pkgdesclong=(
@@ -218,7 +218,7 @@ sources=(
     "https://swupdate.openvpn.org/community/releases/openvpn-${pkgver}.tar.gz"
 )
 hashsums=(
-    "4cc8e63f710d3001493b13d8a32cf22a214d5e4f71dd37d93831e2fd3208b370"
+    "2f0e10eb272be61e8fb25fe1cfa20875ff30ac857ef1418000c02290bd6dfa45"
 )
 
 build:amazonlinux-2() {
