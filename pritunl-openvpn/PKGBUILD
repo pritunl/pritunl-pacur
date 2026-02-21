@@ -41,7 +41,6 @@ makedepends:yum=(
     "libcap-ng-devel"
     "make"
     "openssl-devel"
-    "pkcs11-helper-devel"
     "pam-devel"
     "libselinux-devel"
     "libcmocka-devel"
@@ -64,7 +63,6 @@ makedepends:amazonlinux-2=(
     "libcap-ng-devel"
     "make"
     "openssl-devel"
-    "pkcs11-helper-devel"
     "pam-devel"
     "libselinux-devel"
     "libcmocka-devel"
@@ -72,6 +70,9 @@ makedepends:amazonlinux-2=(
     "systemd-devel"
     "python-docutils"
     "perl-macros"
+    "perl-core"
+    "perl-IPC-Cmd"
+    "zlib-devel"
 )
 makedepends:amazonlinux-2023=(
     "gnupg2"
@@ -109,7 +110,6 @@ makedepends:oraclelinux-7=(
     "libcap-ng-devel"
     "make"
     "openssl-devel"
-    "pkcs11-helper-devel"
     "pam-devel"
     "libselinux-devel"
     "libcmocka-devel"
@@ -117,6 +117,9 @@ makedepends:oraclelinux-7=(
     "systemd-devel"
     "python-docutils"
     "perl-macros"
+    "perl-core"
+    "perl-IPC-Cmd"
+    "zlib-devel"
 )
 makedepends:almalinux-9=(
     "gnupg2"
@@ -216,12 +219,36 @@ conflicts=(
 )
 sources=(
     "https://swupdate.openvpn.org/community/releases/openvpn-${pkgver}.tar.gz"
+    "https://github.com/openssl/openssl/releases/download/openssl-3.0.19/openssl-3.0.19.tar.gz"
 )
 hashsums=(
     "2f0e10eb272be61e8fb25fe1cfa20875ff30ac857ef1418000c02290bd6dfa45"
+    "fa5a4143b8aae18be53ef2f3caf29a2e0747430b8bc74d32d88335b94ab63072"
 )
 
 build:amazonlinux-2() {
+    tee /etc/yum.repos.d/pritunl.repo << EOF
+[pritunl]
+name=Pritunl Repository
+baseurl=https://repo.pritunl.com/unstable/yum/amazonlinux/2/
+gpgcheck=1
+enabled=1
+gpgkey=https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
+EOF
+
+    yum -y install pkcs11-helper
+
+    cd "${srcdir}/openssl-3.0.19"
+    ./config \
+        no-shared \
+        no-pinshared \
+        --prefix="${srcdir}/openssl-static" \
+        --openssldir="${srcdir}/openssl-static/ssl" \
+        --libdir=lib \
+        -fPIC
+    make -j$(nproc)
+    make install_sw
+
     cd "${srcdir}/openvpn-${pkgver}"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
@@ -245,9 +272,18 @@ build:amazonlinux-2() {
     export CFLAGS_NODIST="$cflags"
     export LDFLAGS_NODIST="$ldflags"
 
+    export OPENSSL_CFLAGS="-I${srcdir}/openssl-static/include"
+    export OPENSSL_LIBS="${srcdir}/openssl-static/lib/libssl.a ${srcdir}/openssl-static/lib/libcrypto.a -lpthread -ldl -lz"
+    export PKCS11_HELPER_CFLAGS="-I/usr/include/pkcs11-helper-1"
+    export PKCS11_HELPER_LIBS="-lpkcs11-helper"
+
     echo "####################################################################"
     echo "CFLAGS_NODIST: $CFLAGS_NODIST"
     echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "OPENSSL_CFLAGS: $OPENSSL_CFLAGS"
+    echo "OPENSSL_LIBS: $OPENSSL_LIBS"
+    echo "PKCS11_HELPER_CFLAGS: $PKCS11_HELPER_CFLAGS"
+    echo "PKCS11_HELPER_LIBS: $PKCS11_HELPER_LIBS"
     echo "####################################################################"
 
     ./configure \
@@ -268,13 +304,13 @@ build:amazonlinux-2023() {
     tee /etc/yum.repos.d/pritunl.repo << EOF
 [pritunl]
 name=Pritunl Repository
-baseurl=https://repo.pritunl.com/stable/yum/amazonlinux/2023/
+baseurl=https://repo.pritunl.com/unstable/yum/amazonlinux/2023/
 gpgcheck=1
 enabled=1
 gpgkey=https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
 EOF
 
-    yum -y install pkcs11-helper
+    dnf -y install pkcs11-helper
 
     cd "${srcdir}/openvpn-${pkgver}"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
@@ -319,6 +355,28 @@ EOF
 }
 
 build:oraclelinux-7() {
+    tee /etc/yum.repos.d/pritunl.repo << EOF
+[pritunl]
+name=Pritunl Repository
+baseurl=https://repo.pritunl.com/unstable/yum/oraclelinux/7/
+gpgcheck=1
+enabled=1
+gpgkey=https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
+EOF
+
+    yum -y install pkcs11-helper
+
+    cd "${srcdir}/openssl-3.0.19"
+    ./config \
+        no-shared \
+        no-pinshared \
+        --prefix="${srcdir}/openssl-static" \
+        --openssldir="${srcdir}/openssl-static/ssl" \
+        --libdir=lib \
+        -fPIC
+    make -j$(nproc)
+    make install_sw
+
     cd "${srcdir}/openvpn-${pkgver}"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
@@ -342,9 +400,18 @@ build:oraclelinux-7() {
     export CFLAGS_NODIST="$cflags"
     export LDFLAGS_NODIST="$ldflags"
 
+    export OPENSSL_CFLAGS="-I${srcdir}/openssl-static/include"
+    export OPENSSL_LIBS="${srcdir}/openssl-static/lib/libssl.a ${srcdir}/openssl-static/lib/libcrypto.a -lpthread -ldl -lz"
+    export PKCS11_HELPER_CFLAGS="-I/usr/include/pkcs11-helper-1"
+    export PKCS11_HELPER_LIBS="-lpkcs11-helper"
+
     echo "####################################################################"
     echo "CFLAGS_NODIST: $CFLAGS_NODIST"
     echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "OPENSSL_CFLAGS: $OPENSSL_CFLAGS"
+    echo "OPENSSL_LIBS: $OPENSSL_LIBS"
+    echo "PKCS11_HELPER_CFLAGS: $PKCS11_HELPER_CFLAGS"
+    echo "PKCS11_HELPER_LIBS: $PKCS11_HELPER_LIBS"
     echo "####################################################################"
 
     ./configure \
@@ -365,7 +432,7 @@ build:almalinux-9() {
     tee /etc/yum.repos.d/pritunl.repo << EOF
 [pritunl]
 name=Pritunl Repository
-baseurl=https://repo.pritunl.com/stable/yum/almalinux/9/
+baseurl=https://repo.pritunl.com/unstable/yum/almalinux/9/
 gpgcheck=1
 enabled=1
 gpgkey=https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
@@ -473,7 +540,7 @@ build:oraclelinux-9() {
     tee /etc/yum.repos.d/pritunl.repo << EOF
 [pritunl]
 name=Pritunl Repository
-baseurl=https://repo.pritunl.com/stable/yum/oraclelinux/9/
+baseurl=https://repo.pritunl.com/unstable/yum/oraclelinux/9/
 gpgcheck=1
 enabled=1
 gpgkey=https://raw.githubusercontent.com/pritunl/pgp/master/pritunl_repo_pub.asc
