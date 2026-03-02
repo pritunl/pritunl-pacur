@@ -34,7 +34,7 @@ arch="amd64"
 license=("custom")
 section="utils"
 priority="optional"
-url="https://github.com/pritunl/pritunl-client-electron"
+url="https://github.com/pritunl/pritunl-client"
 depends:pacman=(
     "net-tools"
     "iproute2"
@@ -83,43 +83,43 @@ backup=(
 
 build:pacman() {
     mkdir -p /go/src/github.com/pritunl
-    mv "${srcdir}/pritunl-client-electron-${pkgver}" /go/src/github.com/pritunl/pritunl-client-electron
+    mv "${srcdir}/pritunl-client-${pkgver}" /go/src/github.com/pritunl/pritunl-client
 
-    cd /go/src/github.com/pritunl/pritunl-client-electron/service
+    cd /go/src/github.com/pritunl/pritunl-client/service
     go get
     go install
 
-    cd /go/src/github.com/pritunl/pritunl-client-electron/cli
+    cd /go/src/github.com/pritunl/pritunl-client/cli
     go get
     go install
 }
 build:yum() {
     mkdir -p /go/src/github.com/pritunl
-    mv "${srcdir}/pritunl-client-electron-${pkgver}" /go/src/github.com/pritunl/pritunl-client-electron
+    mv "${srcdir}/pritunl-client-${pkgver}" /go/src/github.com/pritunl/pritunl-client
 
-    cd /go/src/github.com/pritunl/pritunl-client-electron/service
+    cd /go/src/github.com/pritunl/pritunl-client/service
     go get
     go install
 
-    cd /go/src/github.com/pritunl/pritunl-client-electron/cli
+    cd /go/src/github.com/pritunl/pritunl-client/cli
     go get
     go install
 }
 build:apt() {
     mkdir -p /go/src/github.com/pritunl
-    mv "${srcdir}/pritunl-client-electron-${pkgver}" /go/src/github.com/pritunl/pritunl-client-electron
+    mv "${srcdir}/pritunl-client-${pkgver}" /go/src/github.com/pritunl/pritunl-client
 
-    cd /go/src/github.com/pritunl/pritunl-client-electron/service
+    cd /go/src/github.com/pritunl/pritunl-client/service
     go get
     go install
 
-    cd /go/src/github.com/pritunl/pritunl-client-electron/cli
+    cd /go/src/github.com/pritunl/pritunl-client/cli
     go get
     go install
 }
 
 package:pacman() {
-    cd /go/src/github.com/pritunl/pritunl-client-electron
+    cd /go/src/github.com/pritunl/pritunl-client
 
     mkdir -p ${pkgdir}/etc/systemd/system
     cp resources_linux/pritunl-client.service ${pkgdir}/etc/systemd/system/pritunl-client.service
@@ -133,7 +133,7 @@ package:pacman() {
     touch ${pkgdir}/var/log/pritunl-client.log.1
 }
 package:yum() {
-    cd /go/src/github.com/pritunl/pritunl-client-electron
+    cd /go/src/github.com/pritunl/pritunl-client
 
     mkdir -p ${pkgdir}/etc/systemd/system
     cp resources_linux/pritunl-client.service ${pkgdir}/etc/systemd/system/pritunl-client.service
@@ -147,7 +147,7 @@ package:yum() {
     touch ${pkgdir}/var/log/pritunl-client.log.1
 }
 package:apt() {
-    cd /go/src/github.com/pritunl/pritunl-client-electron
+    cd /go/src/github.com/pritunl/pritunl-client
 
     mkdir -p ${pkgdir}/etc/systemd/system
     cp resources_linux/pritunl-client.service ${pkgdir}/etc/systemd/system/pritunl-client.service
