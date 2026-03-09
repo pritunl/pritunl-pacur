@@ -23,7 +23,7 @@ targets=(
     "ubuntu-questing"
 )
 pkgname="pritunl-client"
-pkgver="1.3.4554.60"
+pkgver="1.3.4559.86"
 pkgrel="1"
 pkgdesc="Pritunl OpenVPN CLI Client"
 pkgdesclong=(
@@ -74,7 +74,7 @@ sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
-    "5d7413e640cc3fd618bffcaedb536a854c772fa7ec352ec06458c189ce5ac548"
+    "fac824bf7eb4d0f5658f45149e64cfba97e72126cc3c5b45c31d05e73d4e7334"
 )
 backup=(
     "var/log/pritunl-client.log"
