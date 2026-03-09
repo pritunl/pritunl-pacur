@@ -24,8 +24,8 @@ update_pkgbuild() {
 }
 
 update_pkgbuild "pritunl" "pritunl"
-update_pkgbuild "pritunl-client" "pritunl-client-electron"
-update_pkgbuild "pritunl-client-electron" "pritunl-client-electron"
+update_pkgbuild "pritunl-client" "pritunl-client"
+update_pkgbuild "pritunl-client-electron" "pritunl-client"
 update_pkgbuild "pritunl-cloud" "pritunl-cloud"
 update_pkgbuild "pritunl-endpoint" "pritunl-endpoint"
 update_pkgbuild "pritunl-link" "pritunl-link"
