@@ -175,7 +175,6 @@ makedepends:oraclelinux-7=(
     "gcc"
     "gcc-c++"
     "rsync"
-    "openssl-devel"
     "bzip2-devel"
     "libffi-devel"
     "sqlite-devel"
@@ -243,13 +242,17 @@ sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
     "cacert.pem"
     "cacert2.pem"
-    "https://www.python.org/ftp/python/3.9.25/Python-3.9.25.tgz"
+    "cacert39.pem"
+    "https://github.com/openssl/openssl/releases/download/openssl-3.0.19/openssl-3.0.19.tar.gz"
+    "https://www.python.org/ftp/python/3.12.13/Python-3.12.13.tgz"
 )
 hashsums=(
     "6cf5bb1e42c0929ae44359b1f9a08c2d6e0c0b286bf08d00e5826852f6c542d5"
     "f524fc21859b776e18df01a87880efa198112214e13494275dbcbd9bcb71d976"
     "2c11c3ce08ffc40d390319c72bc10d4f908e9c634494d65ed2cbc550731fd524"
-    "a7438eabd3a48139f42d4e058096af8d880b0bb6e8fb8c78838892e4ce5583f2"
+    "fc9165a12403263e7ebfbdad7be7a3eac0fa5d325d3c70465f28d3690072ca28"
+    "fa5a4143b8aae18be53ef2f3caf29a2e0747430b8bc74d32d88335b94ab63072"
+    "0816c4761c97ecdb3f50a3924de0a93fd78cb63ee8e6c04201ddfaedca500b0b"
 )
 backup=(
     "etc/${pkgname}.conf"
@@ -268,48 +271,7 @@ EOF
     pacman -Sy
     pacman -S --noconfirm pritunl-ndppd
 
-    cd "${srcdir}/Python-3.9.25"
-    gcc_major=$(gcc -dumpversion | cut -d. -f1)
-    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
-    if [ "$gcc_major" -ge 7 ]; then
-        gcc7_flags="-fno-semantic-interposition"
-        cflags="$base_cflags $gcc7_flags"
-        ldflags="-fno-semantic-interposition"
-    else
-        cflags="$base_cflags"
-        ldflags=""
-    fi
-    if [ "$gcc_major" -ge 8 ]; then
-        gcc8_flags="-fstack-clash-protection -fcf-protection"
-        cflags="$cflags $gcc8_flags"
-    fi
-    if [ "$gcc_major" -ge 11 ]; then
-        arch_flags="-march=x86-64-v2"
-        cflags="$cflags $arch_flags"
-    fi
-    export CFLAGS_NODIST="$cflags"
-    export LDFLAGS_NODIST="$ldflags"
-
-    echo "####################################################################"
-    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
-    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
-    echo "####################################################################"
-
-    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make install
-    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
-
-    cd "${srcdir}/${pkgname}-${pkgver}"
-    sed -i "s/’/'/" LICENSE
-    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements.txt
-    /usr/lib/${pkgname}/usr/bin/python3 setup.py build
-    go install github.com/pritunl/pritunl-dns@latest
-    go install github.com/pritunl/pritunl-web@latest
-}
-build:almalinux-8() {
-    cd "${srcdir}/Python-3.9.25"
+    cd "${srcdir}/Python-3.12.13"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -339,11 +301,48 @@ build:almalinux-8() {
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
     make ENSUREPIP=no install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
-    sed -i "s/’/'/" LICENSE
+    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements-build.txt
+    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements.txt
+    /usr/lib/${pkgname}/usr/bin/python3 setup.py build
+    go install github.com/pritunl/pritunl-dns@latest
+    go install github.com/pritunl/pritunl-web@latest
+}
+build:almalinux-8() {
+    cd "${srcdir}/Python-3.12.13"
+    gcc_major=$(gcc -dumpversion | cut -d. -f1)
+    base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
+    if [ "$gcc_major" -ge 7 ]; then
+        gcc7_flags="-fno-semantic-interposition"
+        cflags="$base_cflags $gcc7_flags"
+        ldflags="-fno-semantic-interposition"
+    else
+        cflags="$base_cflags"
+        ldflags=""
+    fi
+    if [ "$gcc_major" -ge 8 ]; then
+        gcc8_flags="-fstack-clash-protection -fcf-protection"
+        cflags="$cflags $gcc8_flags"
+    fi
+    if [ "$gcc_major" -ge 11 ]; then
+        arch_flags="-march=x86-64-v2"
+        cflags="$cflags $arch_flags"
+    fi
+    export CFLAGS_NODIST="$cflags"
+    export LDFLAGS_NODIST="$ldflags"
+
+    echo "####################################################################"
+    echo "CFLAGS_NODIST: $CFLAGS_NODIST"
+    echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
+    echo "####################################################################"
+
+    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
+    make ENSUREPIP=no install
+    /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
+
+    cd "${srcdir}/${pkgname}-${pkgver}"
+    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements-build.txt
     /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements.txt
     /usr/lib/${pkgname}/usr/bin/python3 setup.py build
     go install github.com/pritunl/pritunl-dns@latest
@@ -357,7 +356,7 @@ build:almalinux-8() {
     make
 }
 build:almalinux-9() {
-    cd "${srcdir}/Python-3.9.25"
+    cd "${srcdir}/Python-3.12.13"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -385,13 +384,11 @@ build:almalinux-9() {
     echo "####################################################################"
 
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make install
+    make ENSUREPIP=no install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
-    sed -i "s/’/'/" LICENSE
+    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements-build.txt
     /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements.txt
     /usr/lib/${pkgname}/usr/bin/python3 setup.py build
     go install github.com/pritunl/pritunl-dns@latest
@@ -405,7 +402,7 @@ build:almalinux-9() {
     make
 }
 build:almalinux-10() {
-    cd "${srcdir}/Python-3.9.25"
+    cd "${srcdir}/Python-3.12.13"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -433,13 +430,11 @@ build:almalinux-10() {
     echo "####################################################################"
 
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make install
+    make ENSUREPIP=no install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
-    sed -i "s/’/'/" LICENSE
+    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements-build.txt
     /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements.txt
     /usr/lib/${pkgname}/usr/bin/python3 setup.py build
     go install github.com/pritunl/pritunl-dns@latest
@@ -453,7 +448,7 @@ build:almalinux-10() {
     make
 }
 build:amazonlinux-2() {
-    cd "${srcdir}/Python-3.9.25"
+    cd "${srcdir}/Python-3.12.13"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -481,20 +476,18 @@ build:amazonlinux-2() {
     echo "####################################################################"
 
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make install
+    make ENSUREPIP=no install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
-    sed -i "s/’/'/" LICENSE
+    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements-build.txt
     /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements.txt
     /usr/lib/${pkgname}/usr/bin/python3 setup.py build
     go install github.com/pritunl/pritunl-dns@latest
     go install github.com/pritunl/pritunl-web@latest
 }
 build:amazonlinux-2023() {
-    cd "${srcdir}/Python-3.9.25"
+    cd "${srcdir}/Python-3.12.13"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -522,19 +515,28 @@ build:amazonlinux-2023() {
     echo "####################################################################"
 
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make install
+    make ENSUREPIP=no install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
-    sed -i "s/’/'/" LICENSE
+    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements-build.txt
     /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements.txt
     /usr/lib/${pkgname}/usr/bin/python3 setup.py build
     go install github.com/pritunl/pritunl-dns@latest
     go install github.com/pritunl/pritunl-web@latest
 }
 build:oraclelinux-7() {
+    cd "${srcdir}/openssl-3.0.19"
+    ./config \
+        no-shared \
+        no-pinshared \
+        --prefix="${srcdir}/openssl-static" \
+        --openssldir="${srcdir}/openssl-static/ssl" \
+        --libdir=lib \
+        -fPIC
+    make -j$(nproc)
+    make install_sw
+
     cd "${srcdir}/Python-3.9.25"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
@@ -562,14 +564,12 @@ build:oraclelinux-7() {
     echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
     echo "####################################################################"
 
-    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-computed-gotos=yes --with-platlibdir=lib
-    make install
+    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-computed-gotos=yes --with-platlibdir=lib --with-openssl="${srcdir}/openssl-static"
+    make ENSUREPIP=no install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
-    sed -i "s/’/'/" LICENSE
+    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements-build.txt
     /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements.txt
     /usr/lib/${pkgname}/usr/bin/python3 setup.py build
     go install github.com/pritunl/pritunl-dns@latest
@@ -583,7 +583,7 @@ build:oraclelinux-7() {
     make
 }
 build:oraclelinux-8() {
-    cd "${srcdir}/Python-3.9.25"
+    cd "${srcdir}/Python-3.12.13"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -611,13 +611,11 @@ build:oraclelinux-8() {
     echo "####################################################################"
 
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make install
+    make ENSUREPIP=no install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
-    sed -i "s/’/'/" LICENSE
+    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements-build.txt
     /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements.txt
     /usr/lib/${pkgname}/usr/bin/python3 setup.py build
     go install github.com/pritunl/pritunl-dns@latest
@@ -631,7 +629,7 @@ build:oraclelinux-8() {
     make
 }
 build:oraclelinux-9() {
-    cd "${srcdir}/Python-3.9.25"
+    cd "${srcdir}/Python-3.12.13"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -659,13 +657,11 @@ build:oraclelinux-9() {
     echo "####################################################################"
 
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make install
+    make ENSUREPIP=no install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
-    sed -i "s/’/'/" LICENSE
+    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements-build.txt
     /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements.txt
     /usr/lib/${pkgname}/usr/bin/python3 setup.py build
     go install github.com/pritunl/pritunl-dns@latest
@@ -679,7 +675,7 @@ build:oraclelinux-9() {
     make
 }
 build:oraclelinux-10() {
-    cd "${srcdir}/Python-3.9.25"
+    cd "${srcdir}/Python-3.12.13"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -707,13 +703,11 @@ build:oraclelinux-10() {
     echo "####################################################################"
 
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make install
+    make ENSUREPIP=no install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
-    sed -i "s/’/'/" LICENSE
+    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements-build.txt
     /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements.txt
     /usr/lib/${pkgname}/usr/bin/python3 setup.py build
     go install github.com/pritunl/pritunl-dns@latest
@@ -727,7 +721,7 @@ build:oraclelinux-10() {
     make
 }
 build:apt() {
-    cd "${srcdir}/Python-3.9.25"
+    cd "${srcdir}/Python-3.12.13"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -755,13 +749,11 @@ build:apt() {
     echo "####################################################################"
 
     ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
-    make install
+    make ENSUREPIP=no install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install pip==26.0.1
-    /usr/lib/${pkgname}/usr/bin/python3 -m pip install wheel==0.46.3
 
     cd "${srcdir}/${pkgname}-${pkgver}"
-    sed -i "s/’/'/" LICENSE
+    /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements-build.txt
     /usr/lib/${pkgname}/usr/bin/pip3 install --require-hashes -r requirements.txt
     /usr/lib/${pkgname}/usr/bin/python3 setup.py build
     go install github.com/pritunl/pritunl-dns@latest
@@ -772,12 +764,18 @@ package:pacman() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
+    PYTHONHOME=/usr/lib/pritunl/usr /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi
+    cp ${srcdir}/cacert39.pem ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi/cacert.pem
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
     cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
@@ -798,30 +796,30 @@ package:pacman() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
     find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
@@ -843,6 +841,12 @@ package:almalinux-8() {
     cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
     cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
 
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi
+    cp ${srcdir}/cacert39.pem ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi/cacert.pem
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
     cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
@@ -862,30 +866,30 @@ package:almalinux-8() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
     find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
@@ -907,6 +911,12 @@ package:almalinux-9() {
     cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
     cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
 
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi
+    cp ${srcdir}/cacert39.pem ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi/cacert.pem
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
     cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
@@ -926,30 +936,30 @@ package:almalinux-9() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
     find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
@@ -971,6 +981,12 @@ package:almalinux-10() {
     cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
     cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
 
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi
+    cp ${srcdir}/cacert39.pem ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi/cacert.pem
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
     cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
@@ -990,30 +1006,30 @@ package:almalinux-10() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
     find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
@@ -1022,12 +1038,18 @@ package:amazonlinux-2() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
+    PYTHONHOME=/usr/lib/pritunl/usr /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi
+    cp ${srcdir}/cacert39.pem ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi/cacert.pem
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
     cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
@@ -1048,30 +1070,30 @@ package:amazonlinux-2() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
     find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
@@ -1080,12 +1102,18 @@ package:amazonlinux-2023() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
+    PYTHONHOME=/usr/lib/pritunl/usr /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi
+    cp ${srcdir}/cacert39.pem ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi/cacert.pem
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
     cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
@@ -1106,30 +1134,30 @@ package:amazonlinux-2023() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
     find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
@@ -1138,7 +1166,7 @@ package:oraclelinux-7() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
+    PYTHONHOME=/usr/lib/pritunl/usr /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
@@ -1151,6 +1179,12 @@ package:oraclelinux-7() {
     cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
     cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
 
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi
+    cp ${srcdir}/cacert39.pem ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi/cacert.pem
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
     cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
@@ -1170,30 +1204,30 @@ package:oraclelinux-7() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
     find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
@@ -1202,7 +1236,7 @@ package:oraclelinux-8() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
+    PYTHONHOME=/usr/lib/pritunl/usr /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
@@ -1215,6 +1249,12 @@ package:oraclelinux-8() {
     cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
     cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
 
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi
+    cp ${srcdir}/cacert39.pem ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi/cacert.pem
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
     cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
@@ -1234,30 +1274,30 @@ package:oraclelinux-8() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
     find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
@@ -1266,7 +1306,7 @@ package:oraclelinux-9() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
+    PYTHONHOME=/usr/lib/pritunl/usr /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
@@ -1279,6 +1319,12 @@ package:oraclelinux-9() {
     cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
     cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
 
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi
+    cp ${srcdir}/cacert39.pem ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi/cacert.pem
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
     cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
@@ -1298,30 +1344,30 @@ package:oraclelinux-9() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
     find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
@@ -1330,7 +1376,7 @@ package:oraclelinux-10() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
+    PYTHONHOME=/usr/lib/pritunl/usr /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
@@ -1343,6 +1389,12 @@ package:oraclelinux-10() {
     cp pritunl_dns.pp ${pkgdir}/usr/share/selinux/packages/pritunl_dns.pp
     cp pritunl_web.pp ${pkgdir}/usr/share/selinux/packages/pritunl_web.pp
 
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi
+    cp ${srcdir}/cacert39.pem ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi/cacert.pem
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
     cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/certifi
@@ -1362,30 +1414,30 @@ package:oraclelinux-10() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/certifi/cacert.pem
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     find /usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
     find ${pkgdir}/usr/lib/${pkgname} -type f -exec sed -i 's|#![[:blank:]]*/usr/bin/env[[:blank:]]*python$|#!/usr/bin/env python3|g' {} +
@@ -1394,12 +1446,18 @@ package:apt() {
     cd "${srcdir}/${pkgname}-${pkgver}"
     mkdir -p "${pkgdir}/var/lib/${pkgname}"
     mkdir -p "${pkgdir}/usr/lib/${pkgname}"
-    /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
+    PYTHONHOME=/usr/lib/pritunl/usr /usr/lib/${pkgname}/usr/bin/python3 setup.py install --root="${pkgdir}"
     mkdir -p ${pkgdir}/usr/bin
     ln -s /usr/lib/${pkgname}/usr/bin/${pkgname} ${pkgdir}/usr/bin/${pkgname}
     rsync --archive /usr/lib/${pkgname}/ ${pkgdir}/usr/lib/${pkgname}/
     cp /go/bin/${pkgname}-dns ${pkgdir}/usr/bin/${pkgname}-dns
     cp /go/bin/${pkgname}-web ${pkgdir}/usr/bin/${pkgname}-web
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi
+    cp ${srcdir}/cacert39.pem ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/certifi/cacert.pem
+
+    mkdir -p ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi
     cp ${srcdir}/cacert.pem ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/certifi/cacert.pem
@@ -1428,30 +1486,30 @@ package:apt() {
     cp ${srcdir}/cacert2.pem ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/certifi/cacert.pem
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python2.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.6/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.7/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.8/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.9/site-packages/googleapiclient/discovery_cache/documents/
     mkdir -p ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
-    ln -s /usr/lib/pritunl/usr/lib/python3.9/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
+    ln -s /usr/lib/pritunl/usr/lib/python3.12/site-packages/googleapiclient/discovery_cache/documents/* ${pkgdir}/usr/lib/pritunl/lib64/python3.10/site-packages/googleapiclient/discovery_cache/documents/
 }
 
 preinst() {
@@ -1488,6 +1546,7 @@ postinst:yum() {
     restorecon -v /usr/lib/pritunl/usr/bin/python3 || true
     restorecon -v /usr/lib/pritunl/usr/bin/python3.6 &> /dev/null || true
     restorecon -v /usr/lib/pritunl/usr/bin/python3.9 &> /dev/null || true
+    restorecon -v /usr/lib/pritunl/usr/bin/python3.12 &> /dev/null || true
     restorecon -v /usr/bin/pritunl-web || true
     restorecon -v /usr/bin/pritunl-dns || true
     restorecon -v -R /var/lib/pritunl &> /dev/null || true
