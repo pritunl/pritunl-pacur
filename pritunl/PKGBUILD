@@ -107,7 +107,6 @@ makedepends:amazonlinux-2=(
     "gcc-c++"
     "python3-devel"
     "rsync"
-    "openssl-devel"
     "bzip2-devel"
     "libffi-devel"
     "sqlite-devel"
@@ -448,6 +447,17 @@ build:almalinux-10() {
     make
 }
 build:amazonlinux-2() {
+    cd "${srcdir}/openssl-3.0.19"
+    ./config \
+        no-shared \
+        no-pinshared \
+        --prefix="${srcdir}/openssl-static" \
+        --openssldir="${srcdir}/openssl-static/ssl" \
+        --libdir=lib \
+        -fPIC
+    make -j$(nproc)
+    make install_sw
+
     cd "${srcdir}/Python-3.12.13"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
@@ -475,7 +485,7 @@ build:amazonlinux-2() {
     echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
     echo "####################################################################"
 
-    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib
+    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib --with-openssl="${srcdir}/openssl-static"
     make ENSUREPIP=no install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
 
