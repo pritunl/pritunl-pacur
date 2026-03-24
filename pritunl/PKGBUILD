@@ -540,6 +540,17 @@ build:amazonlinux-2023() {
     go install github.com/pritunl/pritunl-web@latest
 }
 build:oraclelinux-7() {
+    tee /etc/yum.repos.d/ol7-scl.repo << EOF
+[ol7_software_collections]
+name=Software Collection Library release 3.0 packages for Oracle Linux 7 (x86_64)
+baseurl=https://yum.oracle.com/repo/OracleLinux/OL7/SoftwareCollections/x86_64/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+gpgcheck=1
+enabled=1
+EOF
+    yum install -y devtoolset-11-gcc devtoolset-11-gcc-c++ devtoolset-11-binutils
+    source /opt/rh/devtoolset-11/enable
+
     cd "${srcdir}/openssl-3.0.19"
     ./config \
         no-shared \
@@ -551,7 +562,7 @@ build:oraclelinux-7() {
     make -j$(nproc)
     make install_sw
 
-    cd "${srcdir}/Python-3.9.25"
+    cd "${srcdir}/Python-3.12.13"
     gcc_major=$(gcc -dumpversion | cut -d. -f1)
     base_cflags="-fstack-protector-strong -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -Werror=format-security -mtune=generic -grecord-gcc-switches"
     if [ "$gcc_major" -ge 7 ]; then
@@ -578,7 +589,7 @@ build:oraclelinux-7() {
     echo "LDFLAGS_NODIST: $LDFLAGS_NODIST"
     echo "####################################################################"
 
-    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-computed-gotos=yes --with-platlibdir=lib --with-openssl="${srcdir}/openssl-static"
+    ./configure --prefix=/usr/lib/${pkgname}/usr --libdir=/usr/lib/${pkgname}/usr/lib --enable-optimizations --enable-ipv6 --enable-loadable-sqlite-extensions --disable-shared --with-lto --with-computed-gotos=yes --with-platlibdir=lib --with-openssl="${srcdir}/openssl-static"
     make ENSUREPIP=no install
     /usr/lib/${pkgname}/usr/bin/python3 -m ensurepip
 
