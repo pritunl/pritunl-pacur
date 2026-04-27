@@ -19,8 +19,8 @@ targets=(
     "ubuntu-focal"
     "ubuntu-jammy"
     "ubuntu-noble"
-    "ubuntu-plucky"
     "ubuntu-questing"
+    "ubuntu-resolute"
 )
 pkgname="pritunl-client"
 pkgver="1.3.4566.62"

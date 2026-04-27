@@ -4,6 +4,7 @@ targets=(
     "oraclelinux-9"
     "oraclelinux-10"
     "ubuntu-noble"
+    "ubuntu-resolute"
 )
 pkgname="pritunl-cloud"
 pkgver="2.0.3665.99"

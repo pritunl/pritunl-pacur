@@ -15,6 +15,7 @@ targets=(
     "ubuntu-focal"
     "ubuntu-jammy"
     "ubuntu-noble"
+    "ubuntu-resolute"
 )
 pkgname="minio-client"
 copyyear="2025"
