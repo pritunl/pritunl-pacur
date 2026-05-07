@@ -19,7 +19,7 @@ targets=(
     "ubuntu-resolute"
 )
 pkgname="pritunl"
-pkgver="1.34.4575.42"
+pkgver="1.34.4619.76"
 pkgrel="1"
 pkgdesc="Enterprise VPN Server"
 pkgdesclong=(
@@ -251,7 +251,7 @@ sources=(
     "https://www.python.org/ftp/python/3.12.13/Python-3.12.13.tgz"
 )
 hashsums=(
-    "3aaee96af0cb65e3f2caaedb92ea19f8c44d569a998f4fd4f0adcc173418ce85"
+    "2c0102711345dfa7e34bbfc9fa29a2bf1e732d647410fa91fb45c06510d4e9cf"
     "f524fc21859b776e18df01a87880efa198112214e13494275dbcbd9bcb71d976"
     "2c11c3ce08ffc40d390319c72bc10d4f908e9c634494d65ed2cbc550731fd524"
     "fc9165a12403263e7ebfbdad7be7a3eac0fa5d325d3c70465f28d3690072ca28"
