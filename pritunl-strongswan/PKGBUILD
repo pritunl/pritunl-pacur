@@ -19,7 +19,7 @@ targets=(
     "ubuntu-resolute"
 )
 pkgname="pritunl-strongswan"
-pkgver="5.9.14"
+pkgver="6.0.7"
 pkgrel="1"
 pkgdesc="Open Source IPsec Implementation"
 pkgdesclong=(
@@ -133,7 +133,7 @@ sources=(
     "${url}/strongswan-${pkgver}.tar.gz"
 )
 hashsums=(
-    "7bef87faf92ad5ffa5342a90c326223ccf64864df8b4ee3a506f325d7f833c9e"
+    "b58266a437f054fbdba90db4555e92248ed80be383ca7dc903e681e24ac1f852"
 )
 
 build() {
@@ -185,6 +185,7 @@ build() {
         --enable-acert \
         --enable-vici \
         --enable-swanctl \
+        --enable-stroke \
         --enable-duplicheck \
         --enable-aesni \
         --enable-mgf1 \
