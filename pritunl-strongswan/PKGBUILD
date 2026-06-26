@@ -153,7 +153,6 @@ build() {
         --enable-chapoly \
         --enable-md4 \
         --enable-gcrypt \
-        --enable-newhope \
         --enable-xauth-eap \
         --enable-xauth-pam \
         --enable-xauth-noauth \
@@ -189,8 +188,6 @@ build() {
         --enable-duplicheck \
         --enable-aesni \
         --enable-mgf1 \
-        --enable-bliss \
-        --enable-ntru \
         --disable-mysql \
         --disable-ldap \
         --enable-kernel-libipsec \
