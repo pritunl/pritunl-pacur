@@ -238,7 +238,7 @@ EOF
 
     yum -y install pkcs11-helper
 
-    cd "${srcdir}/openssl-3.0.20"
+    cd "${srcdir}/openssl-3.0.21"
     ./config \
         no-shared \
         no-pinshared \
@@ -528,7 +528,7 @@ EOF
 
     yum -y install pkcs11-helper
 
-    cd "${srcdir}/openssl-3.0.20"
+    cd "${srcdir}/openssl-3.0.21"
     ./config \
         no-shared \
         no-pinshared \
