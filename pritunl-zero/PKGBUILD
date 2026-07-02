@@ -19,7 +19,7 @@ targets=(
     "ubuntu-resolute"
 )
 pkgname="pritunl-zero"
-pkgver="1.0.3825.98"
+pkgver="1.0.3860.72"
 pkgrel="1"
 pkgdesc="Pritunl Zero"
 pkgdesclong=(
@@ -59,7 +59,7 @@ sources=(
     "pritunl-zero.json"
 )
 hashsums=(
-    "96389aafbc7acac8f415db6032ad0a2a761cd637a03c3d47fcbc60f9a8ec4522"
+    "81a0169ec69ce21fdb9b3fe18764571bc957b32b584bafdb7d42d6c6386b7192"
     "a002d62b3cf2135b8115ce7ee775e814cac0b17ca73b25362998d7b494c824a3"
 )
 backup=(

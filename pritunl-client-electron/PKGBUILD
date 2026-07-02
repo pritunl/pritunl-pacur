@@ -1,13 +1,11 @@
 targets=(
     "archlinux"
-    "almalinux-9"
     "almalinux-10"
     "debian-bookworm"
     "debian-trixie"
     "fedora-42"
     "fedora-43"
     "fedora-44"
-    "oraclelinux-9"
     "oraclelinux-10"
     "ubuntu-noble"
     "ubuntu-questing"
