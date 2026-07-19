@@ -10,7 +10,7 @@ targets=(
     "oraclelinux-10"
 )
 pkgname="pritunl-openvpn"
-pkgver="2.7.4"
+pkgver="2.7.5"
 pkgrel="1"
 pkgdesc="A full-featured SSL VPN solution"
 pkgdesclong=(
