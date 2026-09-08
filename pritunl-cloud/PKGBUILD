@@ -3,6 +3,8 @@ targets=(
     "almalinux-10"
     "oraclelinux-9"
     "oraclelinux-10"
+    "rockylinux-9"
+    "rockylinux-10"
     "ubuntu-noble"
     "ubuntu-resolute"
 )

@@ -7,6 +7,7 @@ targets=(
     "fedora-43"
     "fedora-44"
     "oraclelinux-10"
+    "rockylinux-10"
     "ubuntu-noble"
     "ubuntu-questing"
     "ubuntu-resolute"
