@@ -5,7 +5,6 @@ targets=(
     "almalinux-10"
     "amazonlinux-2"
     "amazonlinux-2023"
-    "debian-bullseye"
     "debian-bookworm"
     "debian-trixie"
     "fedora-41"
