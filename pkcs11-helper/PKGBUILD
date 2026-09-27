@@ -67,11 +67,11 @@ conflicts=(
 )
 sources=(
     "https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-${pkgver}/pkcs11-helper-${pkgver}.tar.bz2"
-    "https://github.com/openssl/openssl/releases/download/openssl-3.0.21/openssl-3.0.21.tar.gz"
+    "https://github.com/openssl/openssl/releases/download/openssl-3.0.22/openssl-3.0.22.tar.gz"
 )
 hashsums=(
     "46f0067bccd7be2c28f88b8bca775172b9e52fb6fc1280b44ca8bb831433fef9"
-    "617e29af8e421f46649484a4937e48c685e47f46488167c982f88bc4ec1d522f"
+    "67ebca7e50d17383028045486653492195b83db95f8558709701bb47b5c1ef81"
 )
 
 build() {

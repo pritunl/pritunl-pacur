@@ -266,11 +266,11 @@ conflicts=(
 )
 sources=(
     "https://swupdate.openvpn.org/community/releases/openvpn-${pkgver}.tar.gz"
-    "https://github.com/openssl/openssl/releases/download/openssl-3.0.21/openssl-3.0.21.tar.gz"
+    "https://github.com/openssl/openssl/releases/download/openssl-3.0.22/openssl-3.0.22.tar.gz"
 )
 hashsums=(
     "c6864b3c7d4e059c7d6ce22d1b5fa646c8b379a06af872eeb9792b6083a44ac4"
-    "617e29af8e421f46649484a4937e48c685e47f46488167c982f88bc4ec1d522f"
+    "67ebca7e50d17383028045486653492195b83db95f8558709701bb47b5c1ef81"
 )
 
 build:amazonlinux-2() {
