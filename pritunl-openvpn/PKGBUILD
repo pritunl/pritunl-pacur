@@ -13,7 +13,7 @@ targets=(
     "rockylinux-10"
 )
 pkgname="pritunl-openvpn"
-pkgver="2.7.5"
+pkgver="2.7.7"
 pkgrel="1"
 pkgdesc="A full-featured SSL VPN solution"
 pkgdesclong=(
@@ -269,7 +269,7 @@ sources=(
     "https://github.com/openssl/openssl/releases/download/openssl-3.0.22/openssl-3.0.22.tar.gz"
 )
 hashsums=(
-    "c6864b3c7d4e059c7d6ce22d1b5fa646c8b379a06af872eeb9792b6083a44ac4"
+    "3ab8f48fd6c26d49ba2333a092433949afdb5c85c0e6a1ff265784fbc04a2463"
     "67ebca7e50d17383028045486653492195b83db95f8558709701bb47b5c1ef81"
 )
 
@@ -285,7 +285,7 @@ EOF
 
     yum -y install pkcs11-helper
 
-    cd "${srcdir}/openssl-3.0.21"
+    cd "${srcdir}/openssl-3.0.22"
     ./config \
         no-shared \
         no-pinshared \
@@ -575,7 +575,7 @@ EOF
 
     yum -y install pkcs11-helper
 
-    cd "${srcdir}/openssl-3.0.21"
+    cd "${srcdir}/openssl-3.0.22"
     ./config \
         no-shared \
         no-pinshared \
