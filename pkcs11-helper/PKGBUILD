@@ -82,7 +82,7 @@ build() {
 }
 
 build:amazonlinux-2() {
-    cd "${srcdir}/openssl-3.0.21"
+    cd "${srcdir}/openssl-3.0.22"
     ./config \
         no-shared \
         no-pinshared \
@@ -101,7 +101,7 @@ build:amazonlinux-2() {
 }
 
 build:oraclelinux-7() {
-    cd "${srcdir}/openssl-3.0.21"
+    cd "${srcdir}/openssl-3.0.22"
     ./config \
         no-shared \
         no-pinshared \
