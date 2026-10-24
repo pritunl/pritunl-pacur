@@ -27,6 +27,8 @@ depends:yum=(
     "ipset"
     "ipvsadm"
     "xorriso"
+    "libguestfs"
+    "libguestfs-xfs"
     "kernel-modules-extra"
 )
 depends:apt=(
