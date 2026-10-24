@@ -9,7 +9,7 @@ targets=(
     "ubuntu-resolute"
 )
 pkgname="pritunl-cloud"
-pkgver="2.0.3665.99"
+pkgver="2.2.3968.76"
 pkgrel="1"
 pkgdesc="Pritunl Cloud"
 pkgdesclong=(
@@ -59,7 +59,7 @@ sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
-    "13f85cae92cb3057ed265ef3aae11ca74e387108562ea19ba19f6175ee8320b5"
+    "7c6c7fe74f0fb4e8373365c80e641aa10701f8cf3b7b52ee9529f9b6bdda54b9"
 )
 backup=(
     "etc/${pkgname}.json"
