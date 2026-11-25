@@ -45,6 +45,7 @@ depends:pacman=(
     "iproute2"
     "openvpn"
     "openssl"
+    "openssl-3"
     "iptables"
     "ipset"
     "ca-certificates"
@@ -156,6 +157,7 @@ makedepends:pacman=(
     "iproute2"
     "openvpn"
     "openssl"
+    "openssl-3"
     "iptables"
     "ipset"
     "ca-certificates"
@@ -418,6 +420,7 @@ EOF
     fi
     export CFLAGS_NODIST="$cflags"
     export LDFLAGS_NODIST="$ldflags"
+    export PKG_CONFIG_PATH="/usr/lib/openssl-3/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
 
     echo "####################################################################"
     echo "CFLAGS_NODIST: $CFLAGS_NODIST"
