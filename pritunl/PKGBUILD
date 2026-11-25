@@ -21,7 +21,7 @@ targets=(
     "ubuntu-resolute"
 )
 pkgname="pritunl"
-pkgver="1.34.4803.56"
+pkgver="1.34.4822.59"
 pkgrel="1"
 pkgdesc="Enterprise VPN Server"
 pkgdesclong=(
@@ -375,7 +375,7 @@ sources=(
     "https://www.python.org/ftp/python/3.12.16/Python-3.12.16.tgz"
 )
 hashsums=(
-    "db20e4709d9738b3056f3afdd44c6ec6d9e9157b8bec04dbfb7829ba0cdcc555"
+    "cc91e7404172563716fa0c588c824c66d4e429c2759e2e64d066439d000bb23c"
     "f524fc21859b776e18df01a87880efa198112214e13494275dbcbd9bcb71d976"
     "2c11c3ce08ffc40d390319c72bc10d4f908e9c634494d65ed2cbc550731fd524"
     "fc9165a12403263e7ebfbdad7be7a3eac0fa5d325d3c70465f28d3690072ca28"
@@ -420,7 +420,7 @@ EOF
     fi
     export CFLAGS_NODIST="$cflags"
     export LDFLAGS_NODIST="$ldflags"
-    export PKG_CONFIG_PATH="/usr/lib/openssl-3/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+    export PKG_CONFIG_PATH=/usr/lib/openssl-3/pkgconfig
 
     echo "####################################################################"
     echo "CFLAGS_NODIST: $CFLAGS_NODIST"
