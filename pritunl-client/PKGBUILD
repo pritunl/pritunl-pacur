@@ -25,7 +25,7 @@ targets=(
     "ubuntu-stonking"
 )
 pkgname="pritunl-client"
-pkgver="1.4.4791.77"
+pkgver="1.4.4823.50"
 pkgrel="1"
 pkgdesc="Pritunl OpenVPN CLI Client"
 pkgdesclong=(
@@ -76,7 +76,7 @@ sources=(
     "${url}/archive/refs/tags/${pkgver}.tar.gz"
 )
 hashsums=(
-    "08ded652bbbecb58df97dab4dc6fdd1dd02d4fc18b354414ed681f1c431fe9b5"
+    "3ee7df647cd9dd1690bdacc1a7d0d42f6f5034f62fcc2bb3b3d55d00f22806ce"
 )
 backup=(
     "var/log/pritunl-client.log"
